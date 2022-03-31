@@ -1,70 +1,34 @@
-# Getting Started with Create React App
+# 캡스톤 디자인1 - 등산
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+컴퓨터공학과 2022년도 1학기 캡스톤 디자인 '등산' 프론트엔드입니다.
 
-## Available Scripts
+## 📌 Before Start
 
-In the project directory, you can run:
+- 이 프로젝트는 패키지 매니저로 yarn을 권장합니다.
 
-### `yarn start`
+## ✨ Start Project
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+```bash
+yarn start
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+# yarn start 실행 후
+http://localhost:3000에 접속해 보세요
+```
 
-### `yarn test`
+## 🛠 Tech Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- React
+- styled-components
 
-### `yarn build`
+## ⚖ Convention
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### commit message
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `yarn eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+| 헤더     | 내용                                                                |
+| -------- | ------------------------------------------------------------------- |
+| feature  | 새로운 기능 추가                                                    |
+| refactor | 코드 리팩토링                                                       |
+| fix      | 버그 수정                                                           |
+| style    | 세미 콜론 수정, 줄바꿈, 스타일 등 기능에 지장 가지 않는 스타일 변경 |
+| setting  | 빌드수행, 패키지 설치, 환경 설정 수정 등                            |
+| document | 주석 추가삭제, reademe 작성                                         |
