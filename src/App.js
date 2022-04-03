@@ -1,8 +1,19 @@
+import React from 'react';
+import { Route, Routes } from 'react-router-dom';
+import Main from './component/Main';
+import Map from './component/Map';
+import Login from './component/Login';
+import Community from './component/Community';
 
 function App() {
   return (
     <div>
-      <h1>캡스톤디자인-등산</h1>
+      <Routes>
+        <Route path="/" element={<Main />} exact={true} />
+        <Route path="/map" element={<Map />} />
+        <Route path="Login" element={<Login />} />
+        <Route path="Community" element={<Community />} />
+      </Routes>
     </div>
   );
 }
