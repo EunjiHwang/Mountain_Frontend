@@ -19,6 +19,7 @@ http://localhost:3000에 접속해 보세요
 
 - React
 - styled-components
+- prettierr
 
 ## ⚖ Convention
 
