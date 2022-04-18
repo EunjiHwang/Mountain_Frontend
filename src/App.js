@@ -11,8 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} exact={true} />
         <Route path="/map" element={<Map />} />
-        <Route path="Login" element={<Login />} />
-        <Route path="Community" element={<Community />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/community" element={<Community />} />
       </Routes>
     </div>
   );
