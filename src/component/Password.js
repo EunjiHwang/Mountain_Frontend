@@ -4,7 +4,6 @@ import Input from './memberStyled/Input';
 import Button from './memberStyled/Button';
 import Header from "./Header";
 import Footer from "./Footer";
-import { Link } from 'react-router-dom';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -15,7 +14,7 @@ const Div = styled.div`
   justify-content: center; 
   align-items: center;
   width: 100%;
-  height: 77vh; 
+  height: 77vh;  
   text-align: center;
   font-family: 'Segoe UI';
 `;
@@ -33,21 +32,18 @@ const LoginDiv = styled.div`
   box-shadow: 0px 5px 10px;
 `
 
-const Span = styled.span`
-  font-size: 12px;
-  color: #707070;
-  margin: 3px;
-  font-weight: bold;
-`
-
 const H3 = styled.h3`
   font-weight: bold;
   margin-top: 2px;
   margin-bottom: 5px;
 `
+const Span = styled.span`
+font-size: 2px;
+text-align: left;
+margin-bottom: 5px;
+`
 
-
-function Login(props) {
+function Password(props) {
   const [Email, setEmail] = useState("");
   const [Password, setPassword] = useState("");
   
@@ -71,15 +67,18 @@ function Login(props) {
     <Div>
       <LoginDiv>
       <img style={{width:"30px"}}src = {process.env.PUBLIC_URL + '/img/mountain.png'} alt = "mountain url" />
-        <H3>로그인</H3><hr width="100%" /><br />
+        <H3>비밀번호 찾기</H3><hr width="100%" /><br />
         <form style={{
         display: 'flex', flexDirection: 'column'}}
         onSubmit={onSubmitHandler}
         >
+        <Input type="name" placeholder="이름" />
         <Input type="email" value={Email} onChange={onEmailHandler} placeholder="이메일" />
-        <Input type="password" value={Password} onChange={onPasswordHandler} placeholder="비밀번호 8자리 이상" />
-        <Button type="submit">로그인</Button>
-        <div><Link to="/password" style={{ textDecoration: 'none' }}><Span>비밀번호 찾기</Span></Link><Span> | </Span><Link to="/join" style={{ textDecoration: 'none' }}><Span>회원가입</Span></Link></div>
+        <Input type="password" value={Password} onChange={onPasswordHandler} placeholder="새로운 비밀번호 8자리 이상" />
+        <Input type="password" value={Password} onChange={onPasswordHandler} placeholder="새로운 비밀번호 확인" />
+        <Span>º 비밀번호를 변경하시겠습니까?</Span>
+        <Button type="submit">변경</Button>
+        <br />
         </form>
       </LoginDiv>     
     </Div>
@@ -88,4 +87,4 @@ function Login(props) {
   );
 }
 
-export default Login;
+export default Password;
