@@ -2,51 +2,52 @@ import styled from 'styled-components';
 
 const FooterWrapper = styled.div`
   width: 100%;
-  height: 68px;
+  height: 85px;
   display: flex;
   margin-top: auto;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   z-index: 100;
   background-color: #4C8969;
 `;
 
 const MountainLogo = styled.div`
-  font-size: 15px;
+  font-size: 13px;
   color: white;
-  margin-top: 15px;
+  margin: 3px 0;
 `;
 
-const FrontContainer = styled.div`
-  margin: 5px 0 0 30px;
+const FrontContainer = styled.a`
+  margin: 3px 0;
   color: white;
   text-decoration: none;
+  font-size: 13px;
 `;
 
-const BackContainer = styled.div`
-  margin: 5px 0 0 10px;
+const BackContainer = styled.a`
+  margin: 3px 0;
+  color: white;
+  text-decoration: none;
+  font-size: 13px;
 `;
 
 function Footer() {
   return (
     <FooterWrapper>
       <MountainLogo>@다녀왔산!</MountainLogo>
-      <FrontContainer>
-        <a
-          href='https://github.com/qkrthdus605/Mountain_Frontend'
-          target='_blank'
-          rel='noreferrer'
-        >Frontend
-        </a>
-      </FrontContainer>
-      <BackContainer>
-        <a
-          href='https://github.com/NYeonK/hiking'
-          target='_blank'
-          rel='noreferrer'
-        >Backend
-        </a>
+      <BackContainer
+        href='https://github.com/NYeonK/hiking'
+        target='_blank'
+        rel='noreferrer'
+      >https://github.com/NYeonK/hiking
       </BackContainer>
+      <FrontContainer
+        href='https://github.com/qkrthdus605/Mountain_Frontend'
+        target='_blank'
+        rel='noreferrer'
+      >https://github.com/qkrthdus605/Mountain_Frontend
+      </FrontContainer>
     </FooterWrapper>
   );
 }
