@@ -7,10 +7,12 @@ import Login from './component/Login';
 import Join from './component/Join';
 import Password from './component/Password';
 import Community from './component/Community';
+import GlobalStyle from './component/globalStyles';
 
 function App() {
   return (
     <div>
+      <GlobalStyle />
       <Routes>
         <Route path="/" element={<Main />} exact={true} />
         <Route path="/intro" element={<Intro />} />
