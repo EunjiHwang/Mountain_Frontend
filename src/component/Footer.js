@@ -4,12 +4,13 @@ const FooterWrapper = styled.div`
   width: 100%;
   height: 85px;
   display: flex;
-  margin-top: auto;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   z-index: 100;
   background-color: #4C8969;
+  position: absolute;
+  bottom: 0;
 `;
 
 const MountainLogo = styled.div`
