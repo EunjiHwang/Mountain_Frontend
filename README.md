@@ -42,3 +42,6 @@ http://localhost:3000에 접속해 보세요
 | style    | 세미 콜론 수정, 줄바꿈, 스타일 등 기능에 지장 가지 않는 스타일 변경 |
 | setting  | 빌드수행, 패키지 설치, 환경 설정 수정 등                            |
 | document | 주석 추가삭제, reademe 작성                                         |
+
+#### Backend Repository
+['등산' Backend입니다:)](https://github.com/NYeonK/hiking)
