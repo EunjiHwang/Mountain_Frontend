@@ -1,5 +1,6 @@
 import React, { useRef, useState, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
+import MainSlider from './MainSlider';
 
 const Background = styled.div`
   position: absolute;
@@ -8,6 +9,7 @@ const Background = styled.div`
   background: url(${'../img/Background.png'});
   background-repeat: none;
   background-size: cover;
+  background-attachment: fixed;
 `;
 
 const LogoContainer = styled.div`
@@ -100,26 +102,6 @@ const HamburgerMenu = styled.div`
   }
 `;
 
-const SideBar = styled.div`
-  width: 300px;
-  height: 100vh;
-  opacity: 0.7;
-  background-color: white;
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-`;
-
-//<부모 컴포넌트>
-//{isToggle && <네비바 />} /* isToggle이 True라면 네비바 렌더링 */
-//<본문 컴포넌트 />
-//</부모 컴포넌트>
-
-const SideMenu = styled.div`
-  color: #707070;
-  font-weight: 600;
-  font-size: 30px;
-`;
 
 const Main = forwardRef((props, ref) => {
 
@@ -174,6 +156,7 @@ const Main = forwardRef((props, ref) => {
         <IconWrap />
         <IconWrap />
       </MenuTap>
+      <MainSlider />
     </Background>
   );
 });
