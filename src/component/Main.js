@@ -1,6 +1,13 @@
 import React, { useRef, useState, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
 import MainSlider from './MainSlider';
+import { Link } from 'react-router-dom';
+
+import Chatbot from './assets/chatbot.png'
+import Community from './assets/community.png';
+import Intro from './assets/intro.png';
+import Mypage from './assets/mypage.png';
+import Search from './assets/search.png';
 
 const Background = styled.div`
   position: absolute;
@@ -60,6 +67,12 @@ const IconWrap = styled.div`
   opacity: 50%;
   margin-left: 20px;
   position: relative;
+`;
+
+const IconImg = styled.img`
+  width: 50px;
+  height: 50px;
+  margin: auto;
 `;
 
 const ToggleMenu = styled.div`
@@ -150,11 +163,23 @@ const Main = forwardRef((props, ref) => {
         <SubText>등산 커뮤니티 서비스, 燈山</SubText>
       </SubContainer>
       <MenuTap>
-        <IconWrap />
-        <IconWrap />
-        <IconWrap />
-        <IconWrap />
-        <IconWrap />
+        <Link to="/intro">
+          <IconWrap>
+            <IconImg src={Intro}/>
+          </IconWrap>
+        </Link>
+        <IconWrap>
+          <IconImg src={Community}/>
+        </IconWrap>
+        <IconWrap>
+          <IconImg src={Search}/>
+        </IconWrap>
+        <IconWrap>
+          <IconImg src={Mypage}/>
+        </IconWrap>
+        <IconWrap>
+          <IconImg src={Chatbot}/>
+        </IconWrap>
       </MenuTap>
       <MainSlider />
     </Background>
