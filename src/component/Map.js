@@ -1,5 +1,5 @@
 /*global kakao */
-import MapSearch from './MapSearch';
+import MapSearch from './map/MapSearch';
 import React, { useEffect } from 'react';
 
 export default function Map() {

@@ -9,7 +9,7 @@ const FooterWrapper = styled.div`
   justify-content: center;
   align-items: center;
   z-index: 100;
-  background-color: #4C8969;
+  background-color: #4c8969;
 `;
 
 const MountainLogo = styled.div`
@@ -37,16 +37,18 @@ function Footer() {
     <FooterWrapper>
       <MountainLogo>@다녀왔산!</MountainLogo>
       <BackContainer
-        href='https://github.com/NYeonK/hiking'
-        target='_blank'
-        rel='noreferrer'
-      >https://github.com/NYeonK/hiking
+        href="https://github.com/NYeonK/hiking"
+        target="_blank"
+        rel="noreferrer"
+      >
+        https://github.com/NYeonK/hiking
       </BackContainer>
       <FrontContainer
-        href='https://github.com/qkrthdus605/Mountain_Frontend'
-        target='_blank'
-        rel='noreferrer'
-      >https://github.com/qkrthdus605/Mountain_Frontend
+        href="https://github.com/qkrthdus605/Mountain_Frontend"
+        target="_blank"
+        rel="noreferrer"
+      >
+        https://github.com/qkrthdus605/Mountain_Frontend
       </FrontContainer>
     </FooterWrapper>
   );

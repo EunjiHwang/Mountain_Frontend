@@ -7,6 +7,7 @@ import Login from './component/Login';
 import Join from './component/Join';
 import Password from './component/Password';
 import Community from './component/Community';
+import Mypage from './component/Mypage';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/join" element={<Join />} />
         <Route path="/password" element={<Password />} />
+        <Route path="/mypage" element={<Mypage />} />
       </Routes>
     </div>
   );

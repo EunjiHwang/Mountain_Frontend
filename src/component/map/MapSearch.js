@@ -1,19 +1,30 @@
-import Header from './Header';
-import Footer from './Footer';
+import Header from '../Header';
+import Footer from '../Footer';
+import ReviewItem from './ReviewItem';
+import styled from 'styled-components';
 
 import { MdSearch } from 'react-icons/md';
 import { WiDayCloudy } from 'react-icons/wi';
-import styled from 'styled-components';
-import { FiHeart } from 'react-icons/fi';
+// import { BiStar } from 'react-icons/bi'; // 빈 별
+// import { ImStarFull } from 'react-icons/im'; // 꽉찬별
+import { FiHeart } from 'react-icons/fi'; // 빈 하트
+// import { ImHeart } from 'react-icons/im'; // 꽉찬하트
 
 const MapPage = styled.div`
   position: relative;
-  height: 585px;
+  height: 75vh;
+`;
+
+const MapInput = styled.div`
+  position: relative;
+  width: 20%;
+  left: 10%;
+  top: 7%;
 `;
 
 const Input = styled.input`
   position: absolute;
-  width: 310px;
+  width: 80%;
   height: 30px;
   border: 1px solid #707070;
   font: normal normal normal 16px Segoe UI;
@@ -24,17 +35,16 @@ const Input = styled.input`
 const Map = styled.div`
   position: absolute;
   z-index: 0;
-  top: 20px;
-  left: 77px;
-  right: 10px;
-  width: 1355px;
-  height: 540px;
+  top: 5%;
+  left: 10%;
+  width: 80%;
+  height: 95%;
 `;
 
 const Search = styled.div`
   position: relative;
-  top: 35px;
-  left: 105px;
+  top: 6%;
+  left: 9%;
   z-index: 1;
 `;
 
@@ -45,23 +55,26 @@ const Button = styled.button`
   height: 23px;
   font-size: 1.2em;
   border: none;
-  left: 290px;
+  right: 18%;
   top: 6.5px;
 `;
 
 const Menu = styled.div`
   position: relative;
   width: 370px;
-  height: 530px;
   background: #ffffff;
-  top: 20px;
-  left: 77px;
+  top: 5%;
+  height: 93.6%;
+  left: 10%;
   border: 5px solid #afafaf;
+  z-index: 1;
 `;
 
 const MenuTop = styled.div`
   width: 370px;
-  height: 200px;
+  // width: 100%;
+  // height: 200px;
+  height: 30%;
   background: url('https://www.ui4u.go.kr/tour/img/content/img_mountain_pic02.png')
     no-repeat center center;
 `;
@@ -73,8 +86,9 @@ const SunInfo = styled.div`
   border-radius: 8px;
   background: #ffffff;
   opacity: 0.89;
-  top: 170px;
-  left: 212px;
+  // top: 170px;
+  top: 85%;
+  left: 57%;
 
   .weather {
     width: 22px;
@@ -89,14 +103,14 @@ const SunInfo = styled.div`
     height: 22px;
     font: normal normal normal 10px/14px Segoe UI;
     text-align: left;
-    top: 3.9px;
+    top: 15%;
     margin-left: 2px;
   }
 `;
 
 const MenuInfo = styled.div`
-  width: 370px;
-  height: 330px;
+  width: 100%;
+  height: 70%;
   background: #ffffff;
   overflow: scroll;
 
@@ -126,7 +140,7 @@ const MenuInfo = styled.div`
     margin-top: 5px;
   }
 
-  .mLike {
+  .mLikebtn {
     float: right;
     margin-right: 15px;
     margin-top: 5px;
@@ -155,15 +169,15 @@ const MenuInfo = styled.div`
 
   .review {
     font: normal normal normal 13px Segoe UI;
-    height: 200px;
     margin-top: 10px;
+    margin-bottom: 10px;
     margin-left: 15px;
+    margin-right: 15px;
     line-height: 25px;
   }
 
   .cReview {
     float: right;
-    margin-right: 15px;
     width: 60px;
     height: 23px;
     background: #afafaf;
@@ -171,6 +185,10 @@ const MenuInfo = styled.div`
     border: none;
     border-radius: 8px;
     font: normal normal normal 11px Segoe UI;
+
+    &:hover {
+      opacity: 0.7;
+    }
   }
 
   .line-out {
@@ -201,23 +219,35 @@ const MapSearch = () => {
     <div>
       <Header />
       <MapPage id="mapPage">
-        <Search id="search">
-          <Input
-            type="text"
-            id="keyword"
-            placeholder="장소명을 검색하세요."
-            autoComplete="off"
-          />
+        <MapInput>
+          <Search className="search">
+            <Input
+              type="text"
+              id="keyword"
+              placeholder="장소명을 검색하세요."
+              autoComplete="off"
+            />
 
-          <Button type="submit">
-            <MdSearch />
-          </Button>
-        </Search>
-
+            <Button type="submit">
+              <MdSearch />
+            </Button>
+          </Search>
+        </MapInput>
         <Map id="map" />
 
         <Menu id="menu">
           <MenuTop id="menuTop">
+            <Search className="search">
+              <Input
+                type="text"
+                id="keyword"
+                placeholder="장소명을 검색하세요."
+                autoComplete="off"
+              />
+              <Button type="submit">
+                <MdSearch />
+              </Button>
+            </Search>
             <SunInfo>
               <WiDayCloudy className="weather" />
               <span className="time">
@@ -226,12 +256,13 @@ const MapSearch = () => {
               </span>
             </SunInfo>
           </MenuTop>
+
           <MenuInfo>
             <div className="title">
               <span className="mTitle">도봉산</span>
               <span className="mTag">#계곡 #서울특별시</span>
-              <button className="mLike">
-                <FiHeart />
+              <button className="mLikebtn">
+                <FiHeart className="mLike" />
               </button>
               <div className="mContent" id="mPos">
                 서울 도봉구 도봉동
@@ -283,6 +314,9 @@ const MapSearch = () => {
             <div className="review">
               <span className="sTitle">후기</span>
               <button className="cReview">후기작성</button>
+              <ReviewItem />
+              <ReviewItem />
+              <ReviewItem />
             </div>
           </MenuInfo>
         </Menu>
