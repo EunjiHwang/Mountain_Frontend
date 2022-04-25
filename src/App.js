@@ -7,13 +7,10 @@ import Login from './component/Login';
 import Join from './component/Join';
 import Password from './component/Password';
 import Community from './component/Community';
-<<<<<<< HEAD
 import Mypage from './component/Mypage';
-=======
 import GlobalStyle from './component/globalStyles';
 import WriteReview from './component/WriteReview';
 import EditReview from './component/EditReview';
->>>>>>> a843748dd0511f1cb7df7e4ae90e31ab8a9f6595
 
 function App() {
   return (
@@ -27,12 +24,9 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/join" element={<Join />} />
         <Route path="/password" element={<Password />} />
-<<<<<<< HEAD
         <Route path="/mypage" element={<Mypage />} />
-=======
         <Route path="/writereview" element={<WriteReview />} />
         <Route path="/editreview" element={<EditReview />} />
->>>>>>> a843748dd0511f1cb7df7e4ae90e31ab8a9f6595
       </Routes>
     </div>
   );
