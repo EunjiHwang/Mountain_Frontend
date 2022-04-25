@@ -8,6 +8,8 @@ import Join from './component/Join';
 import Password from './component/Password';
 import Community from './component/Community';
 import GlobalStyle from './component/globalStyles';
+import WriteReview from './component/WriteReview';
+import EditReview from './component/EditReview';
 
 function App() {
   return (
@@ -21,6 +23,8 @@ function App() {
         <Route path="/community" element={<Community />} />
         <Route path="/join" element={<Join />} />
         <Route path="/password" element={<Password />} />
+        <Route path="/writereview" element={<WriteReview />} />
+        <Route path="/editreview" element={<EditReview />} />
       </Routes>
     </div>
   );
