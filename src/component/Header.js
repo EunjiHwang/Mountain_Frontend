@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 
 const Wrapper = styled.div`
   width: 100%;
-  height: 80px;
+  height: 90px;
   background-color: white;
   display: flex;
   flex-direction: row;
@@ -20,13 +20,13 @@ const HomeButton = styled.div`
   font-size: 50px;
   color: black;
   font-weight: 500;
-  margin: 5px 5px 5px 70px;
+  margin: 18px 5px 5px 80px;
 `;
 
 const MenuList = styled.div`
   width: 500px;
   height: 40px;
-  margin: 30px 0 0 70px;
+  margin: 35px 0 0 70px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -37,13 +37,14 @@ const MenuItem = styled.div`
   flex-direction: row;
   font-size: 20px;
   font-weight: 600;
+  margin-right: 10px;
   color: black;
 `;
 
 const AuthList = styled.div`
   width: 500px;
   height: 40px;
-  margin: 20px 0 0 100px;
+  margin: 25px 0 0 100px;
   display: flex;
   justify-content: flex-end;
   align-items: flex-end;
