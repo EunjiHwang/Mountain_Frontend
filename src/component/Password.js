@@ -14,7 +14,7 @@ const Div = styled.div`
   justify-content: center; 
   align-items: center;
   width: 100%;
-  height: 77vh;  
+  height: 78vh;  
   text-align: center;
   font-family: 'Segoe UI';
 `;
