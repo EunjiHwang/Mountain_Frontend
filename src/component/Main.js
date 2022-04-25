@@ -37,7 +37,7 @@ const LogoText = styled.div`
 
 const SubContainer = styled.div`
   align-items: center;
-  margin-top: 200px;
+  margin: 200px 0 50px 10px;
 `;
 
 const SubText = styled.div`
@@ -55,7 +55,7 @@ const MenuTap = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin: 60px 0 0 390px;
+  margin: auto;
 `;
 
 const IconWrap = styled.div`
@@ -98,7 +98,7 @@ const HamburgerMenu = styled.div`
     left: 0;
     height: 3px;
     width: 100%;
-    background: #fff;
+    background: #707070;
     border-radius: 9px;
     opacity: 1;
     transform: rotate(0deg);
@@ -115,6 +115,13 @@ const HamburgerMenu = styled.div`
   }
 `;
 
+const SideMenu = styled.div`
+  width: 330px;
+  height: 100vh;
+  float: right;
+  background-color: rgba(255, 255, 255, 0.7);
+  position: relative;
+`;
 
 const Main = forwardRef((props, ref) => {
 
@@ -152,6 +159,7 @@ const Main = forwardRef((props, ref) => {
         <LogoText>燈山</LogoText>
       </LogoContainer>
       <ToggleMenu onClick={handleToggleMenu}>
+        {isToggled && <SideMenu />}
         <HamburgerMenu>
           <span ref={toggleRefTop} />
           <span ref={toggleRefMid} />
@@ -165,7 +173,7 @@ const Main = forwardRef((props, ref) => {
       <MenuTap>
         <Link to="/intro">
           <IconWrap>
-            <IconImg src={Intro}/>
+            <IconImg src={Intro} />
           </IconWrap>
         </Link>
         <IconWrap>
