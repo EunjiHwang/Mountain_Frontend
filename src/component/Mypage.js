@@ -8,6 +8,7 @@ import { GoPencil } from 'react-icons/go';
 const AllPage = styled.div`
   width: 100vw;
   height: 100vh;
+  text-align: center;
 `;
 
 const UserInfo = styled.div`
@@ -108,15 +109,35 @@ const EditInfo = styled.button`
 `;
 
 const Info = styled.div`
-  position: relative;
-  text-align: center;
-  width: 350px;
-  left: 5%;
-  top: 7%;
+  float: left;
+  // display: inline-block;
+  // position: relative;
+  // text-align: center;
+  // width: 350px;
+  // left: 5%;
+  // top: 7%;
+  // width: 19%;
+  width: 400px;
+  height: 80%;
+  border: 1px solid black;
 `;
 
-const UserMap = styled.div``;
-const UserFunction = styled.div``;
+const UserMap = styled.div`
+  display: inline-block;
+  left: 25%;
+  // width: 61%;
+  width: auto;
+  height: 80%;
+  border: 1px solid black;
+`;
+
+const UserFunction = styled.div`
+  float: right;
+  // width: 19%;
+  width: 400px;
+  height: 80%;
+  border: 1px solid black;
+`;
 
 function Mypage() {
   return (
@@ -125,7 +146,7 @@ function Mypage() {
         <Header />
 
         <Info>
-          <UserInfo>
+          {/* <UserInfo>
             <UserImg id="userimg"></UserImg>
             <UserName id="username">홍길동</UserName>
             <Level>
@@ -133,23 +154,24 @@ function Mypage() {
               <UserLevel id="userlevel">등산고수</UserLevel>
               <UserLevelBar />
             </Level>
-            <UserLevelDetail>
+            {/* <UserLevelDetail>
               <Img>
                 <FcLandscape />
               </Img>
-              <DetailInfo>{/* <Rect1 /> */}</DetailInfo>
-            </UserLevelDetail>
-          </UserInfo>
-          <EditInfo>
+              <DetailInfo>{/* <Rect1 /></DetailInfo>
+            </UserLevelDetail> */}
+          {/* </UserInfo> */}
+          {/* <EditInfo>
             <GoPencil />
             &nbsp;정보수정
           </EditInfo>
+           */}
         </Info>
 
         <UserMap></UserMap>
         <UserFunction></UserFunction>
 
-        {/* <Footer /> */}
+        <Footer />
       </AllPage>
     </div>
   );
