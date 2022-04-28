@@ -6,10 +6,10 @@ import img1 from './assets/1.jpg';
 import img2 from './assets/1.jpg';
 import img3 from './assets/1.jpg';
 
-const Wrapper = styled.div`
-  height: 100vh;
-  background-color: transparent;
-`;
+// const Wrapper = styled.div`
+//   height: 100vh;
+//   background-color: transparent;
+// `;
 
 const Container = styled.div`
   width: 1000px;
@@ -135,7 +135,7 @@ function MainSlider() {
   }, [currentSlide]);
 
   return (
-    <Wrapper>
+    <div>
       <Container>
         <Image>
           <SliderContainer ref={slideRef}>
@@ -157,7 +157,7 @@ function MainSlider() {
           </ReviewContainer>
         </ContentContainer>
       </Container>
-    </Wrapper>  
+    </div>  
   );
 }
 

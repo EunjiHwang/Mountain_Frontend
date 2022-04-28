@@ -12,7 +12,7 @@ import Search from './assets/search.png';
 const Background = styled.div`
   position: absolute;
   min-width: 100%;
-  height: 100vh;
+  min-height: 100%;
   background: url(${'../img/Background.png'});
   background-repeat: none;
   background-size: cover;
@@ -83,12 +83,13 @@ const ToggleMenu = styled.div`
   font-size: 25px;
   color: #ffffff;
   cursor: pointer;
+  z-index: 1;
 `;
 
 const HamburgerMenu = styled.div`
   width: 40px;
   height: 20px;
-  position: relative;
+  /* position: relative; */
   transform: rotate(0deg);
   transition: 0.2s ease-in-out;
   cursor: pointer;
@@ -118,9 +119,18 @@ const HamburgerMenu = styled.div`
 const SideMenu = styled.div`
   width: 330px;
   height: 100vh;
-  float: right;
+  /* background-color: red; */
   background-color: rgba(255, 255, 255, 0.7);
-  position: relative;
+  position: absolute;
+  top: -33px;
+  right: -30px;
+  z-index: -1;
+`;
+
+const Div = styled.div`
+  width: 500px;
+  height: 500px;
+  background-color: red;
 `;
 
 const Main = forwardRef((props, ref) => {
@@ -158,13 +168,13 @@ const Main = forwardRef((props, ref) => {
       <LogoContainer>
         <LogoText>燈山</LogoText>
       </LogoContainer>
-      <ToggleMenu onClick={handleToggleMenu}>
-        {isToggled && <SideMenu />}
-        <HamburgerMenu>
+      <ToggleMenu>
+        <HamburgerMenu onClick={handleToggleMenu}>
           <span ref={toggleRefTop} />
           <span ref={toggleRefMid} />
           <span ref={toggleRefBottom} />
         </HamburgerMenu>
+        {isToggled && <SideMenu />}
       </ToggleMenu>
       <SubContainer>
         <SubText>등산을 좋아하는 사람들이 모여 소통하는 공간</SubText>

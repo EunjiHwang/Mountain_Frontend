@@ -14,19 +14,21 @@ import EditReview from './component/EditReview';
 function App() {
   return (
     <div>
-      <GlobalStyle />
-      <Routes>
-        <Route path="/" element={<Main />} exact={true} />
-        <Route path="/intro" element={<Intro />} />
-        <Route path="/map" element={<Map />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/community" element={<Community />} />
-        <Route path="/join" element={<Join />} />
-        <Route path="/password" element={<Password />} />
-        <Route path="/writereview" element={<WriteReview />} />
-        <Route path="/editreview" element={<EditReview />} />
-      </Routes>
-    </div>
+    <GlobalStyle />
+      <div>
+        <Routes>
+          <Route path="/" element={<Main />} exact={true} />
+          <Route path="/intro" element={<Intro />} />
+          <Route path="/map" element={<Map />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/community" element={<Community />} />
+          <Route path="/join" element={<Join />} />
+          <Route path="/password" element={<Password />} />
+          <Route path="/writereview" element={<WriteReview />} />
+          <Route path="/editreview" element={<EditReview />} />
+        </Routes>
+      </div>
+    </div> 
   );
 }
 
