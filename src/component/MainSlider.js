@@ -21,13 +21,14 @@ const Container = styled.div`
   display: flex;
   margin: auto;
   margin-top: 500px;
+  margin-bottom: 180px;
 `;
 
 const Image = styled.div`
   width: 430px;
   height: 350px;
   border-radius: 10px;
-  margin: 100px 0 0 90px;
+  margin: 100px 0 0 20px;
   display: flex;
   justify-content: center;
   overflow: hidden; // 선을 넘어간 이미지들은 숨겨줍니다.
@@ -101,6 +102,22 @@ const UnderBar = styled.div`
   margin: 5px 5px;
 `;
 
+const PrevBtn = styled.button`
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border: 0px;
+  margin: 240px 0 0 20px;
+`;
+
+const NextBtn = styled.button`
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border: 0px;
+  margin: 240px 0 0 20px;
+`; 
+
 const TOTAL_SLIDES = 2; 
 
 function MainSlider() {
@@ -137,6 +154,7 @@ function MainSlider() {
   return (
     <div>
       <Container>
+        <PrevBtn onClick={PrevSlide}>이전</PrevBtn>
         <Image>
           <SliderContainer ref={slideRef}>
             <Slide img={img1} />
@@ -152,10 +170,11 @@ function MainSlider() {
           </TitleContainer>
           <ReviewContainer>
             <ReviewTitle>Review</ReviewTitle>
-            <MoreBtn>더 알아보기 ></MoreBtn>
+            <MoreBtn>더 알아보기 &gt;</MoreBtn>
             <UnderBar />
           </ReviewContainer>
         </ContentContainer>
+        <NextBtn onClick={NextSlide}>다음</NextBtn>
       </Container>
     </div>  
   );

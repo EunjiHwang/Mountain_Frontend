@@ -118,7 +118,7 @@ const HamburgerMenu = styled.div`
 
 const SideMenu = styled.div`
   width: 330px;
-  height: 100vh;
+  height: 900px;
   /* background-color: red; */
   background-color: rgba(255, 255, 255, 0.7);
   position: absolute;
@@ -127,10 +127,27 @@ const SideMenu = styled.div`
   z-index: -1;
 `;
 
-const Div = styled.div`
-  width: 500px;
-  height: 500px;
-  background-color: red;
+const MenuListContainer = styled.div`
+  width: 300px;
+  height: 700px;
+  background: transparent;
+  position: relative;
+  margin: 100px 0 0 20px; 
+`;
+
+const MenuItem = styled.div`
+  font-size: 24px;
+  color: #707070;
+  font-weight: 600;
+  position: relative;
+  margin-top: 50px;
+`;
+
+const SubMenu = styled.div`
+  font-size: 18px;
+  color: #707070;
+  position: relative;
+  margin: 20px 0 5px 20px;
 `;
 
 const Main = forwardRef((props, ref) => {
@@ -174,7 +191,50 @@ const Main = forwardRef((props, ref) => {
           <span ref={toggleRefMid} />
           <span ref={toggleRefBottom} />
         </HamburgerMenu>
-        {isToggled && <SideMenu />}
+        {isToggled &&
+          <SideMenu>
+            <MenuListContainer>
+              <Link to="/intro">
+                <MenuItem>소개글</MenuItem>
+              </Link>
+              <Link to="/community">
+                <MenuItem>커뮤니티</MenuItem>
+              </Link>
+              <Link to="/community/add">
+                <SubMenu>● 게시글 작성</SubMenu>
+              </Link>
+              <Link to="/community">
+                <SubMenu>● 게시글 목록</SubMenu>
+              </Link>
+              <Link to="/map">
+                <MenuItem>검색</MenuItem>
+              </Link>
+              <Link to="/mypage">
+                <MenuItem>마이페이지</MenuItem>
+              </Link>
+              <Link to="/mypage">
+                <SubMenu>● 마이페이지 홈</SubMenu>
+              </Link>
+              <Link to="/mywriting">
+                <SubMenu>● 게시글 모아보기</SubMenu>
+              </Link>
+              <Link to="myreview">
+                <SubMenu>● 후기 모아보기</SubMenu>
+              </Link>
+              <Link to="/mycomment">
+                <SubMenu>● 댓글 모아보기</SubMenu>
+              </Link>
+              <MenuItem>챗봇</MenuItem>
+              <MenuItem>로그인/회원가입</MenuItem>
+              <Link to="/login">
+                <SubMenu>● 로그인</SubMenu>
+              </Link>
+              <Link to="/join">
+                <SubMenu>● 회원가입</SubMenu>
+              </Link>
+            </MenuListContainer>
+          </SideMenu>
+        }
       </ToggleMenu>
       <SubContainer>
         <SubText>등산을 좋아하는 사람들이 모여 소통하는 공간</SubText>
@@ -186,15 +246,21 @@ const Main = forwardRef((props, ref) => {
             <IconImg src={Intro} />
           </IconWrap>
         </Link>
-        <IconWrap>
-          <IconImg src={Community}/>
-        </IconWrap>
-        <IconWrap>
-          <IconImg src={Search}/>
-        </IconWrap>
-        <IconWrap>
-          <IconImg src={Mypage}/>
-        </IconWrap>
+        <Link to="/community">
+          <IconWrap>
+            <IconImg src={Community}/>
+          </IconWrap>
+        </Link>
+        <Link to="/map">
+          <IconWrap>
+            <IconImg src={Search}/>
+          </IconWrap>
+        </Link>
+        <Link to="/mypage">
+          <IconWrap>
+            <IconImg src={Mypage}/>
+          </IconWrap> 
+        </Link>
         <IconWrap>
           <IconImg src={Chatbot}/>
         </IconWrap>

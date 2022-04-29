@@ -81,7 +81,9 @@ function Header() {
         <Link to="/login" style={{textDecoration: 'none'}}>
           <AuthItem>로그인</AuthItem>
         </Link>
-        <AuthItem>회원가입</AuthItem>
+        <Link to="/join" style={{ textDecoration: 'none' }}>
+          <AuthItem>회원가입</AuthItem>
+        </Link>
       </AuthList>
     </Wrapper>
   );
