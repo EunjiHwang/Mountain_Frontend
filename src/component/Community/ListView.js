@@ -1,11 +1,29 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-
+import styled from 'styled-components';
+import Input from '../memberStyled/Input';
 import { renderMatches, useNavigate } from 'react-router-dom';
-
 import Header from '../Header';
 import Footer from '../Footer';
 import { Paging } from '../Paging';
+
+const Div = styled.div`
+  /* 전체 Div 스타일 */
+  margin: 50px;
+  font-family: 'Segoe UI';
+`;
+
+const H3 = styled.h3`
+  /*제목 스타일*/
+  font-weight: bold;
+  color:#4C8969;
+ font-size:25px;
+`;
+const Button = styled.button`
+  /* 글 작성하기 버튼 스타일 */
+  width: 130px;
+  border-radius:10px;
+`;
 
 function ListView(props) {
   const navigate = useNavigate();
@@ -15,7 +33,7 @@ function ListView(props) {
 
   const [count, setCount] = React.useState(0);
   const [currentpage, setCurrentpage] = React.useState(1); //현재페이지
-  const [postPerPage] = React.useState(7); //페이지당 콘텐츠 개수
+  const [postPerPage] = React.useState(8); //페이지당 콘텐츠 개수
 
   const [searchText, setSearchText] = React.useState('');
 
@@ -51,18 +69,20 @@ function ListView(props) {
     }
   };
 
-  return (
+  
+return (
     <>
       <div>
       <Header />
-      <div className='container'>
+      <Div>
+      <div className='container' >
         <div className="row border-bottom border-success border-3">
           <div className="col">
-            <h1 className="form-control-lg gr">커뮤니티 게시판</h1>
+            <H3 className="form-control-lg gr">커뮤니티 게시판</H3>
           </div>
           <div className="col">
             <form onSubmit={onSubmit}>
-              <input
+              <input  /*Input 시 이상해짐 */ 
                 ref={inputRef}
                 value={searchText}
                 onChange={onChange}
@@ -73,14 +93,14 @@ function ListView(props) {
             </form>
           </div>
           <div className="col-2">
-            <button
+            <Button
               className="btn btn-outline-success"
               type="button"
               onClick={handleClick}
               style={{ float: 'right' }}
             >
               글 작성하기
-            </button>
+            </Button>
           </div>
         </div>
         {currentPosts.map((item) => (
@@ -119,6 +139,7 @@ function ListView(props) {
         ))}
         <Paging page={currentpage} count={count} setPage={setPage} />
         </div>
+        </Div>
         <Footer />
       </div>
  
