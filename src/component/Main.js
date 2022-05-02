@@ -75,6 +75,41 @@ const IconImg = styled.img`
   margin: auto;
 `;
 
+const IntroText = styled.div`
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  margin: 10px 0 0 30px;
+`;
+
+const CommunityText = styled.div`
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  margin: 10px 0 0 25px;
+`;
+
+const SearchText = styled.div`
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  margin: 10px 0 0 40px;
+`;
+
+const MypageText = styled.div`
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  margin: 10px 0 0 18px;
+`;
+
+const ChatText = styled.div`
+  font-size: 16px;
+  color: white;
+  font-weight: 600;
+  margin: 10px 0 0 40px;
+`;
+
 const ToggleMenu = styled.div`
   display: block;
   position: absolute;
@@ -180,6 +215,7 @@ const Main = forwardRef((props, ref) => {
     }
   }, [isToggled]);
 
+  
   return (
     <Background>
       <LogoContainer>
@@ -245,25 +281,32 @@ const Main = forwardRef((props, ref) => {
           <IconWrap>
             <IconImg src={Intro} />
           </IconWrap>
+          <IntroText>소개글</IntroText>
         </Link>
         <Link to="/community">
           <IconWrap>
             <IconImg src={Community}/>
           </IconWrap>
+          <CommunityText>커뮤니티</CommunityText>
         </Link>
         <Link to="/map">
           <IconWrap>
             <IconImg src={Search}/>
           </IconWrap>
+          <SearchText>검색</SearchText>
         </Link>
         <Link to="/mypage">
           <IconWrap>
             <IconImg src={Mypage}/>
           </IconWrap> 
+          <MypageText>마이페이지</MypageText>
         </Link>
-        <IconWrap>
-          <IconImg src={Chatbot}/>
-        </IconWrap>
+        <Link to="/">
+          <IconWrap>
+            <IconImg src={Chatbot}/>
+          </IconWrap>
+          <ChatText>챗봇</ChatText>
+        </Link>
       </MenuTap>
       <MainSlider />
     </Background>

@@ -1,15 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { forwardRef } from 'react'; 
+
 import Slide from './Slide';
+import useScroll from '../hooks/useScroll';
+
 import img1 from './assets/1.jpg';
 import img2 from './assets/1.jpg';
 import img3 from './assets/1.jpg';
 
-// const Wrapper = styled.div`
-//   height: 100vh;
-//   background-color: transparent;
-// `;
 
 const Container = styled.div`
   width: 1000px;
@@ -120,7 +119,13 @@ const NextBtn = styled.button`
 
 const TOTAL_SLIDES = 2; 
 
-function MainSlider() {
+const MainSlider = forwardRef((props, ref) => {
+
+  const AnimationArray = [
+    { id: 1, animation: useScroll('up', 2, 0) },
+  ];
+
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
 
@@ -152,8 +157,8 @@ function MainSlider() {
   }, [currentSlide]);
 
   return (
-    <div>
-      <Container>
+    <div ref={ref} id='slide'>
+      <Container {...AnimationArray[0].animation}>
         <PrevBtn onClick={PrevSlide}>이전</PrevBtn>
         <Image>
           <SliderContainer ref={slideRef}>
@@ -176,9 +181,9 @@ function MainSlider() {
         </ContentContainer>
         <NextBtn onClick={NextSlide}>다음</NextBtn>
       </Container>
-    </div>  
+    </div>
   );
-}
+});
 
 
 export default MainSlider;
