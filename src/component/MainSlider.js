@@ -13,7 +13,7 @@ import img3 from './assets/1.jpg';
 const Container = styled.div`
   width: 1000px;
   height: 550px;
-  border: 2px solid #707070;
+  border: 0;
   background-color: rgba(255, 255, 255, 0.7);
   /* opacity: 0.7; */
   border-radius: 20px;
