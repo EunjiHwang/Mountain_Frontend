@@ -18,7 +18,7 @@ const Div = styled.div`
 
 const IntroDiv = styled.div`
   /* 소개글 Block Div 스타일 */
-  width: 600px; height: 400px;
+  width: 650px; height: 450px;
   position: absolute;
   padding: 20px 50px; 
   background: white;
@@ -34,7 +34,7 @@ const IntroDiv = styled.div`
 const H2 = styled.h2`
   color: #554646;
   margin-bottom: 5px;
-  
+  font-size: 20px;
 `
 const Span = styled.span`
   text-size: 5px;

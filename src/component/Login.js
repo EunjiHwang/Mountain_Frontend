@@ -22,7 +22,7 @@ const Div = styled.div`
 
 const LoginDiv = styled.div`
   /* 로그인 Block Div 스타일 */
-  width: 300px; height: 350px;
+  width: 320px; height: 400px;
   position: absolute;
   padding: 40px 30px; 
   background: white;
