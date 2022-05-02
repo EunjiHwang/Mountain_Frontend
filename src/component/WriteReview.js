@@ -18,7 +18,7 @@ const Div = styled.div`
 
 const IntroDiv = styled.div`
   /* 소개글 Block Div 스타일 */
-  width: 600px; height: 400px;
+  width: 650px; height: 450px;
   position: absolute;
   padding: 20px 50px; 
   background: white;
@@ -44,7 +44,7 @@ const Text = styled.input`
     font-weight: bold;
     font-family: 'Segoe UI';
     color: #554646;
-    margin-top: 7px;
+    margin-top: 10px;
 `
 
 const Save = styled.button`
@@ -56,7 +56,7 @@ const Save = styled.button`
     opacity: 1;
     border: 0;
     outline: 0;
-    margin: 5px 0 10px 0;
+    margin-top: 10px;
     float: right;
 `
 
@@ -64,16 +64,20 @@ const Textarea = styled.textarea`
  height: 250px;
  width: 300px;
  border-radius: 20px;
+ resize: none;
 `
 const Radio = styled.input`
   display: none;
 `
 
 const Label = styled.label`
- padding: 5px 10px 5px 10px;
+ padding: 5px 5px 5px 5px;
  border: 1px solid #707070;
  font-size: 0.8rem;
+ margin-bottom: 5px;
 `
+
+
 function WriteReview(props) {
   
   return (
@@ -85,9 +89,9 @@ function WriteReview(props) {
         display: 'flex', flexDirection: 'column'}}
         >
         <div><Text type="text" placeholder="후기 작성" /><Save>저장</Save></div>
-        <hr width="100%" />
-        <div><h3 style={{float: 'left'}}>총점</h3><h3 style={{textAlign: 'center'}}>코멘트</h3></div>
-        <div><Textarea style={{float: 'right'}}></Textarea><h3 style={{marginBottom: '1px'}}>시설 여부</h3><P>화장실<br/><br/>주차공간<br/><br/>음수대<br/><br/>먹거리시설<br/><br/>물, 음료 파는 곳</P>
+        <hr width="100%" /><br />
+        <div style={{marginBottom: '20px'}}><h3 style={{float: 'left'}}>총점</h3><h3 style={{textAlign: 'center'}}>코멘트</h3></div>
+        <div><Textarea style={{float: 'right'}}></Textarea><h3 style={{marginBottom: '1px'}}><br/>시설 여부</h3><br /><P>화장실<br/><br/><br />주차공간<br/><br/><br />음수대<br/><br/><br />먹거리시설<br/><br/><br/>물, 음료 파는 곳</P>
         <P><Radio type="radio" name="radio" id="opt1" /><Label style={{borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px', marginRight: '-1px'}}><span>YES</span></Label>
         <Radio type="radio" name="radio" id="opt2" /><Label style={{borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}><span>NO</span></Label>
         <br /><br /><Radio type="radio" name="radio" id="opt1" /><Label style={{borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px', marginRight: '-1px'}}><span>YES</span></Label>
@@ -98,7 +102,6 @@ function WriteReview(props) {
         <Radio type="radio" name="radio" id="opt2" /><Label style={{borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}><span>NO</span></Label>
         <br /><br /><Radio type="radio" name="radio" id="opt1" /><Label style={{borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px', marginRight: '-1px'}}><span>YES</span></Label>
         <Radio type="radio" name="radio" id="opt2" /><Label style={{borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}><span>NO</span></Label></P>
-        
         </div>
         </form>
       </IntroDiv>     
