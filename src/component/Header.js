@@ -68,7 +68,9 @@ function Header() {
         <HomeButton>燈山</HomeButton>
       </Link>
       <MenuList>
-        <MenuItem>소개글</MenuItem>
+        <Link to="/intro">
+          <MenuItem>소개글</MenuItem>
+        </Link>
         <Link to="/community" style={{ textDecoration: 'none' }}>
           <MenuItem>커뮤니티</MenuItem>
         </Link>
