@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import MainSlider from './MainSlider';
 import { Link } from 'react-router-dom';
 
-import Chatbot from './assets/chatbot.png'
+import Chatbot from './assets/chatbot.png';
 import Community from './assets/community.png';
 import Intro from './assets/intro.png';
 import Mypage from './assets/mypage.png';
@@ -124,7 +124,6 @@ const SideMenu = styled.div`
 `;
 
 const Main = forwardRef((props, ref) => {
-
   const toggleRefTop = useRef();
   const toggleRefMid = useRef();
   const toggleRefBottom = useRef();
@@ -177,16 +176,20 @@ const Main = forwardRef((props, ref) => {
           </IconWrap>
         </Link>
         <IconWrap>
-          <IconImg src={Community}/>
+          <IconImg src={Community} />
         </IconWrap>
+        <Link to="map">
+          <IconWrap>
+            <IconImg src={Search} />
+          </IconWrap>
+        </Link>
+        <Link to="/mypage">
+          <IconWrap>
+            <IconImg src={Mypage} />
+          </IconWrap>
+        </Link>
         <IconWrap>
-          <IconImg src={Search}/>
-        </IconWrap>
-        <IconWrap>
-          <IconImg src={Mypage}/>
-        </IconWrap>
-        <IconWrap>
-          <IconImg src={Chatbot}/>
+          <IconImg src={Chatbot} />
         </IconWrap>
       </MenuTap>
       <MainSlider />
@@ -195,5 +198,3 @@ const Main = forwardRef((props, ref) => {
 });
 
 export default Main;
-
-

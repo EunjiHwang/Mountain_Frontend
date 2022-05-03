@@ -16,6 +16,7 @@ import EditReview from './component/EditReview';
 import MyWriting from './component/Mypage/MyWriting';
 import MyComment from './component/Mypage/MyComment';
 import MyReview from './component/Mypage/MyReview';
+import EditMe from './component/EditMe';
 
 function App() {
   return (
@@ -38,6 +39,7 @@ function App() {
         <Route path="/mywriting" element={<MyWriting />} />
         <Route path="/mycomment" element={<MyComment />} />
         <Route path="/myreview" element={<MyReview />} />
+        <Route path="/editme" element={<EditMe />} />
       </Routes>
     </div>
   );

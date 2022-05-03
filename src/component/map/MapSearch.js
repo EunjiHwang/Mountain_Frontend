@@ -55,8 +55,8 @@ const Button = styled.button`
   height: 23px;
   font-size: 1.2em;
   border: none;
-  right: 18%;
-  top: 6.5px;
+  right: 22%;
+  top: 3px;
 `;
 
 const Menu = styled.div`
@@ -64,16 +64,14 @@ const Menu = styled.div`
   width: 370px;
   background: #ffffff;
   top: 5%;
-  height: 93.6%;
+  height: 95%;
   left: 10%;
   border: 5px solid #afafaf;
   z-index: 1;
 `;
 
 const MenuTop = styled.div`
-  width: 370px;
-  // width: 100%;
-  // height: 200px;
+  width: 359px;
   height: 30%;
   background: url('https://www.ui4u.go.kr/tour/img/content/img_mountain_pic02.png')
     no-repeat center center;

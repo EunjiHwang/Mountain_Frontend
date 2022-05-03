@@ -11,7 +11,7 @@ const Wrapper = styled.div`
   background-color: white;
   display: flex;
   flex-direction: row;
-  border-bottom: 3px solid #4C8969;
+  border-bottom: 3px solid #4c8969;
 `;
 
 const HomeButton = styled.div`
@@ -59,26 +59,28 @@ const AuthItem = styled.div`
   margin-left: 40px;
 `;
 
-
 function Header() {
-
   return (
     <Wrapper>
       <Link to="/" style={{ textDecoration: 'none' }}>
         <HomeButton>燈山</HomeButton>
       </Link>
       <MenuList>
-        <MenuItem>소개글</MenuItem>
+        <Link to="/intro" style={{ textDecoration: 'none' }}>
+          <MenuItem>소개글</MenuItem>
+        </Link>
         <Link to="/community" style={{ textDecoration: 'none' }}>
           <MenuItem>커뮤니티</MenuItem>
         </Link>
         <Link to="/map" style={{ textDecoration: 'none' }}>
           <MenuItem>지도</MenuItem>
         </Link>
-        <MenuItem>마이페이지</MenuItem>
+        <Link to="/mypage" style={{ textDecoration: 'none' }}>
+          <MenuItem>마이페이지</MenuItem>
+        </Link>
       </MenuList>
       <AuthList>
-        <Link to="/login" style={{textDecoration: 'none'}}>
+        <Link to="/login" style={{ textDecoration: 'none' }}>
           <AuthItem>로그인</AuthItem>
         </Link>
         <AuthItem>회원가입</AuthItem>
