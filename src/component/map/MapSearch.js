@@ -61,7 +61,7 @@ const Button = styled.button`
 
 const Menu = styled.div`
   position: relative;
-  width: 370px;
+  width: 400px;
   background: #ffffff;
   top: 5%;
   height: 95%;
@@ -71,7 +71,7 @@ const Menu = styled.div`
 `;
 
 const MenuTop = styled.div`
-  width: 359px;
+  width: 390px;
   height: 30%;
   background: url('https://www.ui4u.go.kr/tour/img/content/img_mountain_pic02.png')
     no-repeat center center;
