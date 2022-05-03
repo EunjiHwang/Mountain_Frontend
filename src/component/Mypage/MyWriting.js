@@ -6,6 +6,47 @@ import Header from '../Header';
 import Footer from '../Footer';
 import { Paging } from '../Paging';
 
+const Div = styled.div`
+    /* 전체 Div 스타일 */
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    width: 100%;
+    height: 77vh; 
+    text-align: left;
+    font-family: 'Segoe UI';
+  `;
+  const WritingDiv = styled.div`
+  /* 내가 작성한 글 Block Div 스타일 */
+  width: 900px; height: 600px;
+  position: absolute;
+  padding: 40px 30px; 
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: left;
+  flex-direction: column;
+  box-shadow: 0px 5px 10px;
+`
+const H3 = styled.h3`
+/* 제목 스타일 */
+font-weight: bold;
+margin-top:15px;
+margin-bottom:15px;
+font-size:25px;
+`;
+
+const Button = styled.button`
+  /* 등록, 목록 버튼 스타일 */
+  margin: 10px;
+  width: 60px;
+  border-radius:10px;
+`;
+
+
 function MyWriting(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -36,34 +77,7 @@ function MyWriting(props) {
   const handleClick = () => {
     navigate('/community/add');
   };
-  const Div = styled.div`
-    /* 전체 Div 스타일 */
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center; 
-    align-items: center;
-    width: 100%;
-    height: 77vh; 
-    text-align: left;
-    font-family: 'Segoe UI';
-  `;
-  const WritingDiv = styled.div`
-  /* 내가 작성한 글 Block Div 스타일 */
-  width: 900px; height: 600px;
-  position: absolute;
-  padding: 40px 30px; 
-  background: white;
-  display: flex;
-  justify-content: center;
-  align-items: left;
-  flex-direction: column;
-  box-shadow: 0px 5px 10px;
-`
-const H3 = styled.h3`
-  font-weight: bold;
-`
+  
 const style={
     backgroundcolor: 'green',
 }
@@ -78,14 +92,14 @@ const style={
             <H3>내가 작성한 글</H3>
           </div>
           <div className="col-2">
-            <button
+            <Button
               className="btn btn-outline-success"
               type="button"
               onClick={handleClick}
               style={{ float: 'right' }}
             >
                 작성
-            </button>
+            </Button>
           </div>
         </div>
           

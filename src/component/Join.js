@@ -21,8 +21,8 @@ const Div = styled.div`
 
 const LoginDiv = styled.div`
   /* 로그인 Block Div 스타일 */
-  width: 300px;
-  height: 350px;
+  width: 320px;
+  height: 400px;
   position: absolute;
   padding: 40px 30px;
   background: white;
@@ -114,6 +114,7 @@ const H2 = styled.h2`
   margin-top: 0px;
   margin-bottom: 20px;
   text-align: left;
+  font-size: 20px;
 `;
 
 function Join(props) {
@@ -162,8 +163,6 @@ function Join(props) {
             alt="mountain url"
           />
           <H3>회원가입</H3>
-          <hr width="100%" />
-          <br />
           <form
             style={{
               display: 'flex',
@@ -171,6 +170,7 @@ function Join(props) {
             }}
             onSubmit={onSubmitHandler}
           >
+            <hr width='100%' />
             <Input type="name" placeholder="이름" />
             <Input
               type="email"

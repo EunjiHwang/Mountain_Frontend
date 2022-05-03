@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
 import { useDispatch, useSelector } from 'react-redux';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
@@ -7,6 +8,29 @@ import { renderMatches, useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
 import { Paging } from '../Paging';
+
+  const Div = styled.div`
+  /* 전체 Div 스타일 */
+  margin: 50px;
+  font-family: 'Segoe UI';
+`;
+
+const H3 = styled.h3`
+  /* 제목 스타일 */
+  font-weight: bold;
+  margin-top:15px;
+  color:#4C8969;
+  font-size:25px;
+`;
+
+const Button = styled.button`
+  /* 등록, 목록 버튼 스타일 */
+  margin: 10px;
+  width: 60px;
+  border-radius:10px;
+`;
+
+
 
 function AddView(props) {
   const navigate = useNavigate();
@@ -25,33 +49,38 @@ function AddView(props) {
   const handleSaveClick = () => {
     console.log('등록');
   };
+  
+
+  
   return (
     <>
       <div>
       <Header />
+      <Div>
+      <div className='container'>
         <div className="row border-bottom border-success border-3">
           <div className="col">
-            <h1 className="form-control-lg gr">게시글 작성하기</h1>
+            <H3>게시글 작성하기</H3>
           </div>
           <div className="col-1" style={{ width: '6%' }}>
-            <button
+            <Button
               className="btn btn-outline-success"
               type="button"
               onClick={handleSaveClick}
               style={{ float: 'right' }}
             >
               등록
-            </button>
+            </Button>
           </div>
-          <div className="col-1" style={{ width: '6%' }}>
-            <button
+          <div className="col-1" style={{ width: '6.5%' }}>
+            <Button
               className="btn btn-outline-success"
               type="button"
               onClick={handleClick}
               style={{ float: 'right' }}
             >
               목록
-            </button>
+            </Button>
           </div>
         </div>
         <div className="row mt-4">
@@ -127,7 +156,10 @@ function AddView(props) {
             />
           </div>
         </div>
-        <Footer />
+        </div>
+        
+      </Div>
+      <Footer />
       </div>
     </>
   );

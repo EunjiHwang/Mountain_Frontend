@@ -1,33 +1,33 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
 import styled from 'styled-components';
+import { forwardRef } from 'react'; 
+
 import Slide from './Slide';
+import useScroll from '../hooks/useScroll';
+
 import img1 from './assets/1.jpg';
 import img2 from './assets/1.jpg';
 import img3 from './assets/1.jpg';
 
-const Wrapper = styled.div`
-  height: 100vh;
-  background-color: transparent;
-`;
 
 const Container = styled.div`
   width: 1000px;
   height: 550px;
-  border: 2px solid #707070;
+  border: 0;
   background-color: rgba(255, 255, 255, 0.7);
   /* opacity: 0.7; */
   border-radius: 20px;
   display: flex;
   margin: auto;
   margin-top: 500px;
+  margin-bottom: 180px;
 `;
 
 const Image = styled.div`
   width: 430px;
   height: 350px;
   border-radius: 10px;
-  margin: 100px 0 0 90px;
+  margin: 100px 0 0 20px;
   display: flex;
   justify-content: center;
   overflow: hidden; // 선을 넘어간 이미지들은 숨겨줍니다.
@@ -101,9 +101,31 @@ const UnderBar = styled.div`
   margin: 5px 5px;
 `;
 
+const PrevBtn = styled.button`
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border: 0px;
+  margin: 240px 0 0 20px;
+`;
+
+const NextBtn = styled.button`
+  width: 50px;
+  height: 50px;
+  background: transparent;
+  border: 0px;
+  margin: 240px 0 0 20px;
+`; 
+
 const TOTAL_SLIDES = 2; 
 
-function MainSlider() {
+const MainSlider = forwardRef((props, ref) => {
+
+  const AnimationArray = [
+    { id: 1, animation: useScroll('up', 2, 0) },
+  ];
+
+
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
 
@@ -135,8 +157,9 @@ function MainSlider() {
   }, [currentSlide]);
 
   return (
-    <Wrapper>
-      <Container>
+    <div ref={ref} id='slide'>
+      <Container {...AnimationArray[0].animation}>
+        <PrevBtn onClick={PrevSlide}>이전</PrevBtn>
         <Image>
           <SliderContainer ref={slideRef}>
             <Slide img={img1} />
@@ -152,14 +175,15 @@ function MainSlider() {
           </TitleContainer>
           <ReviewContainer>
             <ReviewTitle>Review</ReviewTitle>
-            <MoreBtn>더 알아보기 ></MoreBtn>
+            <MoreBtn>더 알아보기 &gt;</MoreBtn>
             <UnderBar />
           </ReviewContainer>
         </ContentContainer>
+        <NextBtn onClick={NextSlide}>다음</NextBtn>
       </Container>
-    </Wrapper>  
+    </div>
   );
-}
+});
 
 
 export default MainSlider;

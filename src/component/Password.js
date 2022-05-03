@@ -21,7 +21,7 @@ const Div = styled.div`
 
 const LoginDiv = styled.div`
   /* 로그인 Block Div 스타일 */
-  width: 300px; height: 350px;
+  width: 320px; height: 400px;
   position: absolute;
   padding: 40px 30px; 
   background: white;
@@ -66,12 +66,14 @@ function Password(props) {
     <Header />
     <Div>
       <LoginDiv>
+      <br/><br/>
       <img style={{width:"30px"}}src = {process.env.PUBLIC_URL + '/img/mountain.png'} alt = "mountain url" />
-        <H3>비밀번호 찾기</H3><hr width="100%" /><br />
+        <H3>비밀번호 찾기</H3>
         <form style={{
         display: 'flex', flexDirection: 'column'}}
         onSubmit={onSubmitHandler}
         >
+        <hr width='100%' />
         <Input type="name" placeholder="이름" />
         <Input type="email" value={Email} onChange={onEmailHandler} placeholder="이메일" />
         <Input type="password" value={Password} onChange={onPasswordHandler} placeholder="새로운 비밀번호 8자리 이상" />
