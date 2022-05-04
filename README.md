@@ -18,6 +18,8 @@
 ## ✨ Start Project
 
 ```bash
+yarn install 
+
 yarn start
 
 # yarn start 실행 후
