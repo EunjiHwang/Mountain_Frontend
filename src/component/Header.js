@@ -42,12 +42,13 @@ const MenuItem = styled.div`
 `;
 
 const AuthList = styled.div`
-  width: 500px;
+  width: 300px;
   height: 40px;
-  margin: 25px 0 0 100px;
   display: flex;
   justify-content: flex-end;
-  align-items: flex-end;
+  margin-left: auto;
+  margin-top: 40px;
+  margin-right: 30px;
 `;
 
 const AuthItem = styled.div`
