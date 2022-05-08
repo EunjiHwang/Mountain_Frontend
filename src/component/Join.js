@@ -1,9 +1,11 @@
 import React, { useState } from 'react';
+import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
 import Input from './memberStyled/Input';
 import Button from './memberStyled/Button';
 import Header from './Header';
 import Footer from './Footer';
+import Axios from 'axios';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -118,26 +120,66 @@ const H2 = styled.h2`
 `;
 
 function Join(props) {
+  const dispatch = useDispatch();
+
   const [showTerms, setShowTerms] = useState(false);
   const [agreeTerms, setAgreeTerms] = useState(false);
 
-  const [Email, setEmail] = useState('');
-  const [Password, setPassword] = useState('');
+  const [Email, setEmail] = React.useState("");
+  const [Password, setPassword] = React.useState("");
+  const [Name, setName] = React.useState("")
+  const [ConfirmPassword, setConfirmPassword] = React.useState("")
 
   const onEmailHandler = (event) => {
     setEmail(event.currentTarget.value);
   };
+  
+  const onNameHandler = (event) => {
+    setName(event.currentTarget.value)
+  }
 
   const onPasswordHandler = (event) => {
     setPassword(event.currentTarget.value);
   };
 
+  const onConfirmPasswordHandler = (event) => {
+    setConfirmPassword(event.currentTarget.value)
+  }
+
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    console.log('Email', Email);
-    console.log('Password', Password);
-  };
+    //console.log('Email', Email);
+    //console.log('Password', Password);
+    
+    //비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
+    if(Password !== ConfirmPassword){
+      return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
+    }
 
+    // 동의 체크
+    if(Password !== ConfirmPassword){
+      return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
+    }
+
+  // 회원가입 Request Data
+  let body={
+    email: Email,
+    password: Password,
+    name: Name
+    }
+
+  // 회원가입 요청
+  Axios.post('/api/users/register', body)        //서버에 리퀘스트 날리고 
+  .then(function (response) {
+    // response  
+    props.history.push('/login')
+  }).catch(function (error) {
+    // 오류발생시 실행
+    alert('회원가입에 실패했습니다.')
+  }).then(function() {
+    // 항상 실행  
+  });
+}
   const openTerms = (event) => {
     // 팝업창 안에 동의 버튼
     if (event.target.name === 'termsCheck') {
@@ -171,7 +213,12 @@ function Join(props) {
             onSubmit={onSubmitHandler}
           >
             <hr width='100%' />
-            <Input type="name" placeholder="이름" />
+            <Input 
+              type="name"
+              value={Name}
+              onChange={onNameHandler}
+              placeholder="이름"
+            />
             <Input
               type="email"
               value={Email}
@@ -186,8 +233,8 @@ function Join(props) {
             />
             <Input
               type="password"
-              value={Password}
-              onChange={onPasswordHandler}
+              value={ConfirmPassword}
+              onChange={onConfirmPasswordHandler}
               placeholder="비밀번호 확인"
             />
             <div>
