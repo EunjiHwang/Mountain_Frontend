@@ -214,6 +214,74 @@ const Main = forwardRef((props, ref) => {
     }
   }, [isToggled]);
 
+  const isLogin = props.isLogin;
+
+  // 마이페이지나 그런거 버튼 클릭 시 로그인 여부 확인 
+  const authHandle = (e) => {
+    e.preventDefault();
+
+    if (isLogin === false) {
+      // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
+      alert('로그인이 필요한 서비스입니다.');
+      window.location.href = "http://localhost:3000/login";
+    } else {
+      window.location.href = "http://localhost:3000/mypage";
+    }
+  }
+
+  // 게시글 작성 서비스 클릭 시 로그인 여부
+  const contentAddHandle = (e) => {
+    e.preventDefault();
+
+    if (isLogin === false) {
+      // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
+      alert('로그인이 필요한 서비스입니다.');
+      window.location.href = "http://localhost:3000/login";
+    } else {
+      window.location.href = "http://localhost:3000/community/add";
+    }
+  }
+  
+  // 내가 작성한 후기 서비스 로그인 여부
+  const myWritingHandle = (e) => {
+    e.preventDefault();
+
+    if (isLogin === false) {
+      // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
+      alert('로그인이 필요한 서비스입니다.');
+      window.location.href = "http://localhost:3000/login";
+    } else {
+      window.location.href = "http://localhost:3000/mywriting";
+    }
+  }
+
+  // 작성한 후기 보기 서비스 로그인 여부
+  const myReviewHandle = (e) => {
+    e.preventDefault();
+
+    if (isLogin === false) {
+      // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
+      alert('로그인이 필요한 서비스입니다.');
+      window.location.href = "http://localhost:3000/login";
+    } else {
+      window.location.href = "http://localhost:3000/myreview";
+    }
+  }
+
+    // 작성한 댓글 보기 서비스 로그인 여부
+    const myCommentHandle = (e) => {
+      e.preventDefault();
+  
+      if (isLogin === false) {
+        // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
+        alert('로그인이 필요한 서비스입니다.');
+        window.location.href = "http://localhost:3000/login";
+      } else {
+        window.location.href = "http://localhost:3000/mycomment";
+      }
+    }
+
+
   return (
     <Background>
       <LogoContainer>
@@ -234,7 +302,7 @@ const Main = forwardRef((props, ref) => {
               <Link to="/community">
                 <MenuItem>커뮤니티</MenuItem>
               </Link>
-              <Link to="/community/add">
+              <Link to="/community/add" onClick={contentAddHandle}>
                 <SubMenu>● 게시글 작성</SubMenu>
               </Link>
               <Link to="/community">
@@ -243,19 +311,19 @@ const Main = forwardRef((props, ref) => {
               <Link to="/map">
                 <MenuItem>검색</MenuItem>
               </Link>
-              <Link to="/mypage">
+              <Link to="/mypage" onClick={authHandle}>
                 <MenuItem>마이페이지</MenuItem>
               </Link>
-              <Link to="/mypage">
+              <Link to="/mypage" onClick={authHandle}>
                 <SubMenu>● 마이페이지 홈</SubMenu>
               </Link>
-              <Link to="/mywriting">
+              <Link to="/mywriting" onClick={myWritingHandle}>
                 <SubMenu>● 게시글 모아보기</SubMenu>
               </Link>
-              <Link to="myreview">
+              <Link to="/myreview" onClick={myReviewHandle}>
                 <SubMenu>● 후기 모아보기</SubMenu>
               </Link>
-              <Link to="/mycomment">
+              <Link to="/mycomment" onClick={myCommentHandle}>
                 <SubMenu>● 댓글 모아보기</SubMenu>
               </Link>
               <MenuItem>챗봇</MenuItem>
@@ -293,7 +361,7 @@ const Main = forwardRef((props, ref) => {
           </IconWrap>
           <SearchText>검색</SearchText>
         </Link>
-        <Link to="/mypage">
+        <Link to="/mypage" onClick={authHandle}>
           <IconWrap>
             <IconImg src={Mypage} />
           </IconWrap>
