@@ -2,6 +2,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import ReviewItem from './ReviewItem';
 import styled from 'styled-components';
+import React, { useRef, useEffect, useState } from 'react';
 
 import { MdSearch } from 'react-icons/md';
 import { WiDayCloudy } from 'react-icons/wi';
@@ -17,15 +18,18 @@ const MapPage = styled.div`
 
 const MapInput = styled.div`
   position: relative;
-  width: 20%;
+  width: 400px;
+  height: 40px;
   left: 10%;
   top: 7%;
 `;
 
 const Input = styled.input`
   position: absolute;
-  width: 80%;
-  height: 30px;
+  // width: 80%;
+  // height: 30px;
+  width: 350px;
+  height: 40px;
   border: 1px solid #707070;
   font: normal normal normal 16px Segoe UI;
   padding-left: 10px;
@@ -44,8 +48,8 @@ const Map = styled.div`
 const Search = styled.div`
   position: relative;
   top: 6%;
-  left: 9%;
-  z-index: 1;
+  left: 20px;
+  z-index: 100;
 `;
 
 const Button = styled.button`
@@ -55,19 +59,31 @@ const Button = styled.button`
   height: 23px;
   font-size: 1.2em;
   border: none;
-  right: 22%;
-  top: 3px;
+  right: 13%;
+  top: 8px;
 `;
 
 const Menu = styled.div`
+  // visibility: hidden;
+  visibility: ${(props) => props.see || 'hidden'};
   position: relative;
   width: 400px;
   background: #ffffff;
-  top: 5%;
   height: 95%;
   left: 10%;
   border: 5px solid #afafaf;
   z-index: 1;
+
+  // .open {
+  //   visibility: visible;
+  //   position: relative;
+  //   width: 400px;
+  //   background: #ffffff;
+  //   height: 95%;
+  //   left: 10%;
+  //   border: 5px solid #afafaf;
+  //   z-index: 1;
+  }
 `;
 
 const MenuTop = styled.div`
@@ -213,39 +229,57 @@ const MenuInfo = styled.div`
 `;
 
 const MapSearch = () => {
+  const [pos, setPos] = useState('');
+  const [mntname, setMntname] = useState('');
+  const [mntaddress, setMntaddress] = useState('');
+
+  const onSubmit = (e) => {
+    saveLocal();
+  };
+
+  const saveLocal = () => {
+    localStorage.setItem('pos', pos);
+  };
+
+  const onChange = (e) => {
+    setPos(e.target.value);
+  };
+
+  useEffect(() => {
+    const data = localStorage.getItem('pos');
+    if (data) {
+      setPos(data);
+      setMntname(data);
+    }
+  }, []);
+
   return (
     <div>
       <Header />
-      <MapPage id="mapPage">
+      <MapPage id="mapPage" className="map_wrap">
+        <Map id="map" />
         <MapInput>
           <Search className="search">
-            <Input
-              type="text"
-              id="keyword"
-              placeholder="장소명을 검색하세요."
-              autoComplete="off"
-            />
-
-            <Button type="submit">
-              <MdSearch />
-            </Button>
-          </Search>
-        </MapInput>
-        <Map id="map" />
-
-        <Menu id="menu">
-          <MenuTop id="menuTop">
-            <Search className="search">
+            <form onSubmit={onSubmit}>
               <Input
                 type="text"
                 id="keyword"
                 placeholder="장소명을 검색하세요."
                 autoComplete="off"
+                value={pos}
+                onChange={onChange}
               />
+
               <Button type="submit">
                 <MdSearch />
               </Button>
-            </Search>
+            </form>
+          </Search>
+          <ul id="placesList"></ul>
+        </MapInput>
+
+        <Menu id="menu" see="hidden">
+          <MenuTop id="menuTop">
             <SunInfo>
               <WiDayCloudy className="weather" />
               <span className="time">
@@ -257,14 +291,14 @@ const MapSearch = () => {
 
           <MenuInfo>
             <div className="title">
-              <span className="mTitle">도봉산</span>
+              <span className="mTitle" id="mName">
+                {/* {mntname} */}
+              </span>
               <span className="mTag">#계곡 #서울특별시</span>
               <button className="mLikebtn">
                 <FiHeart className="mLike" />
               </button>
-              <div className="mContent" id="mPos">
-                서울 도봉구 도봉동
-              </div>
+              <div className="mContent" id="mPos"></div>
             </div>
             <div className="line-out">
               <div className="line" />

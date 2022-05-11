@@ -167,7 +167,7 @@ const UserMap = styled.div`
 const UserFunction = styled.div`
   float: right;
   // width: 500px;
-  width: 33%;
+  width: 27%;
   height: 80%;
   // border: 1px solid black;
   padding-top: 3%;
@@ -223,12 +223,12 @@ function Mypage() {
       level: 14, // 지도의 확대 레벨
     });
 
-    // // 마커 클러스터러를 생성합니다
-    // var clusterer = new kakao.maps.MarkerClusterer({
-    //   map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
-    //   averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-    //   minLevel: 10, // 클러스터 할 최소 지도 레벨
-    // });
+    // 마커 클러스터러를 생성합니다
+    var clusterer = new kakao.maps.MarkerClusterer({
+      map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
+      averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
+      minLevel: 10, // 클러스터 할 최소 지도 레벨
+    });
 
     // // 데이터를 가져오기 위해 jQuery를 사용합니다
     // // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
@@ -291,21 +291,21 @@ function Mypage() {
         <UserMap id="map">{/* <MountainInfo /> */}</UserMap>
 
         <UserFunction>
-          <Link to="/map">
+          <Link to="/myWriting">
             <MyPost>
               <MdMessage className="img" />
               내가 작성한 글
               <MdChevronRight className="icon" />
             </MyPost>
           </Link>
-          <Link to="/map">
+          <Link to="/myComment">
             <MyPost>
               <MdSpeakerNotes className="img" />
               내가 작성한 댓글
               <MdChevronRight className="icon" />
             </MyPost>
           </Link>
-          <Link to="/map">
+          <Link to="/myreview">
             <MyPost>
               <GoComment className="img" />
               내가 작성한 후기
