@@ -291,14 +291,14 @@ function Mypage() {
         <UserMap id="map">{/* <MountainInfo /> */}</UserMap>
 
         <UserFunction>
-          <Link to="/myWriting">
+          <Link to="/mywriting">
             <MyPost>
               <MdMessage className="img" />
               내가 작성한 글
               <MdChevronRight className="icon" />
             </MyPost>
           </Link>
-          <Link to="/myComment">
+          <Link to="/mycomment">
             <MyPost>
               <MdSpeakerNotes className="img" />
               내가 작성한 댓글
