@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
-import Input from './memberStyled/Input';
 import Button from './memberStyled/Button';
 import Header from './Header';
 import Footer from './Footer';
@@ -21,10 +20,10 @@ const Div = styled.div`
   font-family: 'Segoe UI';
 `;
 
-const LoginDiv = styled.div`
+const JoinDiv = styled.div`
   /* 로그인 Block Div 스타일 */
-  width: 320px;
-  height: 400px;
+  width: 420px;
+  height: 500px;
   position: absolute;
   padding: 40px 30px;
   background: white;
@@ -32,22 +31,27 @@ const LoginDiv = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  box-shadow: 0px 5px 10px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
 `;
 
 const H3 = styled.h3`
   font-weight: bold;
   margin-top: 2px;
   margin-bottom: 5px;
+  font-size: 20px;
 `;
+
 const Span = styled.span`
-  font-size: 2px;
+  font-size: 8px;
   float: left;
+  margin-top: 10px;
 `;
 
 const Label = styled.label`
   font-size: 2px;
   float: right;
+  margin-top: 10px;
 `;
 
 // 팝업
@@ -88,6 +92,7 @@ const ModalInner = styled.div`
   margin: 0 auto;
   padding: 40px 20px;
 `;
+
 const TermsDiv = styled.div`
   width: 100%;
   height: 80%;
@@ -118,6 +123,33 @@ const H2 = styled.h2`
   text-align: left;
   font-size: 20px;
 `;
+
+const InputContainer = styled.input`
+  width: 263px;
+  height: 33px;
+  border-radius: 10px;
+  border: 1px solid #707070;
+  margin: 6px 0;
+  padding: 5px;
+  ::placeholder{
+    font-size: 13px;
+  }
+`;
+
+const JoinBtn = styled.div`
+  width: 263px;
+  height: 33px;
+  background-color: #4c8969;
+  border-radius: 10px;
+  border: 0px;
+  padding-top: 7px;
+  margin-bottom: 20px;
+  color: white;
+  justify-content: center;
+  font-weight: 400;
+  cursor: pointer;
+`;
+
 
 function Join(props) {
   const dispatch = useDispatch();
@@ -197,10 +229,10 @@ function Join(props) {
     <div>
       <Header />
       <Div>
-        <LoginDiv>
+        <JoinDiv>
           <br />
           <img
-            style={{ width: '30px' }}
+            style={{ width: '50px' }}
             src={process.env.PUBLIC_URL + '/img/mountain.png'}
             alt="mountain url"
           />
@@ -213,25 +245,25 @@ function Join(props) {
             onSubmit={onSubmitHandler}
           >
             <hr width='100%' />
-            <Input 
+            <InputContainer 
               type="name"
               value={Name}
               onChange={onNameHandler}
               placeholder="이름"
             />
-            <Input
+            <InputContainer
               type="email"
               value={Email}
               onChange={onEmailHandler}
               placeholder="이메일"
             />
-            <Input
+            <InputContainer
               type="password"
               value={Password}
               onChange={onPasswordHandler}
               placeholder="비밀번호 8자리 이상"
             />
-            <Input
+            <InputContainer
               type="password"
               value={ConfirmPassword}
               onChange={onConfirmPasswordHandler}
@@ -335,10 +367,10 @@ function Join(props) {
               </ModalWrapper>
             </div>
             <br />
-            <Button type="submit">회원가입</Button>
+            <JoinBtn type="submit">회원가입</JoinBtn>
             <br />
           </form>
-        </LoginDiv>
+        </JoinDiv>
       </Div>
       <Footer />
     </div>
