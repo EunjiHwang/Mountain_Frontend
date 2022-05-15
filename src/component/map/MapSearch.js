@@ -9,7 +9,8 @@ import { WiDayCloudy } from 'react-icons/wi';
 // import { BiStar } from 'react-icons/bi'; // 빈 별
 // import { ImStarFull } from 'react-icons/im'; // 꽉찬별
 import { FiHeart } from 'react-icons/fi'; // 빈 하트
-// import { ImHeart } from 'react-icons/im'; // 꽉찬하트
+import { ImHeart } from 'react-icons/im'; // 꽉찬하트
+import { Link } from 'react-router-dom';
 
 const MapPage = styled.div`
   position: relative;
@@ -226,12 +227,17 @@ const MenuInfo = styled.div`
     color: #ea2b2b;
     font: normal normal bold 11px Segoe UI;
   }
+
+  .mLike {
+    color: Red;
+  }
 `;
 
 const MapSearch = () => {
   const [pos, setPos] = useState('');
   const [mntname, setMntname] = useState('');
   const [mntaddress, setMntaddress] = useState('');
+  const [heart, setHeart] = useState(false);
 
   const onSubmit = (e) => {
     saveLocal();
@@ -245,6 +251,10 @@ const MapSearch = () => {
     setPos(e.target.value);
   };
 
+  const clickHeart = () => {
+    setHeart(!heart);
+  };
+
   useEffect(() => {
     const data = localStorage.getItem('pos');
     if (data) {
@@ -256,7 +266,7 @@ const MapSearch = () => {
   return (
     <div>
       <Header />
-      <MapPage id="mapPage" className="map_wrap">
+      <MapPage id="mapPage">
         <Map id="map" />
         <MapInput>
           <Search className="search">
@@ -295,8 +305,12 @@ const MapSearch = () => {
                 {/* {mntname} */}
               </span>
               <span className="mTag">#계곡 #서울특별시</span>
-              <button className="mLikebtn">
-                <FiHeart className="mLike" />
+              <button onClick={clickHeart} className="mLikebtn">
+                {heart ? (
+                  <ImHeart className="mLike" />
+                ) : (
+                  <FiHeart className="mLike" />
+                )}
               </button>
               <div className="mContent" id="mPos"></div>
             </div>
@@ -345,7 +359,9 @@ const MapSearch = () => {
             </div>
             <div className="review">
               <span className="sTitle">후기</span>
-              <button className="cReview">후기작성</button>
+              <Link to="/writereview">
+                <button className="cReview">후기작성</button>
+              </Link>
               <ReviewItem />
               <ReviewItem />
               <ReviewItem />
