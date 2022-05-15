@@ -1,6 +1,6 @@
 /*global kakao */
 import MapSearch from './map/MapSearch';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 
 export default function Map() {
   useEffect(() => {
@@ -91,7 +91,7 @@ export default function Map() {
 
       // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
       ps.keywordSearch(keyword, placesSearchCB);
-      localStorage.removeItem('pos');
+      // localStorage.removeItem('pos');
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -101,6 +101,7 @@ export default function Map() {
         // 검색 목록과 마커를 표출합니다
         const element = document.getElementById('menu');
         element.style.visibility = 'visible';
+
         displayPlaces(data);
       } else if (status === kakao.maps.services.Status.ZERO_RESULT) {
         const element = document.getElementById('menu');
@@ -121,6 +122,7 @@ export default function Map() {
 
       // 마커를 생성하고 지도에 표시합니다
       var placePosition = new kakao.maps.LatLng(places[0].y, places[0].x);
+      console.log('위도: ', places[0].y, ', 경도: ', places[0].x);
 
       // 마커를 생성
       var marker = new kakao.maps.Marker({
@@ -139,6 +141,7 @@ export default function Map() {
 
       // 장소 이름 표시
       if (places[0].address_name) {
+        console.log('이름: ', places[0].place_name);
         var itemStr = '<span>' + places[0].place_name + '</span>';
         const mPos = document.getElementById('mName');
         mPos.innerHTML = itemStr;
@@ -146,6 +149,7 @@ export default function Map() {
 
       // 장소 주소 표시
       if (places[0].address_name) {
+        console.log('주소: ', places[0].address_name);
         var itemStr = '<span>' + places[0].address_name + '</span>';
         const mPos = document.getElementById('mPos');
         mPos.innerHTML = itemStr;

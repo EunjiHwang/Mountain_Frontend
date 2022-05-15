@@ -2,7 +2,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import ReviewItem from './ReviewItem';
 import styled from 'styled-components';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { MdSearch } from 'react-icons/md';
 import { WiDayCloudy } from 'react-icons/wi';
@@ -27,8 +27,6 @@ const MapInput = styled.div`
 
 const Input = styled.input`
   position: absolute;
-  // width: 80%;
-  // height: 30px;
   width: 350px;
   height: 40px;
   border: 1px solid #707070;
@@ -65,7 +63,6 @@ const Button = styled.button`
 `;
 
 const Menu = styled.div`
-  // visibility: hidden;
   visibility: ${(props) => props.see || 'hidden'};
   position: relative;
   width: 400px;
@@ -74,16 +71,6 @@ const Menu = styled.div`
   left: 10%;
   border: 5px solid #afafaf;
   z-index: 1;
-
-  // .open {
-  //   visibility: visible;
-  //   position: relative;
-  //   width: 400px;
-  //   background: #ffffff;
-  //   height: 95%;
-  //   left: 10%;
-  //   border: 5px solid #afafaf;
-  //   z-index: 1;
   }
 `;
 
@@ -101,7 +88,6 @@ const SunInfo = styled.div`
   border-radius: 8px;
   background: #ffffff;
   opacity: 0.89;
-  // top: 170px;
   top: 85%;
   left: 57%;
 
@@ -178,8 +164,8 @@ const MenuInfo = styled.div`
   }
 
   .eResult {
-    float: right;
-    margin-right: 140px;
+    padding-left: 30px;
+    display: inline-block;
   }
 
   .review {
@@ -235,9 +221,17 @@ const MenuInfo = styled.div`
 
 const MapSearch = () => {
   const [pos, setPos] = useState('');
-  const [mntname, setMntname] = useState('');
-  const [mntaddress, setMntaddress] = useState('');
   const [heart, setHeart] = useState(false);
+  const [toiletO, setToiletO] = useState(0);
+  const [toiletX, setToiletX] = useState(0);
+  const [parkingO, setParkingO] = useState(0);
+  const [parkingX, setParkingX] = useState(0);
+  const [drinkO, setDrinkO] = useState(0);
+  const [drinkX, setDrinkX] = useState(0);
+  const [eatO, setEatO] = useState(0);
+  const [eatX, setEatX] = useState(0);
+  const [storeO, setStoreO] = useState(0);
+  const [storeX, setStoreX] = useState(0);
 
   const onSubmit = (e) => {
     saveLocal();
@@ -259,7 +253,6 @@ const MapSearch = () => {
     const data = localStorage.getItem('pos');
     if (data) {
       setPos(data);
-      setMntname(data);
     }
   }, []);
 
@@ -331,26 +324,28 @@ const MapSearch = () => {
                 물, 음료 파는 곳
               </div>
 
-              <div className="eResult">
-                <div>
-                  <span className="eT">O</span> (<span id="e1T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e1F">2</span>)
+              <div>
+                <div className="eResult">
+                  <span className="eT">O</span> (<span>{toiletO}</span>)
+                  <br />
+                  <span className="eT">O</span> (<span>{parkingO}</span>)
+                  <br />
+                  <span className="eT">O</span> (<span>{drinkO}</span>)
+                  <br />
+                  <span className="eT">O</span> (<span>{eatO}</span>)
+                  <br />
+                  <span className="eT">O</span> (<span>{storeO}</span>)
                 </div>
-                <div>
-                  <span className="eT">O</span> (<span id="e2T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e2F">2</span>)
-                </div>
-                <div>
-                  <span className="eT">O</span> (<span id="e3T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e3F">2</span>)
-                </div>
-                <div>
-                  <span className="eT">O</span> (<span id="e4T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e4F">2</span>)
-                </div>
-                <div>
-                  <span className="eT">O</span> (<span id="e5T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e5F">2</span>)
+                <div className="eResult">
+                  <span className="eT">X</span> (<span>{toiletX}</span>)
+                  <br />
+                  <span className="eT">X</span> (<span>{parkingX}</span>)
+                  <br />
+                  <span className="eT">X</span> (<span>{drinkX}</span>)
+                  <br />
+                  <span className="eT">X</span> (<span>{eatX}</span>)
+                  <br />
+                  <span className="eT">X</span> (<span>{storeX}</span>)
                 </div>
               </div>
             </div>
