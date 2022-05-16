@@ -4,7 +4,6 @@ import styled from 'styled-components';
 import Button from './memberStyled/Button';
 import Header from './Header';
 import Footer from './Footer';
-import Axios from 'axios';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -136,26 +135,11 @@ const InputContainer = styled.input`
   }
 `;
 
-const JoinBtn = styled.div`
-  width: 263px;
-  height: 33px;
-  background-color: #4c8969;
-  border-radius: 10px;
-  border: 0px;
-  padding-top: 7px;
-  margin-bottom: 20px;
-  color: white;
-  justify-content: center;
-  font-weight: 400;
-  cursor: pointer;
-`;
-
-
 function Join(props) {
   const dispatch = useDispatch();
 
   const [showTerms, setShowTerms] = useState(false);
-  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [outCheck, setOutcheck] = useState(false);
 
   const [Email, setEmail] = React.useState("");
   const [Password, setPassword] = React.useState("");
@@ -183,35 +167,61 @@ function Join(props) {
     //console.log('Email', Email);
     //console.log('Password', Password);
     
+    if(Name.length === 0) {
+      return alert('이름을 입력하세요.')
+    }
+
+    if(Email.length === 0) {
+      return alert('이메일을 입력하세요.')
+    }
+    
     //비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
     if(Password !== ConfirmPassword){
       return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
     }
 
-    // 동의 체크
-    if(Password !== ConfirmPassword){
-      return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
+    // 비밀번호 8자리 이상
+    if(Password.length < 8){
+      return alert('비밀번호는 8자리 이상이어야 합니다.')
     }
 
-  // 회원가입 Request Data
-  let body={
-    email: Email,
-    password: Password,
-    name: Name
+    if (!outCheck) {
+      return alert('개인정보 수집 동의 체크가 필요합니다.');
     }
 
-  // 회원가입 요청
-  Axios.post('/api/users/register', body)        //서버에 리퀘스트 날리고 
-  .then(function (response) {
-    // response  
-    props.history.push('/login')
-  }).catch(function (error) {
-    // 오류발생시 실행
-    alert('회원가입에 실패했습니다.')
-  }).then(function() {
-    // 항상 실행  
-  });
+    // 회원가입 Request Data
+    let body={
+      email: Email,
+      password: Password,
+      name: Name
+    }
+
+    if (body) {
+      fetch('/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          {
+            email: Email,
+            password: Password,
+            name: Name
+          }
+        ),
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log("res :::", res);
+        if(res.success === true) {
+          alert('회원가입 되었습니다.');
+         window.location.href = '/login';
+        } else {
+          alert('회원가입에 실패했습니다.');
+        }
+      });
+    }
 }
+
+
   const openTerms = (event) => {
     // 팝업창 안에 동의 버튼
     if (event.target.name === 'termsCheck') {
@@ -222,6 +232,7 @@ function Join(props) {
       if (event.target.checked === true) {
         setShowTerms(!showTerms); // 팝업창 호출
       }
+      setOutcheck(event.target.checked);  // 개인정보 수집 동의 체크버튼
     }
   };
 
@@ -272,7 +283,7 @@ function Join(props) {
             <div>
               <Span>º 개인정보 수집에 동의하시나요?</Span>
               <Label>
-                <input type="checkbox" onChange={openTerms} />
+                <input type="checkbox" onChange={openTerms} name="outCheck" />
                 동의
               </Label>
 
@@ -367,7 +378,7 @@ function Join(props) {
               </ModalWrapper>
             </div>
             <br />
-            <JoinBtn type="submit">회원가입</JoinBtn>
+            <Button type="submit">회원가입</Button>
             <br />
           </form>
         </JoinDiv>
