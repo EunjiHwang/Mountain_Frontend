@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
-import Input from './memberStyled/Input';
 import Button from './memberStyled/Button';
 import Header from './Header';
 import Footer from './Footer';
-import Axios from 'axios';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -21,10 +19,10 @@ const Div = styled.div`
   font-family: 'Segoe UI';
 `;
 
-const LoginDiv = styled.div`
+const JoinDiv = styled.div`
   /* 로그인 Block Div 스타일 */
-  width: 320px;
-  height: 400px;
+  width: 420px;
+  height: 500px;
   position: absolute;
   padding: 40px 30px;
   background: white;
@@ -32,22 +30,27 @@ const LoginDiv = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  box-shadow: 0px 5px 10px;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 5px;
 `;
 
 const H3 = styled.h3`
   font-weight: bold;
   margin-top: 2px;
   margin-bottom: 5px;
+  font-size: 20px;
 `;
+
 const Span = styled.span`
-  font-size: 2px;
+  font-size: 8px;
   float: left;
+  margin-top: 10px;
 `;
 
 const Label = styled.label`
   font-size: 2px;
   float: right;
+  margin-top: 10px;
 `;
 
 // 팝업
@@ -88,6 +91,7 @@ const ModalInner = styled.div`
   margin: 0 auto;
   padding: 40px 20px;
 `;
+
 const TermsDiv = styled.div`
   width: 100%;
   height: 80%;
@@ -119,11 +123,23 @@ const H2 = styled.h2`
   font-size: 20px;
 `;
 
+const InputContainer = styled.input`
+  width: 263px;
+  height: 33px;
+  border-radius: 10px;
+  border: 1px solid #707070;
+  margin: 6px 0;
+  padding: 5px;
+  ::placeholder{
+    font-size: 13px;
+  }
+`;
+
 function Join(props) {
   const dispatch = useDispatch();
 
   const [showTerms, setShowTerms] = useState(false);
-  const [agreeTerms, setAgreeTerms] = useState(false);
+  const [outCheck, setOutcheck] = useState(false);
 
   const [Email, setEmail] = React.useState("");
   const [Password, setPassword] = React.useState("");
@@ -151,35 +167,61 @@ function Join(props) {
     //console.log('Email', Email);
     //console.log('Password', Password);
     
+    if(Name.length === 0) {
+      return alert('이름을 입력하세요.')
+    }
+
+    if(Email.length === 0) {
+      return alert('이메일을 입력하세요.')
+    }
+    
     //비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
     if(Password !== ConfirmPassword){
       return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
     }
 
-    // 동의 체크
-    if(Password !== ConfirmPassword){
-      return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
+    // 비밀번호 8자리 이상
+    if(Password.length < 8){
+      return alert('비밀번호는 8자리 이상이어야 합니다.')
     }
 
-  // 회원가입 Request Data
-  let body={
-    email: Email,
-    password: Password,
-    name: Name
+    if (!outCheck) {
+      return alert('개인정보 수집 동의 체크가 필요합니다.');
     }
 
-  // 회원가입 요청
-  Axios.post('/api/users/register', body)        //서버에 리퀘스트 날리고 
-  .then(function (response) {
-    // response  
-    props.history.push('/login')
-  }).catch(function (error) {
-    // 오류발생시 실행
-    alert('회원가입에 실패했습니다.')
-  }).then(function() {
-    // 항상 실행  
-  });
+    // 회원가입 Request Data
+    let body={
+      email: Email,
+      password: Password,
+      name: Name
+    }
+
+    if (body) {
+      fetch('/api/users/register', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(
+          {
+            email: Email,
+            password: Password,
+            name: Name
+          }
+        ),
+      })
+      .then(res => res.json())
+      .then(res => {
+        console.log("res :::", res);
+        if(res.success === true) {
+          alert('회원가입 되었습니다.');
+         window.location.href = '/login';
+        } else {
+          alert('회원가입에 실패했습니다.');
+        }
+      });
+    }
 }
+
+
   const openTerms = (event) => {
     // 팝업창 안에 동의 버튼
     if (event.target.name === 'termsCheck') {
@@ -190,6 +232,7 @@ function Join(props) {
       if (event.target.checked === true) {
         setShowTerms(!showTerms); // 팝업창 호출
       }
+      setOutcheck(event.target.checked);  // 개인정보 수집 동의 체크버튼
     }
   };
 
@@ -197,10 +240,10 @@ function Join(props) {
     <div>
       <Header />
       <Div>
-        <LoginDiv>
+        <JoinDiv>
           <br />
           <img
-            style={{ width: '30px' }}
+            style={{ width: '50px' }}
             src={process.env.PUBLIC_URL + '/img/mountain.png'}
             alt="mountain url"
           />
@@ -213,25 +256,25 @@ function Join(props) {
             onSubmit={onSubmitHandler}
           >
             <hr width='100%' />
-            <Input 
+            <InputContainer 
               type="name"
               value={Name}
               onChange={onNameHandler}
               placeholder="이름"
             />
-            <Input
+            <InputContainer
               type="email"
               value={Email}
               onChange={onEmailHandler}
               placeholder="이메일"
             />
-            <Input
+            <InputContainer
               type="password"
               value={Password}
               onChange={onPasswordHandler}
               placeholder="비밀번호 8자리 이상"
             />
-            <Input
+            <InputContainer
               type="password"
               value={ConfirmPassword}
               onChange={onConfirmPasswordHandler}
@@ -240,7 +283,7 @@ function Join(props) {
             <div>
               <Span>º 개인정보 수집에 동의하시나요?</Span>
               <Label>
-                <input type="checkbox" onChange={openTerms} />
+                <input type="checkbox" onChange={openTerms} name="outCheck" />
                 동의
               </Label>
 
@@ -338,7 +381,7 @@ function Join(props) {
             <Button type="submit">회원가입</Button>
             <br />
           </form>
-        </LoginDiv>
+        </JoinDiv>
       </Div>
       <Footer />
     </div>
