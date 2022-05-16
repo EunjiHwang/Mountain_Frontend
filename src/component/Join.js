@@ -164,9 +164,7 @@ function Join(props) {
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-    //console.log('Email', Email);
-    //console.log('Password', Password);
-    
+     
     if(Name.length === 0) {
       return alert('이름을 입력하세요.')
     }
@@ -200,13 +198,11 @@ function Join(props) {
       fetch('/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(
-          {
+        body: JSON.stringify({
             email: Email,
             password: Password,
             name: Name
-          }
-        ),
+          }),
       })
       .then(res => res.json())
       .then(res => {
