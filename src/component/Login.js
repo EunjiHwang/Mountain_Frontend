@@ -1,10 +1,9 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import Button from './memberStyled/Button';
 import Header from './Header';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -49,20 +48,6 @@ const H3 = styled.p`
   font-size: 20px;
 `;
 
-const LoginBtn = styled.div`
-  width: 263px;
-  height: 33px;
-  background-color: #4c8969;
-  border-radius: 10px;
-  border: 0px;
-  padding-top: 7px;
-  margin: 10px 0 15px 0;
-  color: white;
-  justify-content: center;
-  font-weight: 400;
-  cursor: pointer;
-`;
-
 const InputContainer = styled.input`
   width: 263px;
   height: 33px;
@@ -91,36 +76,33 @@ function Login(props) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    axios
-      .post('54.208.255.25:8080/api/users/login/', {
-        params: {
-          email: Email,
-          password: Password,
-        },
-      })
-      .then((res) => {
-        console.error(res.error);
-        if (res.loginSuccess === false) {
-          // 이메일이 일치하지 않는 경우
-          alert('입력하신 이메일로 가입 정보가 존재하지 않습니다.');
-        } else if (res.data.email === null) {
-          // 이메일은 있지만 비밀번호가 일치하지 않을 경우
-          alert('비밀번호가 일치하지 않습니다');
-        } else if (res.data.email === Email) {
-          // 정보가 일치할 때 sessionStorage에 이메일 저장
-          sessionStorage.setItem('email', Email);
-        }
-        // 홈으로 이동
-        document.location.href = '/';
-      })
-      .catch((res) => {console.log(res)});
-  };
+    let body={
+      email: Email,
+      password: Password,
+    }
 
-  useEffect(() => {
-    axios.get('54.208.255.25:8080/api/users/login')
-      .then(res => console.log(res))
-    .catch()
-  }, [])
+    if (body) {
+      fetch('/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            email: Email,
+            password: Password,
+          }),
+      })
+      .then((response) => response.json())
+      .then((result) => {
+        if(result.loginSuccess === true) {
+          localStorage.setItem("token", result.token);
+          // 홈으로 이동
+          alert('로그인 되었습니다.');
+          window.location.href = '/';
+        } else {
+          alert('회원가입이나 비밀번호 확인이 필요합니다.');
+        }
+      });
+    }
+  };
 
   return (
     <div>
@@ -154,7 +136,7 @@ function Login(props) {
               onChange={onPasswordHandler}
               placeholder="비밀번호 8자리 이상"
             />
-            <LoginBtn type="submit">로그인</LoginBtn>
+            <Button type="submit">로그인</Button>
             <div>
               <Link to="/password" style={{ textDecoration: 'none' }}>
                 <Span>비밀번호 찾기</Span>
