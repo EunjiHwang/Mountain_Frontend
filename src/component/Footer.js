@@ -9,7 +9,7 @@ const FooterWrapper = styled.div`
   align-items: center;
   z-index: 100;
   background-color: #4c8969;
-  position: absolute;
+  position: fixed;
   bottom: 0;
 `;
 
