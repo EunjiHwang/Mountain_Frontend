@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
-import Button from './memberStyled/Button';
 import Header from './Header';
 import Footer from './Footer';
 import Axios from 'axios';

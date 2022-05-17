@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import Button from './memberStyled/Button';
 import Header from './Header';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
