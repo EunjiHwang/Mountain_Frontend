@@ -9,7 +9,9 @@ import { Paging } from '../Paging';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
-  margin: 50px;
+  margin-top: 50px;
+  margin-bottom:100px;
+  display:flex;
 `;
 
 const H3 = styled.h3`
@@ -31,7 +33,7 @@ function ListView(props) {
   //const items = useSelector((state) => state);
   const [count, setCount] = React.useState(0);
   const [currentpage, setCurrentpage] = React.useState(1); //현재페이지
-  const [postPerPage] = React.useState(10); //페이지당 콘텐츠 개수
+  const [postPerPage] = React.useState(7); //페이지당 콘텐츠 개수
 
   const [indexOfLastPost, setIndexOfLastPost] = React.useState(0);
   const [indexOfFirstPost, setIndexOfFirstPost] = React.useState(0);

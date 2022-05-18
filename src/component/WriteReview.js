@@ -1,6 +1,7 @@
+import { useState, React } from 'react';
 import styled from 'styled-components';
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from './Header';
+import Footer from './Footer';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -8,105 +9,191 @@ const Div = styled.div`
   padding: 0;
   box-sizing: border-box;
   display: flex;
-  justify-content: center; 
+  justify-content: center;
   align-items: center;
   width: 100%;
-  height: 78vh;  
+  height: 78vh;
   text-align: center;
   font-family: 'Segoe UI';
 `;
 
 const IntroDiv = styled.div`
   /* 소개글 Block Div 스타일 */
-  width: 650px; height: 450px;
+  width: 650px;
+  height: 450px;
   position: absolute;
-  padding: 20px 50px; 
   background: white;
-  justify-content: center;
-  align-items: center;
+  display: flex;
   flex-direction: column;
-  box-shadow: 0px 5px 10px;
+  align-items: center;
+  box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+`;
+
+// 타이틀
+const TitleContainer = styled.div`
+  width: 650px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+`;
+
+const ReviewTitle = styled.div`
+  width: 600px;
+  height: 50px;
+  color: #707070;
+  font-weight: 600;
+  font-size: 22px;
   text-align: left;
-  font-weight: bold;
-`
+  margin: 20px 0 0 25px;
+`;
 
-const P = styled.p`
-  font-size: 1rem;
-  font-weight: lighter;
-  float: left;
-  margin-right: 25px;
-`
+const SaveBtn = styled.button`
+  background-color: #4C8969;
+  width: 50px;
+  height: 30px;
+  color: white;
+  border: 0;
+  border-radius: 10px;
+  margin: 15px 30px 0 0;
+`;
 
-const Text = styled.input`
-    border: none;
-    outline: none;
-    font-size: 20px;
-    font-weight: bold;
-    font-family: 'Segoe UI';
-    color: #554646;
-    margin-top: 10px;
-`
+const UnderBar = styled.div`
+  width: 600px;
+  height: 1px;
+  border-bottom: 3px solid #C2C2C2;
+  margin-top: 10px;
+`;
 
-const Save = styled.button`
-    width: 50px;
-    background-color: #4c8969;
-    color: white;
-    border-radius: 10px;
-    padding: 6px;
-    opacity: 1;
-    border: 0;
-    outline: 0;
-    margin-top: 10px;
-    float: right;
-`
+// 총점
+const ScoreContainer = styled.div`
+  width: 250px;
+  height: 40px;
+  display: flex;
+  flex-direction: row;
+  margin: 20px 340px 0 0;
+`;
+
+const ScoreTitle = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+`;
+
+// 별점 필요
+
+// 시설
+
+
+// 코멘트
+const CommentContainer = styled.div`
+  width: 280px;
+  height: 450px;
+  display: flex;
+  flex-direction: column; 
+  margin-left: 260px;
+  margin-top: -35px;
+`;
+
+const CommentTitle = styled.p`
+  color: black;
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 12px 3px;
+  text-align: left;
+`;
 
 const Textarea = styled.textarea`
- height: 250px;
- width: 300px;
- border-radius: 20px;
- resize: none;
-`
-const Radio = styled.input`
-  display: none;
-`
+  height: 230px;
+  width: 300px;
+  border-radius: 20px;
+  resize: none;
+  padding: 10px;
+  border: 1.5px solid #C1C2C5;
+`;
 
-const Label = styled.label`
- padding: 5px 5px 5px 5px;
- border: 1px solid #707070;
- font-size: 0.8rem;
- margin-bottom: 5px;
-`
+const Hashtag = styled.input`
+  height: 60px;
+  width: 300px;
+  border-radius: 10px;
+  resize: none;
+  margin-top: 15px;
+  color: #1B54E3;
+  padding: 2px;
+  border: 1.5px solid #C1C2C5;
+  font-size: 12px;
+  ::placeholder{
+    color: #707070;
+  }
+`;
 
+// 시설 라디오 버튼
+const BtnContainer = styled.div`
+  background-color: transparent;
+  color: #707070;
+  padding: 5px;
+`;
+
+const YesBtn = styled.button`
+  width: 43px;
+  height: 30px;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+  border: 1px solid #707070;
+  border-right: transparent;
+  background: transparent;
+  &:hover{
+    background-color: #E3FFE0;
+  }
+`;
+
+const NoBtn = styled.button`
+  width: 43px;
+  height: 30px;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border: 1px solid #707070;
+  background: transparent;
+  &:hover{
+    background-color: #E3FFE0;
+  }
+`;
 
 function WriteReview(props) {
-  
+
+  // 해시태그 onChange 관리 문자열
+  const [hashtag, setHashtag] = useState('');
+  // 해시태그를 담을 배열
+  const [hashArr, setHashArr] = useState('');
+
   return (
     <div>
-    <Header />
-    <Div>
-      <IntroDiv>
-        <form style={{
-        display: 'flex', flexDirection: 'column'}}
-        >
-        <div><Text type="text" placeholder="후기 작성" /><Save>저장</Save></div>
-        <hr width="100%" /><br />
-        <div style={{marginBottom: '20px'}}><h3 style={{float: 'left'}}>총점</h3><h3 style={{textAlign: 'center'}}>코멘트</h3></div>
-        <div><Textarea style={{float: 'right'}}></Textarea><h3 style={{marginBottom: '1px'}}><br/>시설 여부</h3><br /><P>화장실<br/><br/><br />주차공간<br/><br/><br />음수대<br/><br/><br />먹거리시설<br/><br/><br/>물, 음료 파는 곳</P>
-        <P><Radio type="radio" name="radio" id="opt1" /><Label style={{borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px', marginRight: '-1px'}}><span>YES</span></Label>
-        <Radio type="radio" name="radio" id="opt2" /><Label style={{borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}><span>NO</span></Label>
-        <br /><br /><Radio type="radio" name="radio" id="opt1" /><Label style={{borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px', marginRight: '-1px'}}><span>YES</span></Label>
-        <Radio type="radio" name="radio" id="opt2" /><Label style={{borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}><span>NO</span></Label>
-        <br /><br /><Radio type="radio" name="radio" id="opt1" /><Label style={{borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px', marginRight: '-1px'}}><span>YES</span></Label>
-        <Radio type="radio" name="radio" id="opt2" /><Label style={{borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}><span>NO</span></Label>
-        <br /><br /><Radio type="radio" name="radio" id="opt1" /><Label style={{borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px', marginRight: '-1px'}}><span>YES</span></Label>
-        <Radio type="radio" name="radio" id="opt2" /><Label style={{borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}><span>NO</span></Label>
-        <br /><br /><Radio type="radio" name="radio" id="opt1" /><Label style={{borderTopLeftRadius: '10px', borderBottomLeftRadius: '10px', marginRight: '-1px'}}><span>YES</span></Label>
-        <Radio type="radio" name="radio" id="opt2" /><Label style={{borderTopRightRadius: '10px', borderBottomRightRadius: '10px'}}><span>NO</span></Label></P>
-        </div>
-        </form>
-      </IntroDiv>     
-    </Div>
-    <Footer />
+      <Header />
+      <Div>
+        <IntroDiv>
+          <TitleContainer>
+            <ReviewTitle>후기 작성</ReviewTitle>
+            <SaveBtn>저장</SaveBtn>
+          </TitleContainer>
+          <UnderBar />
+          <ScoreContainer>
+            <ScoreTitle>총점</ScoreTitle>
+          </ScoreContainer>
+          <CommentContainer>
+            <CommentTitle>코멘트</CommentTitle>
+            <Textarea />
+            <Hashtag
+              type="text"
+              // value={hashtag}
+              placeholder="#해시태그"
+            />
+          </CommentContainer>
+          {/* <BtnContainer>
+            <YesBtn>YES</YesBtn>
+            <NoBtn>NO</NoBtn>
+          </BtnContainer> */}
+        </IntroDiv>
+      </Div>
+      <Footer />
     </div>
   );
 }

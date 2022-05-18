@@ -93,24 +93,25 @@ function AddView(props) {
             <div className="row border-bottom border-success border-3">
               <H3 className="col form-control-lg">게시글 작성하기</H3>
               <div className="col form-control-lg d-flex justify-content-end">
-                <button
+                <Button
                   className="btn btn-outline-success "
                   type="button"
                   onClick={handleSaveClick}
                   style={{ marginRight: '1rem' }}
                 >
                   등록
-                </button>
-                <button
+                </Button>
+                <Button
                   className="btn btn-outline-success"
                   type="button"
                   onClick={handleClick}
                   style={{ marginRight: '1rem' }}
                 >
                   목록
-                </button>
+                </Button>
                 <button
                   className="btn btn-outline-success"
+                  style={{ width:'90px', margin:'10px', borderRadius:'10px' }}
                   type="button"
                   onClick={handlePreview}
                 >

@@ -17,6 +17,7 @@ import MyWriting from './component/Mypage/MyWriting';
 import MyComment from './component/Mypage/MyComment';
 import MyReview from './component/Mypage/MyReview';
 import EditMe from './component/EditMe';
+import PasswordNext from './component/PasswordNext';
 
 function App() {
 
@@ -54,6 +55,7 @@ function App() {
         <Route path="/mycomment" element={<MyComment />} />
         <Route path="/myreview" element={<MyReview />} />
         <Route path="/editme" element={<EditMe />} />
+        <Route path="/passwordnext" element={<PasswordNext />} />
       </Routes>
     </div>
   );
