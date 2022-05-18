@@ -69,9 +69,9 @@ const Menu = styled.div`
   background: #ffffff;
   height: 95%;
   left: 10%;
+  // top: 6px;
   border: 5px solid #afafaf;
   z-index: 1;
-  }
 `;
 
 const MenuTop = styled.div`
@@ -221,6 +221,8 @@ const MenuInfo = styled.div`
 
 const MapSearch = () => {
   const [pos, setPos] = useState('');
+  const [hashtag, setHashtag] = useState('');
+
   const [heart, setHeart] = useState(false);
   const [toiletO, setToiletO] = useState(0);
   const [toiletX, setToiletX] = useState(0);
@@ -232,6 +234,58 @@ const MapSearch = () => {
   const [eatX, setEatX] = useState(0);
   const [storeO, setStoreO] = useState(0);
   const [storeX, setStoreX] = useState(0);
+
+  const [review, setReview] = useState([]);
+
+  if (pos) {
+    fetch('/api/map/' + pos, {
+      method: 'GET',
+      async: false,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setToiletO(data.mountain.facility[0].t);
+        setToiletX(data.mountain.facility[0].f);
+        setParkingO(data.mountain.facility[1].t);
+        setParkingX(data.mountain.facility[1].t);
+        setDrinkO(data.mountain.facility[2].t);
+        setDrinkX(data.mountain.facility[2].t);
+        setEatO(data.mountain.facility[3].t);
+        setEatX(data.mountain.facility[3].t);
+        setStoreO(data.mountain.facility[4].t);
+        setStoreX(data.mountain.facility[4].t);
+
+        setHashtag(data.mountain.hashtags);
+
+        const initData = data.reviews.map((it) => {
+          return {
+            _id: it._id,
+            writer: it.writer,
+            mountain: it.mountain,
+            rating: it.rating,
+            hashtags: it.hashtags,
+            visited: it.visited,
+            createdAt: it.createdAt,
+            updatedAt: it.updatedAt,
+            comment: it.comment,
+            level: it.level,
+            name: it.name,
+            image: it.image,
+          };
+        });
+        setReview(initData);
+        // console.log(review);
+
+        if (data.reviews.length >= 1) {
+          setHeart(true);
+        }
+      })
+      .then((error) => {
+        console.log(error);
+      });
+  }
 
   const onSubmit = (e) => {
     saveLocal();
@@ -245,9 +299,9 @@ const MapSearch = () => {
     setPos(e.target.value);
   };
 
-  const clickHeart = () => {
-    setHeart(!heart);
-  };
+  // const clickHeart = () => {
+  //   setHeart(!heart);
+  // };
 
   useEffect(() => {
     const data = localStorage.getItem('pos');
@@ -294,11 +348,10 @@ const MapSearch = () => {
 
           <MenuInfo>
             <div className="title">
-              <span className="mTitle" id="mName">
-                {/* {mntname} */}
-              </span>
-              <span className="mTag">#계곡 #서울특별시</span>
-              <button onClick={clickHeart} className="mLikebtn">
+              <span className="mTitle" id="mName"></span>
+              <span className="mTag">{hashtag}</span>
+              {/* <button onClick={clickHeart} className="mLikebtn"> */}
+              <button className="mLikebtn">
                 {heart ? (
                   <ImHeart className="mLike" />
                 ) : (
@@ -357,9 +410,16 @@ const MapSearch = () => {
               <Link to="/writereview">
                 <button className="cReview">후기작성</button>
               </Link>
-              <ReviewItem />
-              <ReviewItem />
-              <ReviewItem />
+              {review.map((reviews) => (
+                <ReviewItem
+                  name={reviews.name}
+                  level={reviews.level}
+                  date={reviews.updatedAt.slice(0, 10)}
+                  visit={reviews.visited}
+                  comment={reviews.comment}
+                  rating={reviews.rating}
+                />
+              ))}
             </div>
           </MenuInfo>
         </Menu>
