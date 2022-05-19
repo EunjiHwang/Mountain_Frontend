@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import {useDispatch} from 'react-redux';
+import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
@@ -129,9 +129,18 @@ const InputContainer = styled.input`
   border: 1px solid #707070;
   margin: 6px 0;
   padding: 5px;
-  ::placeholder{
+  ::placeholder {
     font-size: 13px;
   }
+`;
+
+const Button = styled.button`
+  width: 263px;
+  height: 33px;
+  background: #4c8969;
+  border-radius: 20px;
+  color: white;
+  border: none;
 `;
 
 function Join(props) {
@@ -140,46 +149,46 @@ function Join(props) {
   const [showTerms, setShowTerms] = useState(false);
   const [outCheck, setOutcheck] = useState(false);
 
-  const [Email, setEmail] = React.useState("");
-  const [Password, setPassword] = React.useState("");
-  const [Name, setName] = React.useState("")
-  const [ConfirmPassword, setConfirmPassword] = React.useState("")
+  const [Email, setEmail] = React.useState('');
+  const [Password, setPassword] = React.useState('');
+  const [Name, setName] = React.useState('');
+  const [ConfirmPassword, setConfirmPassword] = React.useState('');
 
   const onEmailHandler = (event) => {
     setEmail(event.currentTarget.value);
   };
-  
+
   const onNameHandler = (event) => {
-    setName(event.currentTarget.value)
-  }
+    setName(event.currentTarget.value);
+  };
 
   const onPasswordHandler = (event) => {
     setPassword(event.currentTarget.value);
   };
 
   const onConfirmPasswordHandler = (event) => {
-    setConfirmPassword(event.currentTarget.value)
-  }
+    setConfirmPassword(event.currentTarget.value);
+  };
 
   const onSubmitHandler = (event) => {
     event.preventDefault();
-     
-    if(Name.length === 0) {
-      return alert('이름을 입력하세요.')
+
+    if (Name.length === 0) {
+      return alert('이름을 입력하세요.');
     }
 
-    if(Email.length === 0) {
-      return alert('이메일을 입력하세요.')
+    if (Email.length === 0) {
+      return alert('이메일을 입력하세요.');
     }
-    
+
     //비밀번호와 비밀번호 확인 같을때 회원가입 되게 함
-    if(Password !== ConfirmPassword){
-      return alert('비밀번호와 비밀번호 확인은 같아야 합니다.')
+    if (Password !== ConfirmPassword) {
+      return alert('비밀번호와 비밀번호 확인은 같아야 합니다.');
     }
 
     // 비밀번호 8자리 이상
-    if(Password.length < 8){
-      return alert('비밀번호는 8자리 이상이어야 합니다.')
+    if (Password.length < 8) {
+      return alert('비밀번호는 8자리 이상이어야 합니다.');
     }
 
     if (!outCheck) {
@@ -187,35 +196,34 @@ function Join(props) {
     }
 
     // 회원가입 Request Data
-    let body={
+    let body = {
       email: Email,
       password: Password,
-      name: Name
-    }
+      name: Name,
+    };
 
     if (body) {
       fetch('/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            email: Email,
-            password: Password,
-            name: Name
-          }),
+          email: Email,
+          password: Password,
+          name: Name,
+        }),
       })
-      .then(res => res.json())
-      .then(res => {
-        console.log("res :::", res);
-        if(res.success === true) {
-          alert('회원가입 되었습니다.');
-         window.location.href = '/login';
-        } else {
-          alert('회원가입에 실패했습니다.');
-        }
-      });
+        .then((res) => res.json())
+        .then((res) => {
+          console.log('res :::', res);
+          if (res.success === true) {
+            alert('회원가입 되었습니다.');
+            window.location.href = '/login';
+          } else {
+            alert('회원가입에 실패했습니다.');
+          }
+        });
     }
-}
-
+  };
 
   const openTerms = (event) => {
     // 팝업창 안에 동의 버튼
@@ -227,7 +235,7 @@ function Join(props) {
       if (event.target.checked === true) {
         setShowTerms(!showTerms); // 팝업창 호출
       }
-      setOutcheck(event.target.checked);  // 개인정보 수집 동의 체크버튼
+      setOutcheck(event.target.checked); // 개인정보 수집 동의 체크버튼
     }
   };
 
@@ -250,8 +258,8 @@ function Join(props) {
             }}
             onSubmit={onSubmitHandler}
           >
-            <hr width='100%' />
-            <InputContainer 
+            <hr width="100%" />
+            <InputContainer
               type="name"
               value={Name}
               onChange={onNameHandler}
@@ -374,6 +382,7 @@ function Join(props) {
             </div>
             <br />
             <Button type="submit">회원가입</Button>
+            {/* <button type="submit">회원가입</button> */}
             <br />
           </form>
         </JoinDiv>
