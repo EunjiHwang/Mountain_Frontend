@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
+import Button from './memberStyled/Button';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -57,15 +58,6 @@ const InputContainer = styled.input`
   ::placeholder {
     font-size: 13px;
   }
-`;
-
-const Button = styled.button`
-  width: 263px;
-  height: 33px;
-  background: #4c8969;
-  border-radius: 20px;
-  color: white;
-  border: none;
 `;
 
 function Login(props) {
