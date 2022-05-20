@@ -18,6 +18,7 @@ import MyComment from './component/Mypage/MyComment';
 import MyReview from './component/Mypage/MyReview';
 import EditMe from './component/EditMe';
 import PasswordNext from './component/PasswordNext';
+import Chatbot from './component/Chatbot';
 
 function App() {
 
@@ -37,6 +38,7 @@ function App() {
   return (
     <div>
       <GlobalStyle />
+      <Chatbot />
       <Routes>
         <Route path="/" element={<Main isLogin={isLogin} />} exact={true} />
         <Route path="/intro" element={<Intro />} />
