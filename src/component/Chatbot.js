@@ -55,6 +55,7 @@ const IconWrap = styled.div`
   position: fixed;
   right: 15px;
   bottom: 15px;
+  cursor: pointer;
   z-index: 3;
 `;
 
@@ -84,7 +85,7 @@ function Chatbot() {
     }
     // 2. 챗봇이 보낸 메시지를 처리
     // request 보내기
-    
+
   }
 
   const onKeyHandler = (e) => {

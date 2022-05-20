@@ -3,11 +3,11 @@ import styled from 'styled-components';
 import MainSlider from './MainSlider';
 import { Link } from 'react-router-dom';
 
-import Chatbot from './assets/chatbot.png';
 import Community from './assets/community.png';
 import Intro from './assets/intro.png';
 import Mypage from './assets/mypage.png';
 import Search from './assets/search.png';
+import Chatbot from './Chatbot';
 
 const Background = styled.div`
   position: absolute;
@@ -103,12 +103,6 @@ const MypageText = styled.div`
   margin: 10px 0 0 18px;
 `;
 
-const ChatText = styled.div`
-  font-size: 16px;
-  color: white;
-  font-weight: 600;
-  margin: 10px 0 0 40px;
-`;
 
 const ToggleMenu = styled.div`
   display: block;
@@ -367,13 +361,8 @@ const Main = forwardRef((props, ref) => {
           </IconWrap>
           <MypageText>마이페이지</MypageText>
         </Link>
-        <Link to="/">
-          <IconWrap>
-            <IconImg src={Chatbot} />
-          </IconWrap>
-          <ChatText>챗봇</ChatText>
-        </Link>
       </MenuTap>
+      <Chatbot />
       <MainSlider />
     </Background>
   );
