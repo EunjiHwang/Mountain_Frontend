@@ -20,7 +20,7 @@ const ChatContainer = styled.div`
   background-color: white;
   right: 50px;
   bottom: 50px;
-  border: 3px solid #d8ffce;
+  border: 3px solid #A0E991;
   border-radius: 10px;
 `;
 
@@ -50,7 +50,7 @@ const IconWrap = styled.div`
   height: 75px;
   border-radius: 30px;
   display: flex;
-  background-color: #d8ffce;
+  background-color: #A0E991;
   border: 1px solid white;
   position: fixed;
   right: 15px;
