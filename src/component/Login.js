@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 import { Link } from 'react-router-dom';
+import Button from './memberStyled/Button';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -54,7 +55,7 @@ const InputContainer = styled.input`
   border: 1px solid #707070;
   margin: 5px 0;
   padding: 5px;
-  ::placeholder{
+  ::placeholder {
     font-size: 13px;
   }
 `;
@@ -75,31 +76,31 @@ function Login(props) {
   const onSubmitHandler = (event) => {
     event.preventDefault();
 
-    let body={
+    let body = {
       email: Email,
       password: Password,
-    }
+    };
 
     if (body) {
       fetch('/api/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-            email: Email,
-            password: Password,
-          }),
+          email: Email,
+          password: Password,
+        }),
       })
-      .then((response) => response.json())
-      .then((result) => {
-        if(result.loginSuccess === true) {
-          localStorage.setItem("token", result.token);
-          // 홈으로 이동
-          alert('로그인 되었습니다.');
-          window.location.href = '/';
-        } else {
-          alert('회원가입이나 비밀번호 확인이 필요합니다.');
-        }
-      });
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.loginSuccess === true) {
+            localStorage.setItem('token', result.token);
+            // 홈으로 이동
+            alert('로그인 되었습니다.');
+            window.location.href = '/';
+          } else {
+            alert('회원가입이나 비밀번호 확인이 필요합니다.');
+          }
+        });
     }
   };
 

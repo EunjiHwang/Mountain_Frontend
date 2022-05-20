@@ -1,7 +1,15 @@
 import styled from 'styled-components';
+import React, { useState } from 'react';
 import { BsStarFill } from 'react-icons/bs'; // 꽉찬별
 import { BsStarHalf } from 'react-icons/bs'; // 반별
 import { BsStar } from 'react-icons/bs'; // 빈별
+
+import ZeroStar from './ZeroStar';
+import OneStar from './OneStar';
+import TwoStar from './TwoStar';
+import ThreeStar from './ThreeStar';
+import FourStar from './FourStar';
+import FiveStar from './FiveStar';
 
 const Review = styled.div`
   width: 100%;
@@ -38,27 +46,112 @@ const UserStar = styled.div`
   margin-right: 5px;
 `;
 
-const ReviewItem = () => {
-  return (
-    <Review>
-      <UserImg />
-      <UserName id="userName">박이슬</UserName>
-      <UserfontM id="userLevel">Level. 등린이</UserfontM>
-      <UserStar className="userstar">
-        <BsStarFill id="star1" color="fff500" />
-        <BsStarFill id="star2" color="fff500" />
-        <BsStarFill id="star3" color="fff500" />
-        <BsStarFill id="star4" color="fff500" />
-        <BsStarFill id="star5" color="fff500" />
-      </UserStar>
-      <UserfontS className="reviewdate">4.4월</UserfontS>
-      <UserfontS>&nbsp;º&nbsp;</UserfontS>
-      <UserfontS className="numofvisit">1번째 방문</UserfontS>
-      <UserfontM id="comment">
-        공기도 맑고, 너무 좋았어요!! 근데 여기 등산 입구 찾기가 어려워요ㅠ
-      </UserfontM>
-    </Review>
-  );
-};
+function ReviewItem({ name, level, date, visit, comment, rating }) {
+  if (level === 1) {
+    level = '준비생';
+  } else if (level >= 2 && level <= 5) {
+    level = '등린이';
+  } else if (level >= 6 && level <= 8) {
+    level = '등시생';
+  } else if (level >= 9 && level <= 10) {
+    level = '등산고수';
+  }
+
+  const [item, setItem] = useState('');
+
+  const selectStar = () => {
+    if (rating === 1) {
+      return <OneStar />;
+    } else if (rating === 2) {
+      return <TwoStar />;
+    } else if (rating === 3) {
+      return <ThreeStar />;
+    } else if (rating === 4) {
+      return <FourStar />;
+    } else if (rating === 5) {
+      return <FiveStar />;
+    }
+  };
+
+  if (rating === 0) {
+    return (
+      <Review>
+        <UserImg />
+        <UserName id="userName">{name}</UserName>
+        <UserfontM id="userLevel">Level. {level}</UserfontM>
+        <ZeroStar />
+        <UserfontS>{date}</UserfontS>
+        <UserfontS>&nbsp;º&nbsp;</UserfontS>
+        <UserfontS>{visit}번째 방문</UserfontS>
+        <UserfontM>{comment}</UserfontM>
+      </Review>
+    );
+  } else if (rating === 1) {
+    return (
+      <Review>
+        <UserImg />
+        <UserName id="userName">{name}</UserName>
+        <UserfontM id="userLevel">Level. {level}</UserfontM>
+        <OneStar />
+        <UserfontS>{date}</UserfontS>
+        <UserfontS>&nbsp;º&nbsp;</UserfontS>
+        <UserfontS>{visit}번째 방문</UserfontS>
+        <UserfontM>{comment}</UserfontM>
+      </Review>
+    );
+  } else if (rating === 2) {
+    return (
+      <Review>
+        <UserImg />
+        <UserName id="userName">{name}</UserName>
+        <UserfontM id="userLevel">Level. {level}</UserfontM>
+        <TwoStar />
+        <UserfontS>{date}</UserfontS>
+        <UserfontS>&nbsp;º&nbsp;</UserfontS>
+        <UserfontS>{visit}번째 방문</UserfontS>
+        <UserfontM>{comment}</UserfontM>
+      </Review>
+    );
+  } else if (rating === 3) {
+    return (
+      <Review>
+        <UserImg />
+        <UserName id="userName">{name}</UserName>
+        <UserfontM id="userLevel">Level. {level}</UserfontM>
+        <ThreeStar />
+        <UserfontS>{date}</UserfontS>
+        <UserfontS>&nbsp;º&nbsp;</UserfontS>
+        <UserfontS>{visit}번째 방문</UserfontS>
+        <UserfontM>{comment}</UserfontM>
+      </Review>
+    );
+  } else if (rating === 4) {
+    return (
+      <Review>
+        <UserImg />
+        <UserName id="userName">{name}</UserName>
+        <UserfontM id="userLevel">Level. {level}</UserfontM>
+        <FourStar />
+        <UserfontS>{date}</UserfontS>
+        <UserfontS>&nbsp;º&nbsp;</UserfontS>
+        <UserfontS>{visit}번째 방문</UserfontS>
+        <UserfontM>{comment}</UserfontM>
+      </Review>
+    );
+  } else if (rating === 5) {
+    return (
+      <Review>
+        <UserImg />
+        <UserName id="userName">{name}</UserName>
+        <UserfontM id="userLevel">Level. {level}</UserfontM>
+        <FiveStar />
+        <UserfontS>{date}</UserfontS>
+        <UserfontS>&nbsp;º&nbsp;</UserfontS>
+        <UserfontS>{visit}번째 방문</UserfontS>
+        <UserfontM>{comment}</UserfontM>
+      </Review>
+    );
+  }
+}
 
 export default ReviewItem;

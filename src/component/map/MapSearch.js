@@ -2,14 +2,15 @@ import Header from '../Header';
 import Footer from '../Footer';
 import ReviewItem from './ReviewItem';
 import styled from 'styled-components';
-import React, { useRef, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { MdSearch } from 'react-icons/md';
 import { WiDayCloudy } from 'react-icons/wi';
 // import { BiStar } from 'react-icons/bi'; // 빈 별
 // import { ImStarFull } from 'react-icons/im'; // 꽉찬별
 import { FiHeart } from 'react-icons/fi'; // 빈 하트
-// import { ImHeart } from 'react-icons/im'; // 꽉찬하트
+import { ImHeart } from 'react-icons/im'; // 꽉찬하트
+import { Link } from 'react-router-dom';
 
 const MapPage = styled.div`
   position: relative;
@@ -26,8 +27,6 @@ const MapInput = styled.div`
 
 const Input = styled.input`
   position: absolute;
-  // width: 80%;
-  // height: 30px;
   width: 350px;
   height: 40px;
   border: 1px solid #707070;
@@ -64,26 +63,15 @@ const Button = styled.button`
 `;
 
 const Menu = styled.div`
-  // visibility: hidden;
   visibility: ${(props) => props.see || 'hidden'};
   position: relative;
   width: 400px;
   background: #ffffff;
   height: 95%;
   left: 10%;
+  // top: 6px;
   border: 5px solid #afafaf;
   z-index: 1;
-
-  // .open {
-  //   visibility: visible;
-  //   position: relative;
-  //   width: 400px;
-  //   background: #ffffff;
-  //   height: 95%;
-  //   left: 10%;
-  //   border: 5px solid #afafaf;
-  //   z-index: 1;
-  }
 `;
 
 const MenuTop = styled.div`
@@ -100,7 +88,6 @@ const SunInfo = styled.div`
   border-radius: 8px;
   background: #ffffff;
   opacity: 0.89;
-  // top: 170px;
   top: 85%;
   left: 57%;
 
@@ -177,8 +164,8 @@ const MenuInfo = styled.div`
   }
 
   .eResult {
-    float: right;
-    margin-right: 140px;
+    padding-left: 30px;
+    display: inline-block;
   }
 
   .review {
@@ -226,12 +213,79 @@ const MenuInfo = styled.div`
     color: #ea2b2b;
     font: normal normal bold 11px Segoe UI;
   }
+
+  .mLike {
+    color: Red;
+  }
 `;
 
 const MapSearch = () => {
   const [pos, setPos] = useState('');
-  const [mntname, setMntname] = useState('');
-  const [mntaddress, setMntaddress] = useState('');
+  const [hashtag, setHashtag] = useState('');
+
+  const [heart, setHeart] = useState(false);
+  const [toiletO, setToiletO] = useState(0);
+  const [toiletX, setToiletX] = useState(0);
+  const [parkingO, setParkingO] = useState(0);
+  const [parkingX, setParkingX] = useState(0);
+  const [drinkO, setDrinkO] = useState(0);
+  const [drinkX, setDrinkX] = useState(0);
+  const [eatO, setEatO] = useState(0);
+  const [eatX, setEatX] = useState(0);
+  const [storeO, setStoreO] = useState(0);
+  const [storeX, setStoreX] = useState(0);
+
+  const [review, setReview] = useState([]);
+
+  if (pos) {
+    fetch('/api/map/' + pos, {
+      method: 'GET',
+      async: false,
+    })
+      .then((response) => {
+        return response.json();
+      })
+      .then((data) => {
+        setToiletO(data.mountain.facility[0].t);
+        setToiletX(data.mountain.facility[0].f);
+        setParkingO(data.mountain.facility[1].t);
+        setParkingX(data.mountain.facility[1].t);
+        setDrinkO(data.mountain.facility[2].t);
+        setDrinkX(data.mountain.facility[2].t);
+        setEatO(data.mountain.facility[3].t);
+        setEatX(data.mountain.facility[3].t);
+        setStoreO(data.mountain.facility[4].t);
+        setStoreX(data.mountain.facility[4].t);
+
+        setHashtag(data.mountain.hashtags);
+
+        const initData = data.reviews.map((it) => {
+          return {
+            _id: it._id,
+            writer: it.writer,
+            mountain: it.mountain,
+            rating: it.rating,
+            hashtags: it.hashtags,
+            visited: it.visited,
+            createdAt: it.createdAt,
+            updatedAt: it.updatedAt,
+            comment: it.comment,
+            level: it.level,
+            name: it.name,
+            image: it.image,
+          };
+        });
+        setReview(initData);
+        // console.log(review);
+
+        if (data.reviews.length >= 1) {
+          setHeart(true);
+        }
+      })
+      .then((error) => {
+        console.log(error);
+      });
+  }
 
   const onSubmit = (e) => {
     saveLocal();
@@ -245,18 +299,21 @@ const MapSearch = () => {
     setPos(e.target.value);
   };
 
+  // const clickHeart = () => {
+  //   setHeart(!heart);
+  // };
+
   useEffect(() => {
     const data = localStorage.getItem('pos');
     if (data) {
       setPos(data);
-      setMntname(data);
     }
   }, []);
 
   return (
     <div>
       <Header />
-      <MapPage id="mapPage" className="map_wrap">
+      <MapPage id="mapPage">
         <Map id="map" />
         <MapInput>
           <Search className="search">
@@ -291,12 +348,15 @@ const MapSearch = () => {
 
           <MenuInfo>
             <div className="title">
-              <span className="mTitle" id="mName">
-                {/* {mntname} */}
-              </span>
-              <span className="mTag">#계곡 #서울특별시</span>
+              <span className="mTitle" id="mName"></span>
+              <span className="mTag">{hashtag}</span>
+              {/* <button onClick={clickHeart} className="mLikebtn"> */}
               <button className="mLikebtn">
-                <FiHeart className="mLike" />
+                {heart ? (
+                  <ImHeart className="mLike" />
+                ) : (
+                  <FiHeart className="mLike" />
+                )}
               </button>
               <div className="mContent" id="mPos"></div>
             </div>
@@ -317,26 +377,28 @@ const MapSearch = () => {
                 물, 음료 파는 곳
               </div>
 
-              <div className="eResult">
-                <div>
-                  <span className="eT">O</span> (<span id="e1T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e1F">2</span>)
+              <div>
+                <div className="eResult">
+                  <span className="eT">O</span> (<span>{toiletO}</span>)
+                  <br />
+                  <span className="eT">O</span> (<span>{parkingO}</span>)
+                  <br />
+                  <span className="eT">O</span> (<span>{drinkO}</span>)
+                  <br />
+                  <span className="eT">O</span> (<span>{eatO}</span>)
+                  <br />
+                  <span className="eT">O</span> (<span>{storeO}</span>)
                 </div>
-                <div>
-                  <span className="eT">O</span> (<span id="e2T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e2F">2</span>)
-                </div>
-                <div>
-                  <span className="eT">O</span> (<span id="e3T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e3F">2</span>)
-                </div>
-                <div>
-                  <span className="eT">O</span> (<span id="e4T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e4F">2</span>)
-                </div>
-                <div>
-                  <span className="eT">O</span> (<span id="e5T">30</span>)
-                  <span className="eF"> &nbsp;X</span> (<span id="e5F">2</span>)
+                <div className="eResult">
+                  <span className="eT">X</span> (<span>{toiletX}</span>)
+                  <br />
+                  <span className="eT">X</span> (<span>{parkingX}</span>)
+                  <br />
+                  <span className="eT">X</span> (<span>{drinkX}</span>)
+                  <br />
+                  <span className="eT">X</span> (<span>{eatX}</span>)
+                  <br />
+                  <span className="eT">X</span> (<span>{storeX}</span>)
                 </div>
               </div>
             </div>
@@ -345,10 +407,19 @@ const MapSearch = () => {
             </div>
             <div className="review">
               <span className="sTitle">후기</span>
-              <button className="cReview">후기작성</button>
-              <ReviewItem />
-              <ReviewItem />
-              <ReviewItem />
+              <Link to="/writereview">
+                <button className="cReview">후기작성</button>
+              </Link>
+              {review.map((reviews) => (
+                <ReviewItem
+                  name={reviews.name}
+                  level={reviews.level}
+                  date={reviews.updatedAt.slice(0, 10)}
+                  visit={reviews.visited}
+                  comment={reviews.comment}
+                  rating={reviews.rating}
+                />
+              ))}
             </div>
           </MenuInfo>
         </Menu>
