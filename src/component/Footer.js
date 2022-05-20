@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 const FooterWrapper = styled.div`
   width: 100%;
-  height: 85px;
+  height: 75px;
   display: flex;
   flex-direction: column;
   justify-content: center;

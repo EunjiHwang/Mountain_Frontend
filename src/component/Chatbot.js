@@ -7,9 +7,10 @@ const ChatWrapper = styled.div`
   width: 500px;
   height: 600px;
   display: flex;
-  position: relative;
+  position: fixed;
   right: 0;
   bottom: 0;
+  z-index: 10;
 `;
 
 // 챗봇 채팅창
@@ -19,7 +20,7 @@ const ChatContainer = styled.div`
   position: fixed;
   background-color: white;
   right: 50px;
-  bottom: 50px;
+  bottom: 120px;
   border: 3px solid #A0E991;
   border-radius: 10px;
 `;
@@ -29,8 +30,8 @@ const ChatInput = styled.input`
   width: 330px;
   height: 50px;
   position: fixed;
-  right: 60px;
-  bottom: 65px;
+  right: 58px;
+  bottom: 130px;
   border: 0;
   border-top: 1px solid #707070;
   font-size: 15px;
@@ -53,8 +54,8 @@ const IconWrap = styled.div`
   background-color: #A0E991;
   border: 1px solid white;
   position: fixed;
-  right: 15px;
-  bottom: 15px;
+  right: 30px;
+  bottom: 90px;
   cursor: pointer;
   z-index: 3;
 `;
