@@ -25,11 +25,11 @@ function App() {
   const [isLogin, setIsLogin] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem('email') === null) {
-      // 저장된 key 값이 없다면
+    if (localStorage.getItem('token') === null) {
+      // 저장된 token 값이 없다면
       console.log('isLogin : ', isLogin)
     } else {
-      // 저장된 key값이 있다면 로그인이 된 상태
+      // 저장된 token값이 있다면 로그인이 된 상태
       setIsLogin(true); // 상태 변경
     }
   })

@@ -2,6 +2,7 @@ import { useState, React } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
+import StarScore from './StarScore';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -71,7 +72,7 @@ const ScoreContainer = styled.div`
   height: 40px;
   display: flex;
   flex-direction: row;
-  margin: 20px 340px 0 0;
+  margin: 30px 340px 0 0;
 `;
 
 const ScoreTitle = styled.div`
@@ -82,7 +83,25 @@ const ScoreTitle = styled.div`
 // 별점 필요
 
 // 시설
+const StrContainer = styled.div`
+  width: 100px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  margin: 30px 520px 0 0;
+`;
 
+const StrTitle = styled.div`
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+`; 
+
+const StrContent = styled.div`
+  font-size: 15px;
+  text-align: left;
+  margin: 12px 0 12px 15px;
+`;
 
 // 코멘트
 const CommentContainer = styled.div`
@@ -91,7 +110,7 @@ const CommentContainer = styled.div`
   display: flex;
   flex-direction: column; 
   margin-left: 260px;
-  margin-top: -35px;
+  margin-top: -310px;
 `;
 
 const CommentTitle = styled.p`
@@ -128,6 +147,13 @@ const Hashtag = styled.input`
 
 // 시설 라디오 버튼
 const BtnContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: -160px 220px 0 0;
+`;
+
+const BtnWrapper = styled.div`
+  display: flex;
   background-color: transparent;
   color: #707070;
   padding: 5px;
@@ -140,7 +166,7 @@ const YesBtn = styled.button`
   border-bottom-left-radius: 10px;
   border: 1px solid #707070;
   border-right: transparent;
-  background: transparent;
+  background-color: transparent;
   &:hover{
     background-color: #E3FFE0;
   }
@@ -152,7 +178,7 @@ const NoBtn = styled.button`
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   border: 1px solid #707070;
-  background: transparent;
+  background-color: transparent;
   &:hover{
     background-color: #E3FFE0;
   }
@@ -160,11 +186,162 @@ const NoBtn = styled.button`
 
 function WriteReview(props) {
 
-  // 해시태그 onChange 관리 문자열
   const [hashtag, setHashtag] = useState('');
-  // 해시태그를 담을 배열
-  const [hashArr, setHashArr] = useState('');
+  // yes면 true, no면 false
+  const [toilet, setToilet] = useState(false);
+  const [parking, setParking] = useState(false);
+  const [water, setWater] = useState(false);
+  const [food, setFood] = useState(false);
+  const [drink, setDrink] = useState(false);
+  const [clicked, setClicked] = useState(false);
 
+  const SelectToilet = () => {
+    if (document.getElementById('toilet_yes')) {
+      document.getElementById('toilet_yes').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('toilet_yes').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('toilet_yes').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+  
+  const SelectNoToilet = () => {
+    if (document.getElementById('toilet_no')) {
+      document.getElementById('toilet_no').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('toilet_no').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('toilet_no').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+
+  const SelectParking = () => {
+    if (document.getElementById('parking_yes')) {
+      document.getElementById('parking_yes').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('parking_yes').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('parking_yes').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+  
+  const SelectNoParking = () => {
+    if (document.getElementById('parking_no')) {
+      document.getElementById('parking_no').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('parking_no').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('parking_no').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+
+  const SelectWater = () => {
+    if (document.getElementById('water_yes')) {
+      document.getElementById('water_yes').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('water_yes').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('water_yes').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+  
+  const SelectNoWater = () => {
+    if (document.getElementById('water_no')) {
+      document.getElementById('water_no').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('water_no').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('water_no').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+
+  const SelectFood = () => {
+    if (document.getElementById('food_yes')) {
+      document.getElementById('food_yes').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('food_yes').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('food_yes').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+  
+  const SelectNoFood = () => {
+    if (document.getElementById('food_no')) {
+      document.getElementById('food_no').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('food_no').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('food_no').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+
+  const SelectDrink = () => {
+    if (document.getElementById('drink_yes')) {
+      document.getElementById('drink_yes').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('drink_yes').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('drink_yes').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+  
+  const SelectNoDrink = () => {
+    if (document.getElementById('drink_no')) {
+      document.getElementById('drink_no').style.backgroundColor = '#E3FFE0';
+      setClicked(true);
+      if (clicked === true) {
+        document.getElementById('drink_no').style.backgroundColor = 'transparent';
+        setClicked(false);
+      } else {
+        document.getElementById('drink_no').style.backgroundColor = '#E3FFE0';
+        setClicked(true);
+      }
+    }
+  }
+  
+  //단어를 입력하고 엔터를 누르면 해시태그 생성하는 키 프레스 이벤트
+  const onEnter = (e) => {
+    if (e.key === 'Enter') {
+      // onCreateHashtag();
+    }
+  }
+ 
   return (
     <div>
       <Header />
@@ -177,20 +354,78 @@ function WriteReview(props) {
           <UnderBar />
           <ScoreContainer>
             <ScoreTitle>총점</ScoreTitle>
+            <StarScore />
           </ScoreContainer>
+          <StrContainer>
+            <StrTitle>시설 여부</StrTitle>
+            <StrContent>화장실</StrContent>
+            <StrContent>주차 공간</StrContent>
+            <StrContent>음수대</StrContent>
+            <StrContent>먹거리 시설</StrContent>
+            <StrContent>음료 파는 곳</StrContent>
+          </StrContainer>
+          <BtnContainer>
+            <BtnWrapper>
+              <YesBtn id='toilet_yes' onClick={() => {
+                SelectToilet();
+                setToilet(true);
+              }}>YES</YesBtn>
+              <NoBtn id='toilet_no' onClick={() => {
+                SelectNoToilet();
+                setToilet(false);
+              }}>NO</NoBtn>
+            </BtnWrapper>
+            <BtnWrapper>
+              <YesBtn id='parking_yes' onClick={() => {
+                SelectParking();
+                setParking(true);
+              }}>YES</YesBtn>
+              <NoBtn id='parking_no' onClick={() => {
+                SelectNoParking();
+                setParking(false);
+              }}>NO</NoBtn>
+            </BtnWrapper>
+            <BtnWrapper>
+              <YesBtn  id='water_yes' onClick={() => {
+                SelectWater();
+                setWater(true);
+              }}>YES</YesBtn>
+              <NoBtn id='water_no' onClick={() => {
+                SelectNoWater();
+                setWater(false);
+              }}>NO</NoBtn>
+            </BtnWrapper>
+            <BtnWrapper>
+              <YesBtn id='food_yes' onClick={() => {
+                SelectFood();
+                setFood(true);
+              }}>YES</YesBtn>
+              <NoBtn id='food_no' onClick={() => {
+                SelectNoFood();
+                setFood(false);
+              }}>NO</NoBtn>
+            </BtnWrapper>
+            <BtnWrapper>
+              <YesBtn id='drink_yes' onClick={() => {
+                SelectDrink();
+                setDrink(true);
+              }}>YES</YesBtn>
+              <NoBtn id='drink_no' onClick={() => {
+                SelectNoDrink();
+                setDrink(false);
+              }}>NO</NoBtn>
+            </BtnWrapper>
+          </BtnContainer>
           <CommentContainer>
             <CommentTitle>코멘트</CommentTitle>
             <Textarea />
             <Hashtag
               type="text"
-              // value={hashtag}
               placeholder="#해시태그"
+              value={hashtag}
+              onKeyPress={onEnter}
             />
           </CommentContainer>
-          {/* <BtnContainer>
-            <YesBtn>YES</YesBtn>
-            <NoBtn>NO</NoBtn>
-          </BtnContainer> */}
         </IntroDiv>
       </Div>
       <Footer />

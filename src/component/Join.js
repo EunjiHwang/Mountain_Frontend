@@ -3,6 +3,7 @@ import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
+import Button from './memberStyled/Button';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -134,17 +135,7 @@ const InputContainer = styled.input`
   }
 `;
 
-const Button = styled.button`
-  width: 263px;
-  height: 33px;
-  background: #4c8969;
-  border-radius: 20px;
-  color: white;
-  border: none;
-`;
-
 function Join(props) {
-  const dispatch = useDispatch();
 
   const [showTerms, setShowTerms] = useState(false);
   const [outCheck, setOutcheck] = useState(false);
