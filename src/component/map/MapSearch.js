@@ -77,8 +77,11 @@ const Menu = styled.div`
 const MenuTop = styled.div`
   width: 390px;
   height: 30%;
-  background: url('https://www.ui4u.go.kr/tour/img/content/img_mountain_pic02.png')
+  background: url(${(props) =>
+      props.url ||
+      'https://www.ui4u.go.kr/tour/img/content/img_mountain_pic02.png'})
     no-repeat center center;
+  background-size: 100% 100%;
 `;
 
 const SunInfo = styled.div`
@@ -236,6 +239,7 @@ const MapSearch = () => {
   const [storeX, setStoreX] = useState(0);
 
   const [review, setReview] = useState([]);
+  const [mntImage, setMntImage] = useState('');
 
   if (pos) {
     fetch('/api/map/' + pos, {
@@ -258,7 +262,7 @@ const MapSearch = () => {
         setStoreX(data.mountain.facility[4].t);
 
         setHashtag(data.mountain.hashtags);
-
+        setMntImage(data.mountain.image);
         const initData = data.reviews.map((it) => {
           return {
             _id: it._id,
@@ -276,8 +280,6 @@ const MapSearch = () => {
           };
         });
         setReview(initData);
-        // console.log(review);
-
         if (data.reviews.length >= 1) {
           setHeart(true);
         }
@@ -336,7 +338,7 @@ const MapSearch = () => {
         </MapInput>
 
         <Menu id="menu" see="hidden">
-          <MenuTop id="menuTop">
+          <MenuTop id="menuTop" url={mntImage}>
             <SunInfo>
               <WiDayCloudy className="weather" />
               <span className="time">
