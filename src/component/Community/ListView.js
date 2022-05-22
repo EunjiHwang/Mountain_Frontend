@@ -1,8 +1,6 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import Input from '../memberStyled/Input';
-import { renderMatches, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
 import { Paging } from '../Paging';
@@ -10,8 +8,8 @@ import { Paging } from '../Paging';
 const Div = styled.div`
   /* 전체 Div 스타일 */
   margin-top: 50px;
-  margin-bottom:100px;
-  display:flex;
+  margin-bottom: 100px;
+  display: flex;
 `;
 
 const H3 = styled.h3`
@@ -28,9 +26,7 @@ const Button = styled.button`
 
 function ListView(props) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
   const inputRef = React.useRef(null);
-  //const items = useSelector((state) => state);
   const [count, setCount] = React.useState(0);
   const [currentpage, setCurrentpage] = React.useState(1); //현재페이지
   const [postPerPage] = React.useState(7); //페이지당 콘텐츠 개수
@@ -48,18 +44,12 @@ function ListView(props) {
       async: false,
     })
       .then((response) => {
-        console.log('res', response);
         return response.json();
       })
       .then((data) => {
-        console.log('data', data.list);
-        // for (let i = 0; i < data.list.length; i++) {
-        //   setItems([data.list[i]]);
-        // }
         setItems(data.list);
-
-        console.log('items', items);
       });
+    console.log('게시물 목록조회');
   }, []);
 
   React.useEffect(() => {
@@ -67,9 +57,8 @@ function ListView(props) {
     setIndexOfLastPost(currentpage * postPerPage);
     setIndexOfFirstPost(indexOfLastPost - postPerPage);
     setCurrentPosts(items.slice(indexOfFirstPost, indexOfLastPost));
+    console.log('목록조회 items', items);
   }, [currentpage, indexOfFirstPost, indexOfLastPost, items, postPerPage]);
-
-  //const searchContent = (text) => dispatch(searchContent(text));
 
   const handleClick = () => {
     navigate('/community/add');
@@ -94,14 +83,9 @@ function ListView(props) {
         async: false,
       })
         .then((response) => {
-          console.log('res', response);
           return response.json();
         })
         .then((data) => {
-          console.log('data', data.list);
-          // for (let i = 0; i < data.list.length; i++) {
-          //   setItems([data.list[i]]);
-          // }
           setItems(data.list);
         });
     }
@@ -190,13 +174,18 @@ function ListView(props) {
                           whiteSpace: 'nowrap',
                           overflow: 'hidden',
                           color: '#808080',
+                          lineHeight: '200%',
+                          height: '35px',
                         }}
                       >
-                        {item.content}
+                        <div
+                          dangerouslySetInnerHTML={{ __html: item.content }}
+                        ></div>
                       </div>
                     </div>
                     <div className="col text-end" style={{ color: '#808080' }}>
-                      {item.writer}
+                      {item.name}
+                      &nbsp;&nbsp; level: {item.level}
                     </div>
                   </div>
                 </div>

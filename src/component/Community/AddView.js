@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
+import React from 'react';
 import styled from 'styled-components';
-import { useDispatch, useSelector } from 'react-redux';
+//import { useDispatch, useSelector } from 'react-redux';
 import ReactQuill from 'react-quill';
-import { renderMatches, useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import 'react-quill/dist/quill.snow.css';
 import Header from '../Header';
 import Footer from '../Footer';
-import { Paging } from '../Paging';
+import { useEffect } from 'react';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -30,17 +30,41 @@ const Button = styled.button`
 
 function AddView(props) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const inputRef = React.useRef(null);
+  const location = useLocation();
   const quillRef = React.useRef(null);
   const [content, setContent] = React.useState('');
   const [title, setTitle] = React.useState('');
+  const post = location.state;
+
+  useEffect(() => {
+    if (post) {
+      setContent(post.post.content);
+      setTitle(post.post.title);
+    }
+  }, [post]);
 
   const handleClick = () => {
     navigate('/community');
   };
 
   const handleSaveClick = () => {
+    let apiUrl = ``;
+    let postObj = {};
+    if (post) {
+      apiUrl = '/api/post/update';
+      postObj = {
+        _id: post.post._id,
+        title,
+        content,
+      };
+    } else {
+      apiUrl = '/api/post/write';
+      postObj = {
+        writer: '627b8dccbb97cafec9e32628',
+        title,
+        content,
+      };
+    }
     if (!title) {
       alert('제목을 입력해 주세요.');
       document.querySelector("input[name='title']").focus();
@@ -49,20 +73,19 @@ function AddView(props) {
       alert('내용을 입력해 주세요.');
       document.querySelector('.ql-editor').focus();
       return false;
+    } else if (window.confirm('게시물을 저장하시겠습니까?')) {
+      fetch(apiUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(postObj),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          alert('등록되었습니다.');
+          navigate('/community');
+        });
     } else {
-      if (window.confirm('게시물을 저장하시겠습니까?')) {
-        fetch('/api/post/write', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            writer: '627b8dccbb97cafec9e32628',
-            title,
-            content,
-          }),
-        })
-          .then((res) => res.json())
-          .then((res) => console.log('res', res));
-      }
+      alert('게시물을 저장하는데 실패하였습니다.');
     }
   };
 
@@ -80,8 +103,6 @@ function AddView(props) {
       target: { value },
     } = e;
     setTitle(value);
-    console.log('title', title);
-    console.log('content', content);
   };
 
   return (
@@ -111,7 +132,11 @@ function AddView(props) {
                 </Button>
                 <button
                   className="btn btn-outline-success"
-                  style={{ width:'90px', margin:'10px', borderRadius:'10px' }}
+                  style={{
+                    width: '90px',
+                    margin: '10px',
+                    borderRadius: '10px',
+                  }}
                   type="button"
                   onClick={handlePreview}
                 >

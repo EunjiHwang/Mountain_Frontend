@@ -204,10 +204,13 @@ function MyWriting(props) {
                 >
                   {item.content}
                 </div>
+                </div>
                 <div className="col text-end" style={{ color: '#808080' }}>
-                      {item.writer}
+                      {item.name}
+                      &nbsp;&nbsp;
+                      level: {item.level}
                     </div>
-              </div>
+              
             </div>
           </div>
               ))
