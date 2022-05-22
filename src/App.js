@@ -18,6 +18,8 @@ import MyComment from './component/Mypage/MyComment';
 import MyReview from './component/Mypage/MyReview';
 import EditMe from './component/EditMe';
 import PasswordNext from './component/PasswordNext';
+import Chatbot from './component/Chatbot';
+import Header from './component/Header';
 
 function App() {
 
@@ -37,7 +39,9 @@ function App() {
   return (
     <div>
       <GlobalStyle />
+      <Chatbot />
       <Routes>
+        <Route path="/header" element={<Header isLogin={isLogin} />} />
         <Route path="/" element={<Main isLogin={isLogin} />} exact={true} />
         <Route path="/intro" element={<Intro />} />
         <Route path="/map" element={<Map />} />

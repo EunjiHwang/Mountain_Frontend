@@ -59,31 +59,59 @@ const InputContainer = styled.input`
   border: 1px solid #707070;
   margin: 5px 0;
   padding: 5px;
-  ::placeholder{
+  ::placeholder {
     font-size: 13px;
   }
 `;
 
 function Password(props) {
-
+  const [Name, setName] = useState('');
   const [Email, setEmail] = useState('');
   const navigate = useNavigate();
+
+  const onNameHandler = (event) => {
+    setName(event.currentTarget.value);
+  };
 
   const onEmailHandler = (event) => {
     setEmail(event.currentTarget.value);
   };
 
-  // const onSubmitHandler = (event) => {
-  //   event.preventDefault();
-  //   console.log('Email', Email);
-  //   console.log('Password', Password);
-  // };
-
+  // 이름과 이메일을 입력해 이메일 요청보내기
   const onClickNext = (event) => {
     event.preventDefault();
-    alert('이메일로 비밀번호 변경 링크가 전송됩니다.');
-    navigate('/passwordnext');
+
+    let body = {
+      name: Name,
+      email: Email,
+    };
+
+    if (body) {
+      fetch('/api/users/forgot', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: Name,
+          email: Email,
+        }),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          if (result.success === true) {
+            alert('이메일로 새 비밀번호 설정 링크가 전송됩니다.');
+            navigate('/login');
+          } else {
+            alert('이름 또는 이메일 확인이 필요합니다.');
+          }
+        });
+    }
   };
+
+  // const onClickNext = (event) => {
+  //   event.preventDefault();
+  //   alert('이메일로 비밀번호 변경 링크가 전송됩니다.');
+  //   navigate('/passwordnext');
+  // };
 
   return (
     <div>
@@ -105,16 +133,19 @@ function Password(props) {
             }}
           >
             <hr width="100%" />
-            <InputContainer type="name" placeholder="이름" />
+            <InputContainer
+              type="name"
+              value={Name}
+              onChange={onNameHandler}
+              placeholder="이름"
+            />
             <InputContainer
               type="email"
               value={Email}
               onChange={onEmailHandler}
               placeholder="이메일"
             />
-            <NextBtn onClick={onClickNext}>
-              다 음
-            </NextBtn>
+            <NextBtn onClick={onClickNext}>다 음</NextBtn>
             <br />
           </form>
         </PasswordDiv>
