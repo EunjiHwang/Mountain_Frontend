@@ -41,11 +41,6 @@ const UserfontS = styled.div`
   font: normal normal normal 8px Segoe UI;
 `;
 
-const UserStar = styled.div`
-  display: inline;
-  margin-right: 5px;
-`;
-
 function ReviewItem({ name, level, date, visit, comment, rating }) {
   if (level === 1) {
     level = '준비생';
@@ -57,21 +52,7 @@ function ReviewItem({ name, level, date, visit, comment, rating }) {
     level = '등산고수';
   }
 
-  const [item, setItem] = useState('');
-
-  const selectStar = () => {
-    if (rating === 1) {
-      return <OneStar />;
-    } else if (rating === 2) {
-      return <TwoStar />;
-    } else if (rating === 3) {
-      return <ThreeStar />;
-    } else if (rating === 4) {
-      return <FourStar />;
-    } else if (rating === 5) {
-      return <FiveStar />;
-    }
-  };
+  rating = parseInt(rating);
 
   if (rating === 0) {
     return (

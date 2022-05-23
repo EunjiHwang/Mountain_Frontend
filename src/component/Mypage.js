@@ -10,7 +10,8 @@ import { MdMessage } from 'react-icons/md'; // 내가 작성한 글
 import { GoComment } from 'react-icons/go'; // 내가 작성한 후기
 import { MdSpeakerNotes } from 'react-icons/md'; // 내가 작성한 댓글
 import { MdChevronRight } from 'react-icons/md';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 const AllPage = styled.div`
   width: 100vw;
@@ -20,12 +21,10 @@ const AllPage = styled.div`
 
 const Info = styled.div`
   float: left;
-  // width: 400px;
   margin-left: 2%;
   margin-right: 2%;
   width: 20%;
   height: 80%;
-  // border: 1px solid black;
   padding-top: 3%;
 `;
 
@@ -73,8 +72,8 @@ const UserLevelImg = styled.span`
   display: inline-block;
   width: 30px;
   height: 30px;
-  background: url('https://cdn-icons-png.flaticon.com/512/71/71423.png');
-  background-size: 30px;
+  background: url(${(props) => props.img}) no-repeat center center;
+  background-size: 100% 100%;
 `;
 
 const UserLevel = styled.span`
@@ -104,7 +103,6 @@ const DetailImg = styled.img`
   margin-left: 6%;
   width: 34%;
   height: 100%;
-  background: url(./public/mypage_mnt.png);
 `;
 
 const DetailInfo = styled.div`
@@ -156,20 +154,16 @@ const UserMap = styled.div`
   display: inline-block;
   position: relative;
   top: 5%;
-  // width: 600px;
   margin-left: 2%;
   margin-rithg: 2%;
   width: 35%;
   height: 70%;
-  // border: 1px solid black;
 `;
 
 const UserFunction = styled.div`
   float: right;
-  // width: 500px;
   width: 27%;
   height: 80%;
-  // border: 1px solid black;
   padding-top: 3%;
 `;
 
@@ -202,48 +196,201 @@ const MyPost = styled.button`
 `;
 
 function Mypage() {
+  const location = useLocation();
+  const [userName, setUserName] = useState('');
+  const [numReview, setNumReview] = useState(0);
+  const [userLevel, setUserLevel] = useState('');
+  const [levelUrl, setLevelUrl] = useState('');
+  const [mnt, setMnt] = useState([]);
+
+  const navigate = useNavigate();
+
+  const onClickReview = () => {
+    navigate('/myreview');
+  };
+
+  const onClickComment = () => {
+    navigate('/mycomment');
+  };
+
+  const onClickWriting = () => {
+    navigate('/mywriting');
+  };
+
   useEffect(() => {
     mapscript();
-  }, []);
+    // console.log(location);
+  }, [location]);
 
   const mapscript = () => {
-    // let container = document.getElementById('map');
-
-    // const options = {
-    //   center: new kakao.maps.LatLng(37.2231, 127.1873),
-    //   level: 14,
-    // };
-
-    // // 지도 생성
-    // const map = new kakao.maps.Map(container, options);
-
     var map = new kakao.maps.Map(document.getElementById('map'), {
       // 지도를 표시할 div
       center: new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표
       level: 14, // 지도의 확대 레벨
     });
 
-    // 마커 클러스터러를 생성합니다
-    var clusterer = new kakao.maps.MarkerClusterer({
-      map: map, // 마커들을 클러스터로 관리하고 표시할 지도 객체
-      averageCenter: true, // 클러스터에 포함된 마커들의 평균 위치를 클러스터 마커 위치로 설정
-      minLevel: 10, // 클러스터 할 최소 지도 레벨
-    });
+    // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+    var zoomControl = new kakao.maps.ZoomControl();
+    map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-    // // 데이터를 가져오기 위해 jQuery를 사용합니다
-    // // 데이터를 가져와 마커를 생성하고 클러스터러 객체에 넘겨줍니다
-    // $.get('/download/web/data/chicken.json', function (data) {
-    //   // 데이터에서 좌표 값을 가지고 마커를 표시합니다
-    //   // 마커 클러스터러로 관리할 마커 객체는 생성할 때 지도 객체를 설정하지 않습니다
-    //   var markers = $(data.positions).map(function (i, position) {
-    //     return new kakao.maps.Marker({
-    //       position: new kakao.maps.LatLng(position.lat, position.lng),
-    //     });
-    //   });
+    fetch('/api/mypage/main', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: '62864832f058105d60781cc7',
+        // _id: '628104e1777afb7fdf078423',
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          console.log(res);
+          setUserName(res.user.name);
+          setNumReview(res.user.review);
+          const level = res.user.level;
+          if (level === 1) {
+            setUserLevel('준비생');
+            setLevelUrl(
+              'https://cdn-icons.flaticon.com/png/512/5961/premium/5961652.png?token=exp=1653242741~hmac=93651bc5376b5af1c4791bf40e4cf835'
+            );
+          } else if (level >= 2 && level <= 5) {
+            setUserLevel('등린이');
+            setLevelUrl(
+              'https://cdn-icons-png.flaticon.com/512/7226/7226210.png'
+            );
+          } else if (level >= 6 && level <= 8) {
+            setUserLevel('등시생');
+            setLevelUrl(
+              'https://cdn-icons.flaticon.com/png/512/2632/premium/2632844.png?token=exp=1653242691~hmac=1fa7d1f6f501536ba5d2e6711f92fb1e'
+            );
+          } else if (level >= 9 && level <= 10) {
+            setUserLevel('등산고수');
+            setLevelUrl(
+              'https://cdn-icons-png.flaticon.com/512/7309/7309075.png'
+            );
+          }
+          const initMntData = res.mountains.map((it) => {
+            return {
+              _id: it._id,
+              name: it.name,
+              address: it.address,
+              avgRating: it.avgRating,
+              facility: it.facility,
+              count: it.count,
+              hashtag: it.hashtag,
+              latitude: it.latitude,
+              longitude: it.longitude,
+              __v: it.__v,
+            };
+          });
+          setMnt(initMntData);
+        }
+      })
+      .then((error) => {
+        console.log('error');
+      });
 
-    //   // 클러스터러에 마커들을 추가합니다
-    //   clusterer.addMarkers(markers);
-    // });
+    // 임시
+    var level = 9;
+
+    if (level === 1) {
+      setUserLevel('준비생');
+      setLevelUrl(
+        'https://cdn-icons.flaticon.com/png/512/5961/premium/5961652.png?token=exp=1653242741~hmac=93651bc5376b5af1c4791bf40e4cf835'
+      );
+    } else if (level >= 2 && level <= 5) {
+      setUserLevel('등린이');
+      setLevelUrl('https://cdn-icons-png.flaticon.com/512/7226/7226210.png');
+    } else if (level >= 6 && level <= 8) {
+      setUserLevel('등시생');
+      setLevelUrl(
+        'https://cdn-icons.flaticon.com/png/512/2632/premium/2632844.png?token=exp=1653242691~hmac=1fa7d1f6f501536ba5d2e6711f92fb1e'
+      );
+    } else if (level >= 9 && level <= 10) {
+      setUserLevel('등산고수');
+      setLevelUrl('https://cdn-icons-png.flaticon.com/512/7309/7309075.png');
+    }
+
+    // 임시 데이터
+    setUserName('등산은 내가 한다');
+    setNumReview(3);
+
+    const state = {
+      mountain: [
+        {
+          image:
+            'https://mblogthumb-phinf.pstatic.net/MjAyMTAzMjdfMjkg/MDAxNjE2Nzc1Mzg3MzMz.Iz_mikoWQmOabWuGaQ9YdexvJojQi-f9Gy5F3EJv3PYg.wD8x38mVgou8BuChHf-Q_Ka03GMjyFsV9gZ8v-jlZxkg.JPEG.1jungeun1/IMG_6235.jpg?type=w800',
+          name: '함박산',
+          hashtag: '20분 충분함',
+          latitude: '37.21390880427653',
+          longitude: '127.18892260082404',
+        },
+        {
+          image:
+            'https://www.ui4u.go.kr/tour/img/content/img_mountain_pic02.png',
+          name: '함박산',
+          hashtag: '서울근교',
+          latitude: '37.69884206393718',
+          longitude: '127.01545859321786',
+        },
+      ],
+    };
+
+    setMnt(state);
+
+    // // 마커 이미지의 이미지 주소입니다
+    // var imageSrc = 'https://cdn-icons-png.flaticon.com/512/2107/2107845.png';
+
+    // for (var i = 0; i < mnt.mountain.length; i++) {
+    //   // 마커 이미지의 이미지 크기 입니다
+    //   var imageSize = new kakao.maps.Size(30, 30);
+
+    //   // 마커 이미지를 생성합니다
+    //   var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
+
+    //   var latlng = new kakao.maps.LatLng(
+    //     mnt.mountain[i].latitude,
+    //     mnt.mountain[i].longitude
+    //   );
+
+    //   // // 마커를 생성합니다
+    //   // var marker = new kakao.maps.Marker({
+    //   //   map: map, // 마커를 표시할 지도
+    //   //   position: latlng, // 마커를 표시할 위치
+    //   //   title: mnt.mountain.name, // 마커의 타이틀, 마커에 마우스를 올리면 타이틀이 표시됩니다
+    //   //   image: markerImage, // 마커 이미지
+    //   // });
+
+    //   // // 인포윈도우를 생성하고 지도에 표시합니다
+    //   // var infowindow = new kakao.maps.InfoWindow({
+    //   //   map: map, // 인포윈도우가 표시될 지도
+    //   //   position: latlng,
+    //   //   // content: '',
+    //   //   // removable: true,
+    //   //   kakao.maps.event.addListener(marker, 'click', function(){
+    //   //     infowindow.open(map, marker);
+    //   //   });
+    //   // });
+
+    //   // 마커를 생성하고 지도에 표시합니다
+    //   // var marker = new kakao.maps.Marker({
+    //   //   map: map,
+    //   //   position: latlng,
+    //   //   title: mnt.mountain.name,
+    //   //   image: markerImage,
+    //   // });
+
+    //   // var infowindow = new kakao.maps.InfoWindow({ zIndex: 1 });
+
+    //   // // 마커에 클릭이벤트를 등록합니다
+    //   // kakao.maps.event.addListener(marker, 'click', function () {
+    //   //   // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
+    //   //   infowindow.setContent('');
+    //   //   infowindow.open(map, marker);
+    //   // });
+    // }
   };
 
   return (
@@ -252,12 +399,12 @@ function Mypage() {
         <Header />
         <Info>
           <UserInfo>
-            <UserImg id="userimg"></UserImg>
-            <UserName id="username">홍길동</UserName>
+            <UserImg></UserImg>
+            <UserName>{userName}</UserName>
 
             <Level>
-              <UserLevelImg id="userlevelimg" />
-              <UserLevel id="userlevel">등산고수</UserLevel>
+              <UserLevelImg img={levelUrl} />
+              <UserLevel>{userLevel}</UserLevel>
               <UserLevelBar />
             </Level>
             <UserLevelDetail>
@@ -265,17 +412,18 @@ function Mypage() {
               <DetailInfo>
                 <LineHeight />
                 <LineWidth />
-                <DetailText size="18px" left="5px" top="14px">
-                  등산횟수
+                <DetailText size="18px" left="2px" top="14px">
+                  등산한 산
                 </DetailText>
                 <DetailText size="18px" left="5px" top="54px">
-                  오른높이
+                  후기개수
                 </DetailText>
                 <DetailText size="22px" left="115px" top="11px">
-                  3
+                  {/* {mnt.length} */}
+                  {mnt.length}
                 </DetailText>
-                <DetailText size="20px" left="95px" top="51px">
-                  4,198
+                <DetailText size="22px" left="115px" top="51px">
+                  {numReview}
                 </DetailText>
               </DetailInfo>
             </UserLevelDetail>
@@ -291,27 +439,21 @@ function Mypage() {
         <UserMap id="map">{/* <MountainInfo /> */}</UserMap>
 
         <UserFunction>
-          <Link to="/mywriting">
-            <MyPost>
-              <MdMessage className="img" />
-              내가 작성한 글
-              <MdChevronRight className="icon" />
-            </MyPost>
-          </Link>
-          <Link to="/mycomment">
-            <MyPost>
-              <MdSpeakerNotes className="img" />
-              내가 작성한 댓글
-              <MdChevronRight className="icon" />
-            </MyPost>
-          </Link>
-          <Link to="/myreview">
-            <MyPost>
-              <GoComment className="img" />
-              내가 작성한 후기
-              <MdChevronRight className="icon" />
-            </MyPost>
-          </Link>
+          <MyPost onClick={onClickWriting}>
+            <MdMessage className="img" />
+            내가 작성한 글
+            <MdChevronRight className="icon" />
+          </MyPost>
+          <MyPost onClick={onClickComment}>
+            <MdSpeakerNotes className="img" />
+            내가 작성한 댓글
+            <MdChevronRight className="icon" />
+          </MyPost>
+          <MyPost onClick={onClickReview}>
+            <GoComment className="img" />
+            내가 작성한 후기
+            <MdChevronRight className="icon" />
+          </MyPost>
         </UserFunction>
 
         <Footer />

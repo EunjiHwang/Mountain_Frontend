@@ -92,18 +92,9 @@ export default function Map() {
       // 장소검색 객체를 통해 키워드로 장소검색을 요청합니다
       ps.keywordSearch(keyword, placesSearchCB);
       localStorage.removeItem('pos');
-      // localStorage.removeItem('toiletO');
-      // localStorage.removeItem('toiletX');
-      // localStorage.removeItem('parkingO');
-      // localStorage.removeItem('parkingX');
-      // localStorage.removeItem('drinkO');
-      // localStorage.removeItem('drinkO');
-      // localStorage.removeItem('eatO');
-      // localStorage.removeItem('eatX');
-      // localStorage.removeItem('storeO');
-      // localStorage.removeItem('storeX');
-      // localStorage.removeItem('data');
-      // localStorage.removeItem('mountain');
+      localStorage.removeItem('address');
+      localStorage.removeItem('lat');
+      localStorage.removeItem('lon');
     }
 
     // 장소검색이 완료됐을 때 호출되는 콜백함수 입니다
@@ -134,6 +125,8 @@ export default function Map() {
 
       // 마커를 생성하고 지도에 표시합니다
       var placePosition = new kakao.maps.LatLng(places[0].y, places[0].x);
+      localStorage.setItem('lat', places[0].y);
+      localStorage.setItem('lon', places[0].x);
       // console.log('위도: ', places[0].y, ', 경도: ', places[0].x);
 
       // 마커를 생성
@@ -162,6 +155,7 @@ export default function Map() {
       // 장소 주소 표시
       if (places[0].address_name) {
         // console.log('주소: ', places[0].address_name);
+        localStorage.setItem('address', places[0].address_name);
         var itemStr = '<span>' + places[0].address_name + '</span>';
         const mPos = document.getElementById('mPos');
         mPos.innerHTML = itemStr;
