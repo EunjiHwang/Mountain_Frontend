@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from './memberStyled/Button';
 
 const Div = styled.div`
@@ -63,6 +63,7 @@ const InputContainer = styled.input`
 function Login(props) {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const onEmailHandler = (event) => {
     setEmail(event.currentTarget.value);
@@ -94,9 +95,11 @@ function Login(props) {
         .then((result) => {
           if (result.loginSuccess === true) {
             localStorage.setItem('token', result.token);
+            localStorage.setItem('userId', result.userId);
+            console.log(result.userId);
             // 홈으로 이동
             alert('로그인 되었습니다.');
-            window.location.href = '/';
+            navigate('/');
           } else {
             alert('회원가입이나 비밀번호 확인이 필요합니다.');
           }
