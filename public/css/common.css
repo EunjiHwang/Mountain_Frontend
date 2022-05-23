@@ -60,3 +60,10 @@ i,
 em {
   font-style: italic !important;
 }
+
+h1 {
+  font-size: 2em !important;
+}
+h2 {
+  font-size: 1.5em !important;
+}
