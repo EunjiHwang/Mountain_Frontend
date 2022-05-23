@@ -25,6 +25,7 @@ function App() {
 
   // 로그인 상태 관리
   const [isLogin, setIsLogin] = useState(false);
+  const [userId, setUserId] = useState('');
 
   useEffect(() => {
     if (localStorage.getItem('token') === null) {
@@ -34,6 +35,12 @@ function App() {
       // 저장된 token값이 있다면 로그인이 된 상태
       setIsLogin(true); // 상태 변경
     }
+  })
+
+  // userId props로 가져가서 사용하면 됨
+  useEffect(() => {
+    setUserId(localStorage.getItem('userId'));
+    console.log(userId);
   })
 
   return (
