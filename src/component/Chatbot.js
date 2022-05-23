@@ -4,13 +4,13 @@ import React, { useState } from 'react';
 
 // 챗봇 전체를 감싸는 컴포넌트
 const ChatWrapper = styled.div`
-  width: 500px;
-  height: 600px;
+  width: 400px;
+  height: 500px;
   display: flex;
   position: fixed;
   right: 0;
   bottom: 0;
-  z-index: 10;
+  z-index: 1;
 `;
 
 // 챗봇 채팅창
