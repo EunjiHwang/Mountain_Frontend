@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 import StarScore from './StarScore';
+import { useLocation } from 'react-router-dom';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -50,7 +51,7 @@ const ReviewTitle = styled.div`
 `;
 
 const SaveBtn = styled.button`
-  background-color: #4C8969;
+  background-color: #4c8969;
   width: 50px;
   height: 30px;
   color: white;
@@ -62,7 +63,7 @@ const SaveBtn = styled.button`
 const UnderBar = styled.div`
   width: 600px;
   height: 1px;
-  border-bottom: 3px solid #C2C2C2;
+  border-bottom: 3px solid #c2c2c2;
   margin-top: 10px;
 `;
 
@@ -95,7 +96,7 @@ const StrTitle = styled.div`
   font-size: 18px;
   font-weight: 600;
   margin-bottom: 20px;
-`; 
+`;
 
 const StrContent = styled.div`
   font-size: 15px;
@@ -108,7 +109,7 @@ const CommentContainer = styled.div`
   width: 280px;
   height: 450px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   margin-left: 260px;
   margin-top: -310px;
 `;
@@ -127,7 +128,7 @@ const Textarea = styled.textarea`
   border-radius: 20px;
   resize: none;
   padding: 10px;
-  border: 1.5px solid #C1C2C5;
+  border: 1.5px solid #c1c2c5;
 `;
 
 const Hashtag = styled.input`
@@ -136,11 +137,11 @@ const Hashtag = styled.input`
   border-radius: 10px;
   resize: none;
   margin-top: 15px;
-  color: #1B54E3;
+  color: #1b54e3;
   padding: 2px;
-  border: 1.5px solid #C1C2C5;
+  border: 1.5px solid #c1c2c5;
   font-size: 12px;
-  ::placeholder{
+  ::placeholder {
     color: #707070;
   }
 `;
@@ -167,8 +168,8 @@ const YesBtn = styled.button`
   border: 1px solid #707070;
   border-right: transparent;
   background-color: transparent;
-  &:hover{
-    background-color: #E3FFE0;
+  &:hover {
+    background-color: #e3ffe0;
   }
 `;
 
@@ -179,13 +180,13 @@ const NoBtn = styled.button`
   border-bottom-right-radius: 10px;
   border: 1px solid #707070;
   background-color: transparent;
-  &:hover{
-    background-color: #E3FFE0;
+  &:hover {
+    background-color: #e3ffe0;
   }
 `;
 
 function WriteReview(props) {
-
+  const location = useLocation();
   const [hashtag, setHashtag] = useState('');
   // yes면 true, no면 false
   const [toilet, setToilet] = useState(false);
@@ -200,155 +201,166 @@ function WriteReview(props) {
       document.getElementById('toilet_yes').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('toilet_yes').style.backgroundColor = 'transparent';
+        document.getElementById('toilet_yes').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
         document.getElementById('toilet_yes').style.backgroundColor = '#E3FFE0';
         setClicked(true);
       }
     }
-  }
-  
+  };
+
   const SelectNoToilet = () => {
     if (document.getElementById('toilet_no')) {
       document.getElementById('toilet_no').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('toilet_no').style.backgroundColor = 'transparent';
+        document.getElementById('toilet_no').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
         document.getElementById('toilet_no').style.backgroundColor = '#E3FFE0';
         setClicked(true);
       }
     }
-  }
+  };
 
   const SelectParking = () => {
     if (document.getElementById('parking_yes')) {
       document.getElementById('parking_yes').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('parking_yes').style.backgroundColor = 'transparent';
+        document.getElementById('parking_yes').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
-        document.getElementById('parking_yes').style.backgroundColor = '#E3FFE0';
+        document.getElementById('parking_yes').style.backgroundColor =
+          '#E3FFE0';
         setClicked(true);
       }
     }
-  }
-  
+  };
+
   const SelectNoParking = () => {
     if (document.getElementById('parking_no')) {
       document.getElementById('parking_no').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('parking_no').style.backgroundColor = 'transparent';
+        document.getElementById('parking_no').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
         document.getElementById('parking_no').style.backgroundColor = '#E3FFE0';
         setClicked(true);
       }
     }
-  }
+  };
 
   const SelectWater = () => {
     if (document.getElementById('water_yes')) {
       document.getElementById('water_yes').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('water_yes').style.backgroundColor = 'transparent';
+        document.getElementById('water_yes').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
         document.getElementById('water_yes').style.backgroundColor = '#E3FFE0';
         setClicked(true);
       }
     }
-  }
-  
+  };
+
   const SelectNoWater = () => {
     if (document.getElementById('water_no')) {
       document.getElementById('water_no').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('water_no').style.backgroundColor = 'transparent';
+        document.getElementById('water_no').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
         document.getElementById('water_no').style.backgroundColor = '#E3FFE0';
         setClicked(true);
       }
     }
-  }
+  };
 
   const SelectFood = () => {
     if (document.getElementById('food_yes')) {
       document.getElementById('food_yes').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('food_yes').style.backgroundColor = 'transparent';
+        document.getElementById('food_yes').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
         document.getElementById('food_yes').style.backgroundColor = '#E3FFE0';
         setClicked(true);
       }
     }
-  }
-  
+  };
+
   const SelectNoFood = () => {
     if (document.getElementById('food_no')) {
       document.getElementById('food_no').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('food_no').style.backgroundColor = 'transparent';
+        document.getElementById('food_no').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
         document.getElementById('food_no').style.backgroundColor = '#E3FFE0';
         setClicked(true);
       }
     }
-  }
+  };
 
   const SelectDrink = () => {
     if (document.getElementById('drink_yes')) {
       document.getElementById('drink_yes').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('drink_yes').style.backgroundColor = 'transparent';
+        document.getElementById('drink_yes').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
         document.getElementById('drink_yes').style.backgroundColor = '#E3FFE0';
         setClicked(true);
       }
     }
-  }
-  
+  };
+
   const SelectNoDrink = () => {
     if (document.getElementById('drink_no')) {
       document.getElementById('drink_no').style.backgroundColor = '#E3FFE0';
       setClicked(true);
       if (clicked === true) {
-        document.getElementById('drink_no').style.backgroundColor = 'transparent';
+        document.getElementById('drink_no').style.backgroundColor =
+          'transparent';
         setClicked(false);
       } else {
         document.getElementById('drink_no').style.backgroundColor = '#E3FFE0';
         setClicked(true);
       }
     }
-  }
-  
+  };
+
   //단어를 입력하고 엔터를 누르면 해시태그 생성하는 키 프레스 이벤트
   const onEnter = (e) => {
     if (e.key === 'Enter') {
       // onCreateHashtag();
     }
-  }
- 
+  };
+
   return (
     <div>
       <Header />
       <Div>
         <IntroDiv>
           <TitleContainer>
-            <ReviewTitle>후기 작성</ReviewTitle>
+            <ReviewTitle>{location.state.mountain}</ReviewTitle>
             <SaveBtn>저장</SaveBtn>
           </TitleContainer>
           <UnderBar />
@@ -366,54 +378,104 @@ function WriteReview(props) {
           </StrContainer>
           <BtnContainer>
             <BtnWrapper>
-              <YesBtn id='toilet_yes' onClick={() => {
-                SelectToilet();
-                setToilet(true);
-              }}>YES</YesBtn>
-              <NoBtn id='toilet_no' onClick={() => {
-                SelectNoToilet();
-                setToilet(false);
-              }}>NO</NoBtn>
+              <YesBtn
+                id="toilet_yes"
+                onClick={() => {
+                  SelectToilet();
+                  setToilet(true);
+                }}
+              >
+                YES
+              </YesBtn>
+              <NoBtn
+                id="toilet_no"
+                onClick={() => {
+                  SelectNoToilet();
+                  setToilet(false);
+                }}
+              >
+                NO
+              </NoBtn>
             </BtnWrapper>
             <BtnWrapper>
-              <YesBtn id='parking_yes' onClick={() => {
-                SelectParking();
-                setParking(true);
-              }}>YES</YesBtn>
-              <NoBtn id='parking_no' onClick={() => {
-                SelectNoParking();
-                setParking(false);
-              }}>NO</NoBtn>
+              <YesBtn
+                id="parking_yes"
+                onClick={() => {
+                  SelectParking();
+                  setParking(true);
+                }}
+              >
+                YES
+              </YesBtn>
+              <NoBtn
+                id="parking_no"
+                onClick={() => {
+                  SelectNoParking();
+                  setParking(false);
+                }}
+              >
+                NO
+              </NoBtn>
             </BtnWrapper>
             <BtnWrapper>
-              <YesBtn  id='water_yes' onClick={() => {
-                SelectWater();
-                setWater(true);
-              }}>YES</YesBtn>
-              <NoBtn id='water_no' onClick={() => {
-                SelectNoWater();
-                setWater(false);
-              }}>NO</NoBtn>
+              <YesBtn
+                id="water_yes"
+                onClick={() => {
+                  SelectWater();
+                  setWater(true);
+                }}
+              >
+                YES
+              </YesBtn>
+              <NoBtn
+                id="water_no"
+                onClick={() => {
+                  SelectNoWater();
+                  setWater(false);
+                }}
+              >
+                NO
+              </NoBtn>
             </BtnWrapper>
             <BtnWrapper>
-              <YesBtn id='food_yes' onClick={() => {
-                SelectFood();
-                setFood(true);
-              }}>YES</YesBtn>
-              <NoBtn id='food_no' onClick={() => {
-                SelectNoFood();
-                setFood(false);
-              }}>NO</NoBtn>
+              <YesBtn
+                id="food_yes"
+                onClick={() => {
+                  SelectFood();
+                  setFood(true);
+                }}
+              >
+                YES
+              </YesBtn>
+              <NoBtn
+                id="food_no"
+                onClick={() => {
+                  SelectNoFood();
+                  setFood(false);
+                }}
+              >
+                NO
+              </NoBtn>
             </BtnWrapper>
             <BtnWrapper>
-              <YesBtn id='drink_yes' onClick={() => {
-                SelectDrink();
-                setDrink(true);
-              }}>YES</YesBtn>
-              <NoBtn id='drink_no' onClick={() => {
-                SelectNoDrink();
-                setDrink(false);
-              }}>NO</NoBtn>
+              <YesBtn
+                id="drink_yes"
+                onClick={() => {
+                  SelectDrink();
+                  setDrink(true);
+                }}
+              >
+                YES
+              </YesBtn>
+              <NoBtn
+                id="drink_no"
+                onClick={() => {
+                  SelectNoDrink();
+                  setDrink(false);
+                }}
+              >
+                NO
+              </NoBtn>
             </BtnWrapper>
           </BtnContainer>
           <CommentContainer>

@@ -3,6 +3,7 @@ import Footer from '../Footer';
 import ReviewItem from './ReviewItem';
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 
 import { MdSearch } from 'react-icons/md';
 import { WiDayCloudy } from 'react-icons/wi';
@@ -69,7 +70,6 @@ const Menu = styled.div`
   background: #ffffff;
   height: 95%;
   left: 10%;
-  // top: 6px;
   border: 5px solid #afafaf;
   z-index: 1;
 `;
@@ -77,8 +77,11 @@ const Menu = styled.div`
 const MenuTop = styled.div`
   width: 390px;
   height: 30%;
-  background: url('https://www.ui4u.go.kr/tour/img/content/img_mountain_pic02.png')
+  background: url(${(props) =>
+      props.url ||
+      'https://www.ui4u.go.kr/tour/img/content/img_mountain_pic02.png'})
     no-repeat center center;
+  background-size: 100% 100%;
 `;
 
 const SunInfo = styled.div`
@@ -221,6 +224,9 @@ const MenuInfo = styled.div`
 
 const MapSearch = () => {
   const [pos, setPos] = useState('');
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
+  const [address, setAddress] = useState('');
   const [hashtag, setHashtag] = useState('');
 
   const [heart, setHeart] = useState(false);
@@ -236,6 +242,8 @@ const MapSearch = () => {
   const [storeX, setStoreX] = useState(0);
 
   const [review, setReview] = useState([]);
+  const [mntImage, setMntImage] = useState('');
+  // const navigate = useNavigate();
 
   if (pos) {
     fetch('/api/map/' + pos, {
@@ -258,7 +266,8 @@ const MapSearch = () => {
         setStoreX(data.mountain.facility[4].t);
 
         setHashtag(data.mountain.hashtags);
-
+        setMntImage(data.mountain.image);
+        // console.log(data.reviews[1]._id);
         const initData = data.reviews.map((it) => {
           return {
             _id: it._id,
@@ -276,8 +285,6 @@ const MapSearch = () => {
           };
         });
         setReview(initData);
-        // console.log(review);
-
         if (data.reviews.length >= 1) {
           setHeart(true);
         }
@@ -299,14 +306,37 @@ const MapSearch = () => {
     setPos(e.target.value);
   };
 
+  const navigate = useNavigate();
+  const clickReview = (e) => {
+    navigate('/writereview', {
+      state: {
+        mountain: pos,
+        address: address,
+        lat: latitude,
+        lng: longitude,
+      },
+    });
+  };
   // const clickHeart = () => {
   //   setHeart(!heart);
   // };
 
   useEffect(() => {
-    const data = localStorage.getItem('pos');
-    if (data) {
-      setPos(data);
+    const p = localStorage.getItem('pos');
+    if (p) {
+      setPos(p);
+    }
+    const a = localStorage.getItem('address');
+    if (a) {
+      setAddress(a);
+    }
+    const la = localStorage.getItem('lat');
+    if (la) {
+      setLatitude(la);
+    }
+    const ln = localStorage.getItem('long');
+    if (ln) {
+      setLongitude(ln);
     }
   }, []);
 
@@ -336,7 +366,7 @@ const MapSearch = () => {
         </MapInput>
 
         <Menu id="menu" see="hidden">
-          <MenuTop id="menuTop">
+          <MenuTop id="menuTop" url={mntImage}>
             <SunInfo>
               <WiDayCloudy className="weather" />
               <span className="time">
@@ -407,9 +437,18 @@ const MapSearch = () => {
             </div>
             <div className="review">
               <span className="sTitle">후기</span>
-              <Link to="/writereview">
-                <button className="cReview">후기작성</button>
-              </Link>
+              {/* <Link to="/writereview"> */}
+              <button
+                onClick={clickReview}
+                className="cReview"
+                // mountain={pos}
+                // address={address}
+                // lat={latitude}
+                // lng={longitude}
+              >
+                후기작성
+              </button>
+              {/* </Link> */}
               {review.map((reviews) => (
                 <ReviewItem
                   name={reviews.name}
