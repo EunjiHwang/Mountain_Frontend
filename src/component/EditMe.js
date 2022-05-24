@@ -1,10 +1,8 @@
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Input from './memberStyled/Input';
-import Button from './memberStyled/Button';
 import Header from './Header';
 import Footer from './Footer';
-import { Link } from 'react-router-dom';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -25,8 +23,6 @@ const EditDiv = styled.div`
   width: 650px;
   height: 450px;
   background: white;
-  // display: flex;
-  // flex-direction: column;
   box-shadow: 0px 5px 10px;
 `;
 
@@ -56,24 +52,46 @@ const MainDiv = styled.div`
     margin-top: 40px;
   }
 
-  button {
-    position: relative;
-    left: 20px;
-    top: 10px;
-    display: block;
-    width: 107px;
-    height: 29px;
-    background: #afafaf 0% 0% no-repeat padding-box;
-    border: none;
-    border-radius: 15px;
-    text-align: center;
-    font: normal normal 600 15px/20px Segoe UI;
-    letter-spacing: 0px;
-    color: #ffffff;
-    opacity: 1;
-  }
   form {
     margin-top: 50px;
+  }
+`;
+
+const Btn = styled.button`
+  position: relative;
+  left: 20px;
+  top: 10px;
+  display: block;
+  width: 107px;
+  height: 29px;
+  background: #afafaf 0% 0% no-repeat padding-box;
+  border: none;
+  border-radius: 15px;
+  text-align: center;
+  font: normal normal 600 15px/20px Segoe UI;
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+`;
+
+const Outbtn = styled.button`
+  position: relative;
+  float: right;
+  right: 25px;
+  top: 20px;
+  display: block;
+  width: 107px;
+  height: 29px;
+  border: none;
+  border-radius: 15px;
+  text-align: center;
+  font: normal normal 600 15px/20px Segoe UI;
+  letter-spacing: 0px;
+  color: #ffffff;
+  opacity: 1;
+
+  &:hover {
+    background: #afafaf 0% 0% no-repeat padding-box;
   }
 `;
 
@@ -104,6 +122,11 @@ const SaveBtn = styled.button`
 
 const Img = styled.div`
   height: 100%;
+`;
+
+const Message = styled.div`
+  font: normal normal bold 15px Segoe UI;
+  color: #554646;
 `;
 
 function EditMe() {
@@ -137,6 +160,69 @@ function EditMe() {
     event.preventDefault();
   };
 
+  const editConnect = () => {
+    fetch('/api/mypage/update', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: localStorage.getItem('userId'),
+        name: Nickname,
+        email: Email,
+        password: CheckPassword,
+        old_password: CurPassword,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          if (!res.message) {
+            alert('현재 비밀번호가 일치하지 않습니다');
+          } else {
+            alert('정보가 수정되었습니다.');
+          }
+        }
+      })
+      .then((error) => {
+        console.log('error');
+      });
+  };
+
+  const saveInfo = () => {
+    console.log(Nickname, Email, CurPassword, NewPassword, CheckPassword);
+    if (NewPassword == '' || CheckPassword == '') {
+      alert('비밀번호를 입력해주세요.');
+    } else if (NewPassword.length < 8) {
+      alert('비밀번호를 8자 이상 입력해주세요.');
+    } else if (NewPassword != CheckPassword) {
+      alert('새 비밀번호와 확인된 비밀번호가 일치하지 않습니다.');
+    } else {
+      editConnect();
+    }
+  };
+
+  const outInfo = () => {
+    fetch('/api/mypage/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: localStorage.getItem('userId'),
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.success) {
+          alert('탈퇴가 완료되었습니다.');
+        }
+      })
+      .then((error) => {
+        console.log('error');
+      });
+  };
+
   return (
     <div>
       <Header />
@@ -144,13 +230,15 @@ function EditMe() {
         <EditDiv>
           <TopDiv>
             <Title>회원정보 수정</Title>
-            <SaveBtn type="submit">저장</SaveBtn>
+            <SaveBtn type="submit" onClick={saveInfo}>
+              저장
+            </SaveBtn>
           </TopDiv>
           <MainDiv>
             <Img>
               <img src="https://cdn-icons-png.flaticon.com/512/1142/1142743.png"></img>
 
-              <button type="submit">사진 변경</button>
+              <Btn type="submit">사진 변경</Btn>
             </Img>
 
             <form
@@ -194,6 +282,7 @@ function EditMe() {
               />
             </form>
           </MainDiv>
+          <Outbtn onClick={outInfo}>회원 탈퇴</Outbtn>
         </EditDiv>
       </Div>
       <Footer />

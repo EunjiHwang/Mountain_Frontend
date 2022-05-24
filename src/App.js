@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import Main from './component/Main';
 import Intro from './component/Intro';
@@ -22,7 +22,6 @@ import Chatbot from './component/Chatbot';
 import Header from './component/Header';
 
 function App() {
-
   // 로그인 상태 관리
   const [isLogin, setIsLogin] = useState(false);
   const [userId, setUserId] = useState('');
@@ -30,18 +29,18 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('token') === null) {
       // 저장된 token 값이 없다면
-      console.log('isLogin : ', isLogin)
+      console.log('isLogin : ', isLogin);
     } else {
       // 저장된 token값이 있다면 로그인이 된 상태
       setIsLogin(true); // 상태 변경
     }
-  })
+  });
 
   // userId props로 가져가서 사용하면 됨
   useEffect(() => {
     setUserId(localStorage.getItem('userId'));
     console.log(userId);
-  })
+  });
 
   return (
     <div>
