@@ -60,7 +60,45 @@ const AuthItem = styled.div`
   margin-left: 40px;
 `;
 
+const LogoutButton = styled.button`
+    display: flex;
+    flex-direction: row;
+    font-size: 20px;
+    font-weight: 600;
+    color: black;
+    margin-left: 40px;
+    border: 0;
+    outline: 0;
+    background-color: transparent;
+`
+
+const onLogout = (isLogin) => {
+  
+  let user = {
+    _id: localStorage.getItem('userId'),
+  };
+
+  fetch('/api/users/logout', {
+    method: 'GET',
+    async: false,
+  })
+  .then((response) => {
+    // 로그아웃 성공 시
+    console.log('res', response);
+    localStorage.removeItem('user_id');
+    localStorage.removeItem('token');
+    localStorage.setItem('isLogin', false);
+    alert('로그아웃 되었습니다.');
+    document.location.href = '/';
+  })
+  .then((data) => {
+    //
+  });
+  
+};
+
 function Header() {
+
   return (
     <Wrapper>
       <Link to="/" style={{ textDecoration: 'none' }}>
@@ -80,14 +118,22 @@ function Header() {
           <MenuItem>마이페이지</MenuItem>
         </Link>
       </MenuList>
-      <AuthList>
-        <Link to="/login" style={{ textDecoration: 'none' }}>
-          <AuthItem>로그인</AuthItem>
-        </Link>
-        <Link to="/join" style={{ textDecoration: 'none' }}>
-          <AuthItem>회원가입</AuthItem>
-        </Link>
-      </AuthList>
+      {localStorage.getItem('isLogin') === 'true' ? 
+        <AuthList>
+          <LogoutButton onClick={() => onLogout()} style={{ textDecoration: 'none' }}>
+            로그아웃
+          </LogoutButton>
+        </AuthList>
+        :
+          <AuthList>
+          <Link to="/login" style={{ textDecoration: 'none' }}>
+            <AuthItem>로그인</AuthItem>
+          </Link>
+          <Link to="/join" style={{ textDecoration: 'none' }}>
+            <AuthItem>회원가입</AuthItem>
+          </Link>
+        </AuthList>
+      }
     </Wrapper>
   );
 }

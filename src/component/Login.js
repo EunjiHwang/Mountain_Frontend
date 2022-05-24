@@ -96,6 +96,7 @@ function Login(props) {
           if (result.loginSuccess === true) {
             localStorage.setItem('token', result.token);
             localStorage.setItem('userId', result.userId);
+            localStorage.setItem('isLogin', true);
             console.log(result.userId);
             // 홈으로 이동
             alert('로그인 되었습니다.');

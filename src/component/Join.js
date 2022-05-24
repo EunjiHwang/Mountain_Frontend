@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
 import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
