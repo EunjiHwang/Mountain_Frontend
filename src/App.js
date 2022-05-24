@@ -29,16 +29,21 @@ function App() {
   useEffect(() => {
     if (localStorage.getItem('token') === null) {
       // 저장된 token 값이 없다면
-      console.log('isLogin : ', isLogin);
+      localStorage.setItem('isLogin', false);
     } else {
       // 저장된 token값이 있다면 로그인이 된 상태
-      setIsLogin(true); // 상태 변경
+      localStorage.setItem('isLogin', true); // 상태 변경
     }
   });
 
   // userId props로 가져가서 사용하면 됨
   useEffect(() => {
     setUserId(localStorage.getItem('userId'));
+
+    // Main용
+    if (localStorage.getItem('isLogin') === 'true') setIsLogin(true);
+    else setIsLogin(false);
+
     console.log(userId);
   });
 
@@ -47,7 +52,7 @@ function App() {
       <GlobalStyle />
       <Chatbot />
       <Routes>
-        <Route path="/header" element={<Header isLogin={isLogin} />} />
+        <Route path="/header" element={<Header />} />
         <Route path="/" element={<Main isLogin={isLogin} />} exact={true} />
         <Route path="/intro" element={<Intro />} />
         <Route path="/map" element={<Map />} />
