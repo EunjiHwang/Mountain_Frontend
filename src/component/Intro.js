@@ -45,7 +45,6 @@ const Span = styled.span`
 `
 
 function Intro(props) {
-  
   return (
     <div>
     <Header />
