@@ -42,7 +42,7 @@ function DetailView(props) {
 
   const handleDelClick = () => {
     if (window.confirm('게시물을 삭제하시겠습니까?')) {
-      fetch('/api/post/delete', {
+      fetch('http://54.208.255.25:8080/api/post/delete', {
         method: 'POST',
         async: false,
         body: JSON.stringify({ _id: post._id }),
@@ -70,7 +70,7 @@ function DetailView(props) {
       alert('댓글 작성 후 등록해주세요.');
       document.querySelector("input[name='reply']").focus();
     } else {
-      fetch('/api/reply/write', {
+      fetch('http://54.208.255.25:8080/api/reply/write', {
         method: 'POST',
         async: false,
         body: JSON.stringify({

@@ -85,7 +85,7 @@ function Login(props) {
     console.log(body);
 
     if (body) {
-      fetch('/api/users/login', {
+      fetch('http://54.208.255.25:8080/api/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

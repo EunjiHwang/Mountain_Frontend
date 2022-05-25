@@ -158,7 +158,7 @@ function EditMe() {
   };
 
   const editConnect = () => {
-    fetch('/api/mypage/update', {
+    fetch('http://54.208.255.25:8080/api/mypage/update', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -202,7 +202,7 @@ function EditMe() {
   };
 
   const outInfo = () => {
-    fetch('/api/mypage/delete', {
+    fetch('http://54.208.255.25:8080/api/mypage/delete', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

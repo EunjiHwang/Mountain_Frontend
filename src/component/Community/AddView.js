@@ -51,14 +51,14 @@ function AddView(props) {
     let apiUrl = ``;
     let postObj = {};
     if (post) {
-      apiUrl = '/api/post/update';
+      apiUrl = 'http://54.208.255.25:8080/api/post/update';
       postObj = {
         _id: post.post._id,
         title,
         content,
       };
     } else {
-      apiUrl = '/api/post/write';
+      apiUrl = 'http://54.208.255.25:8080/api/post/write';
       postObj = {
         writer: '627b8dccbb97cafec9e32628',
         title,

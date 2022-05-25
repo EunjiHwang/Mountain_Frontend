@@ -193,7 +193,7 @@ function Join(props) {
     };
 
     if (body) {
-      fetch('/api/users/register', {
+      fetch('http://54.208.255.25:8080/api/users/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

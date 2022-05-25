@@ -246,7 +246,7 @@ const MapSearch = () => {
   // const navigate = useNavigate();
 
   if (pos) {
-    fetch('/api/map/' + pos, {
+    fetch('http://54.208.255.25:8080/api/map/' + pos, {
       method: 'GET',
       async: false,
     })

@@ -102,7 +102,7 @@ function PasswordNext(props) {
     };
 
     if (body) {
-      fetch('/api/users/reset/token', {
+      fetch('http://54.208.255.25:8080/api/users/reset/token', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -87,7 +87,7 @@ function Password(props) {
     };
 
     if (body) {
-      fetch('/api/users/forgot', {
+      fetch('http://54.208.255.25:8080/api/users/forgot', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -104,7 +104,7 @@ function Chatbot() {
     try {
       // request to textQuery Route
       const response = await Axios.post(
-        '/api/dialogflow/textQuery',
+        'http://54.208.255.25:8080/api/dialogflow/textQuery',
         textQueryVar
       );
       const content = response.data.fulfillmentMessages[0];

@@ -64,7 +64,7 @@ function MyWriting(props) {
   const [items, setItems] = React.useState([]);
 
   React.useEffect(() => {
-    fetch('/api/post/main', {
+    fetch('http://54.208.255.25:8080/api/post/main', {
       method: 'GET',
       async: false,
     })
@@ -110,7 +110,7 @@ function MyWriting(props) {
   const onSubmit = (e) => {
     e.preventDefault();
     if (searchText) {
-      fetch('/api/post/main/' + searchText, {
+      fetch('http://54.208.255.25:8080/api/post/main/' + searchText, {
         method: 'GET',
         async: false,
       })
@@ -130,7 +130,7 @@ function MyWriting(props) {
 
   const onDetailClick = (id) => {
     if (id) {
-      fetch('/api/post/detail/' + id, {
+      fetch('http://54.208.255.25:8080/api/post/detail/' + id, {
         method: 'GET',
         async: false,
       })
