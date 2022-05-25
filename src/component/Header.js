@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 // 각 메뉴별 현재 없는 컴포넌트 라우터 설정 필요
 // 드롭다운 구현 필요
@@ -72,32 +72,34 @@ const LogoutButton = styled.button`
     background-color: transparent;
 `
 
-const onLogout = (isLogin) => {
-  
-  let user = {
-    _id: localStorage.getItem('userId'),
-  };
 
-  fetch('/api/users/logout', {
-    method: 'GET',
-    async: false,
-  })
-  .then((response) => {
-    // 로그아웃 성공 시
-    console.log('res', response);
-    localStorage.removeItem('user_id');
-    localStorage.removeItem('token');
-    localStorage.setItem('isLogin', false);
-    alert('로그아웃 되었습니다.');
-    document.location.href = '/';
-  })
-  .then((data) => {
-    //
-  });
-  
-};
+
 
 function Header() {
+
+  const navigate = useNavigate();
+
+  const onLogout = (isLogin) => {
+  
+    fetch('/api/users/logout', {
+      method: 'GET',
+      async: false,
+    })
+    .then((response) => response.json())
+    .then((response) => {
+      // 로그아웃 성공 시
+      localStorage.removeItem('user_id');
+      localStorage.removeItem('token');
+      localStorage.setItem('isLogin', false);
+      console.log(response.success);
+      alert('로그아웃 되었습니다.');
+      navigate('/');
+    })
+    .then((data) => {
+      //
+    });
+    
+  };
 
   return (
     <Wrapper>

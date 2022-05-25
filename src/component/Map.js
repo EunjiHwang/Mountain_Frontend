@@ -1,10 +1,15 @@
 /*global kakao */
 import MapSearch from './map/MapSearch';
 import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function Map() {
+  const location = useLocation();
   useEffect(() => {
     mapscript();
+    if (location.state) {
+      console.log(location.state);
+    }
   }, []);
 
   const mapscript = () => {
@@ -81,6 +86,9 @@ export default function Map() {
     // 키워드 검색을 요청하는 함수입니다
     function searchPlaces() {
       var keyword = localStorage.getItem('pos');
+      if (location.state) {
+        keyword = location.state;
+      }
 
       if (keyword == null) {
         return false;
