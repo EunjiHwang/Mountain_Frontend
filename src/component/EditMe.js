@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import Input from './memberStyled/Input';
+import { useNavigate, useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -124,17 +125,13 @@ const Img = styled.div`
   height: 100%;
 `;
 
-const Message = styled.div`
-  font: normal normal bold 15px Segoe UI;
-  color: #554646;
-`;
-
 function EditMe() {
   const [Nickname, setNickname] = useState('');
   const [Email, setEmail] = useState('');
   const [CurPassword, setCurPassword] = useState('');
   const [NewPassword, setNewPassword] = useState('');
   const [CheckPassword, setCheckPassword] = useState('');
+  const navigate = useNavigate();
 
   const onNicknameHandler = (event) => {
     setNickname(event.currentTarget.value);
@@ -167,7 +164,6 @@ function EditMe() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        _id: localStorage.getItem('userId'),
         name: Nickname,
         email: Email,
         password: CheckPassword,
@@ -181,6 +177,7 @@ function EditMe() {
             alert('현재 비밀번호가 일치하지 않습니다');
           } else {
             alert('정보가 수정되었습니다.');
+            navigate('/mypage');
           }
         }
       })
@@ -191,11 +188,13 @@ function EditMe() {
 
   const saveInfo = () => {
     console.log(Nickname, Email, CurPassword, NewPassword, CheckPassword);
-    if (NewPassword == '' || CheckPassword == '') {
+    if (NewPassword === '' && CheckPassword === '') {
+      editConnect();
+    } else if (NewPassword === '' || CheckPassword === '') {
       alert('비밀번호를 입력해주세요.');
     } else if (NewPassword.length < 8) {
       alert('비밀번호를 8자 이상 입력해주세요.');
-    } else if (NewPassword != CheckPassword) {
+    } else if (NewPassword !== CheckPassword) {
       alert('새 비밀번호와 확인된 비밀번호가 일치하지 않습니다.');
     } else {
       editConnect();
@@ -214,9 +213,7 @@ function EditMe() {
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.success) {
-          alert('탈퇴가 완료되었습니다.');
-        }
+        alert('탈퇴가 완료되었습니다.');
       })
       .then((error) => {
         console.log('error');

@@ -44,7 +44,7 @@ function App() {
     if (localStorage.getItem('isLogin') === 'true') setIsLogin(true);
     else setIsLogin(false);
 
-    console.log(userId);
+    // console.log(userId);
   });
 
   return (
