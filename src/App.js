@@ -26,6 +26,7 @@ function App() {
   // 로그인 상태 관리
   const [isLogin, setIsLogin] = useState(false);
   const [userId, setUserId] = useState('');
+  const [passwordToken, setPasswordToken] = useState('');
 
   useEffect(() => {
     if (localStorage.getItem('token') === null) {

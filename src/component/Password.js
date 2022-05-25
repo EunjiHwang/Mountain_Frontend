@@ -98,6 +98,7 @@ function Password(props) {
         .then((response) => response.json())
         .then((result) => {
           if (result.success === true) {
+            localStorage.setItem('token', result.token);
             alert('이메일로 새 비밀번호 설정 링크가 전송됩니다.');
             navigate('/login');
           } else {
