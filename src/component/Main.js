@@ -1,13 +1,12 @@
 import React, { useRef, useState, useEffect, forwardRef } from 'react';
 import styled from 'styled-components';
 import MainSlider from './MainSlider';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import Community from './assets/community.png';
 import Intro from './assets/intro.png';
 import Mypage from './assets/mypage.png';
 import Search from './assets/search.png';
-import Chatbot from './Chatbot';
 
 const Background = styled.div`
   position: absolute;
@@ -103,7 +102,6 @@ const MypageText = styled.div`
   margin: 10px 0 0 18px;
 `;
 
-
 const ToggleMenu = styled.div`
   display: block;
   position: absolute;
@@ -185,6 +183,7 @@ const Main = forwardRef((props, ref) => {
   const toggleRefBottom = useRef();
 
   const [isToggled, setIsToggled] = useState(false);
+  const navigate = useNavigate();
 
   const handleToggleMenu = () => {
     setIsToggled(!isToggled);
@@ -210,18 +209,18 @@ const Main = forwardRef((props, ref) => {
 
   const isLogin = props.isLogin;
 
-  // 마이페이지나 그런거 버튼 클릭 시 로그인 여부 확인 
+  // 마이페이지나 그런거 버튼 클릭 시 로그인 여부 확인
   const authHandle = (e) => {
     e.preventDefault();
 
     if (isLogin === false) {
       // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
       alert('로그인이 필요한 서비스입니다.');
-      window.location.href = "http://localhost:3000/login";
+      navigate('/login');
     } else {
-      window.location.href = "http://localhost:3000/mypage";
+      navigate('/mypage');
     }
-  }
+  };
 
   // 게시글 작성 서비스 클릭 시 로그인 여부
   const contentAddHandle = (e) => {
@@ -230,12 +229,12 @@ const Main = forwardRef((props, ref) => {
     if (isLogin === false) {
       // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
       alert('로그인이 필요한 서비스입니다.');
-      window.location.href = "http://localhost:3000/login";
+      navigate('/login');
     } else {
-      window.location.href = "http://localhost:3000/community/add";
+      navigate('/community/add');
     }
-  }
-  
+  };
+
   // 내가 작성한 후기 서비스 로그인 여부
   const myWritingHandle = (e) => {
     e.preventDefault();
@@ -243,11 +242,11 @@ const Main = forwardRef((props, ref) => {
     if (isLogin === false) {
       // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
       alert('로그인이 필요한 서비스입니다.');
-      window.location.href = "http://localhost:3000/login";
+      navigate('/login');
     } else {
-      window.location.href = "http://localhost:3000/mywriting";
+      navigate('/mywriting');
     }
-  }
+  };
 
   // 작성한 후기 보기 서비스 로그인 여부
   const myReviewHandle = (e) => {
@@ -256,25 +255,24 @@ const Main = forwardRef((props, ref) => {
     if (isLogin === false) {
       // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
       alert('로그인이 필요한 서비스입니다.');
-      window.location.href = "http://localhost:3000/login";
+      navigate('/login');
     } else {
-      window.location.href = "http://localhost:3000/myreview";
+      navigate('/myreview');
     }
-  }
+  };
 
-    // 작성한 댓글 보기 서비스 로그인 여부
-    const myCommentHandle = (e) => {
-      e.preventDefault();
-  
-      if (isLogin === false) {
-        // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
-        alert('로그인이 필요한 서비스입니다.');
-        window.location.href = "http://localhost:3000/login";
-      } else {
-        window.location.href = "http://localhost:3000/mycomment";
-      }
+  // 작성한 댓글 보기 서비스 로그인 여부
+  const myCommentHandle = (e) => {
+    e.preventDefault();
+
+    if (isLogin === false) {
+      // 로그인을 하지 않은 상태에는 로그인 화면으로 이동
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/login');
+    } else {
+      navigate('/mycomment');
     }
-
+  };
 
   return (
     <Background>
@@ -320,7 +318,6 @@ const Main = forwardRef((props, ref) => {
               <Link to="/mycomment" onClick={myCommentHandle}>
                 <SubMenu>● 댓글 모아보기</SubMenu>
               </Link>
-              <MenuItem>챗봇</MenuItem>
               <MenuItem>로그인/회원가입</MenuItem>
               <Link to="/login">
                 <SubMenu>● 로그인</SubMenu>
@@ -362,7 +359,6 @@ const Main = forwardRef((props, ref) => {
           <MypageText>마이페이지</MypageText>
         </Link>
       </MenuTap>
-      <Chatbot />
       <MainSlider />
     </Background>
   );
