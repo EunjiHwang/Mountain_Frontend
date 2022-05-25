@@ -81,7 +81,7 @@ function Header() {
 
   const onLogout = (isLogin) => {
   
-    fetch('/api/users/logout', {
+    fetch('http://54.208.255.25:8080/api/users/logout', {
       method: 'GET',
       async: false,
     })
