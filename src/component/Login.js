@@ -82,6 +82,8 @@ function Login(props) {
       password: Password,
     };
 
+    console.log(body);
+
     if (body) {
       fetch('/api/users/login', {
         method: 'POST',
@@ -93,6 +95,7 @@ function Login(props) {
       })
         .then((response) => response.json())
         .then((result) => {
+          console.log(result);
           if (result.loginSuccess === true) {
             localStorage.setItem('token', result.token);
             localStorage.setItem('userId', result.userId);
