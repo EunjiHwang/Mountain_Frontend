@@ -291,6 +291,7 @@ function Mypage(props) {
         var imageSize = new kakao.maps.Size(30, 30);
         for (var i = 0; i < res.mountains.length; i++) {
           console.log('good');
+          localStorage.setItem('name', res.mountains[i].name);
           // 마커 이미지를 생성합니다
           var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
           var latlng = new kakao.maps.LatLng(
@@ -307,7 +308,7 @@ function Mypage(props) {
           content.style.cssText =
             'width: 250px; height: 200px; background: white; border-radius: 10px;';
           content.onclick = function () {
-            // navigate('/map', { state: res.mountains[i].name });
+            navigate('/map', { state: localStorage.getItem('name') });
             console.log('click');
           };
           // content.onClick = onClickMap(res.mountains[i].name);
