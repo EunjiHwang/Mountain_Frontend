@@ -1,6 +1,9 @@
 import styled from 'styled-components';
 import ChatbotImg from './assets/chatbot.png';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { saveMessage } from '../_actions/message_actions';
+import Axios from 'axios';
 
 // 챗봇 전체를 감싸는 컴포넌트
 const ChatWrapper = styled.div`
@@ -21,7 +24,7 @@ const ChatContainer = styled.div`
   background-color: white;
   right: 50px;
   bottom: 120px;
-  border: 3px solid #A0E991;
+  border: 3px solid #a0e991;
   border-radius: 10px;
 `;
 
@@ -51,7 +54,7 @@ const IconWrap = styled.div`
   height: 75px;
   border-radius: 30px;
   display: flex;
-  background-color: #A0E991;
+  background-color: #a0e991;
   border: 1px solid white;
   position: fixed;
   right: 30px;
@@ -69,23 +72,92 @@ const IconImg = styled.img`
 function Chatbot() {
   const [isClicked, setIsClicked] = useState(false);
 
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    eventQuery('welcomeToMyWebsite')
+  },[])
+
   const handleIcon = () => {
     setIsClicked(!isClicked);
   };
 
   // 서버로 요청을 보낼 함수
-  const textQuery = (text) => {
+  const textQuery = async (text) => {
     // 1. 보낸 메시지를 관리
     let conversation = {
       who: 'user',
       content: {
         text: {
-          text: text
+          text: text,
+        },
+      },
+    };
+
+    dispatch(saveMessage(conversation));
+
+    // 2. 챗봇이 보낸 메시지를 처리
+    const textQueryVar = {
+      text,
+    };
+    // request 보내기
+    try {
+      // request to textQuery Route
+      const response = await Axios.post(
+        '/api/dialogflow/textQuery',
+        textQueryVar
+      );
+      const content = response.data.fulfillmentMessages[0];
+
+      conversation = {
+        who: 'bot',
+        content: content,
+      };
+      console.log(conversation);
+    } catch (error) {
+      conversation = {
+        who: 'bot',
+        content: {
+          text: {
+            text: 'Error가 발생했습니다. 문제를 확인해주세요.',
+          },
+        },
+      };
+      console.log(conversation);
+    }
+  };
+
+
+
+  const eventQuery = async (event) => {
+
+
+    // 2. 챗봇이 보낸 메시지를 처리
+    const eventQueryVar = {
+      event
+    }
+    // request 보내기
+    try {
+      // request to textQuery Route
+      const response = await Axios.post('/api/dialogflow/eventQuery', eventQueryVar)
+      const content = response.data.fulfillmentMessages[0] 
+
+      let conversation = {
+        who: 'bot',
+        content: content
+      }
+      console.log(conversation);
+    } catch (error) {
+      let conversation = {
+        who: 'bot',
+        content: {
+          text: {
+            text: 'Error가 발생했습니다. 문제를 확인해주세요.'
+          }
         }
       }
+      console.log(conversation);
     }
-    // 2. 챗봇이 보낸 메시지를 처리
-    // request 보내기
 
   }
 
@@ -98,8 +170,8 @@ function Chatbot() {
       }
       // 메시지를 입력했다면 이를 보냄
       textQuery(e.target.value);
-      // 보낸 후에는 value를 빈 값으로 
-      e.target.value = "";
+      // 보낸 후에는 value를 빈 값으로
+      e.target.value = '';
     }
   };
 
