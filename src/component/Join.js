@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 import Button from './memberStyled/Button';
+import { useNavigate } from 'react-router-dom';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -138,6 +139,7 @@ function Join(props) {
 
   const [showTerms, setShowTerms] = useState(false);
   const [outCheck, setOutcheck] = useState(false);
+  const navigate = useNavigate();
 
   const [Email, setEmail] = React.useState('');
   const [Password, setPassword] = React.useState('');
@@ -207,7 +209,7 @@ function Join(props) {
           console.log('res :::', res);
           if (res.success === true) {
             alert('회원가입 되었습니다.');
-            window.location.href = '/login';
+            navigate('/login');
           } else {
             alert('회원가입에 실패했습니다.');
           }
@@ -287,7 +289,7 @@ function Join(props) {
                   <TermsDiv>
                     제1조(목적)
                     <br />
-                    본 회원약관은 '등산했산'(이하 '갑'이라고 한다)이 운영하는
+                    본 회원약관은 '다녀왔산'(이하 '갑'이라고 한다)이 운영하는
                     인터넷 관련 서비스(이하 '서비스'라 한다)를 이용함에 있어
                     관리자와 이용자(이하 '회원'이라고 한다)의 권리, 의무 및
                     책임사항을 규정함을 목적으로 한다.
@@ -351,6 +353,34 @@ function Join(props) {
                     약관이 정하는 바에 따라 지속적이고, 안정적으로 서비스를
                     제공하는데 최선을 다하여야 합니다.
                     <br />
+                    <br />
+                    제7조(개인정보 보호)
+                    <br />
+                    1. "웹사이트"는 웹고객 가입시 최소한의 정보를 수집하며 이용자의
+                    개인정보는 원칙적으로 개인정보의 처리목적이 달성되면 지체 없이 파기합니다.
+                    <br />
+                    2. "웹사이트"에서 이용자의 개인식별이 가능한 개인정보를 수집하는 때에는
+                    반드시 당해 이용자의 동의를 받습니다.
+                    <br />
+                    3. "웹사이트"는 웹고객 가입 시 제공된 개인정보를 당사자의 동의 없이 목적
+                    외의 이용이나 제 3자에게 제공할 수 없으며, 이에 대한 모든 책임은 "燈山(등산)"
+                    에게 있습니다. 다만, 다음의 경우에는 예외로 합니다.
+                    <br />
+                    - 통계작성, 학술연구 또는 시장조사를 위하여 필요한 경우로서 특정 개인을
+                    식별할 수 없는 형태로 제공하는 경우 <br />
+                    - 도용방지를 위하여 본인확인에 필요한 경우 <br />
+                    - 법률의 규정 또는 법률에 의하여 필요한 불가피한 사유가 있는 경우 <br />
+                    4. "웹사이트"는 쿠키를 활용하여 개인정보를 수집하지 않습니다.
+                    <br />
+                    <br />
+                    제 8조(웹고객에 대한 통지)
+                    <br />
+                    1. "웹사이트"에서 웹고객에 대한 통지를 하는 경우, 웹고객이 "웹사이트"에 미리
+                    약정하여 지정한 전자우편 주소로 할 수 있습니다.
+                    <br />
+                    2. "웹사이트"는 불특정다수 고객에 대한 통지의 경우 1주일 이상 "웹사이트"에
+                    게시함으로서 개별 통지에 갈음할 수 있습니다.
+                    <br />
                   </TermsDiv>
                   <br />
                   <label
@@ -372,7 +402,6 @@ function Join(props) {
             </div>
             <br />
             <Button type="submit">회원가입</Button>
-            {/* <button type="submit">회원가입</button> */}
             <br />
           </form>
         </JoinDiv>
