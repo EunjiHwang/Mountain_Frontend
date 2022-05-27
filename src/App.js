@@ -28,6 +28,14 @@ function App() {
   const [passwordToken, setPasswordToken] = useState('');
 
   useEffect(() => {
+    if (localStorage.getItem('passwordToken')) {
+      const pwToken = localStorage.getItem('passwordToken');
+      setPasswordToken(pwToken);
+    }
+    console.log(passwordToken);
+  })
+
+  useEffect(() => {
     if (localStorage.getItem('token') === null) {
       // 저장된 token 값이 없다면
       localStorage.setItem('isLogin', false);
@@ -71,7 +79,10 @@ function App() {
         <Route path="/mycomment" element={<MyComment />} />
         <Route path="/myreview" element={<MyReview />} />
         <Route path="/editme" element={<EditMe />} />
-        <Route path="/passwordnext" element={<PasswordNext />} />
+        <Route
+          path="/passwordnext/:passwordToken"
+          element={<PasswordNext />}
+        />
       </Routes>
     </div>
   );

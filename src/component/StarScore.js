@@ -33,14 +33,21 @@ const Stars = styled.div`
 
 const ARRAY = [0, 1, 2, 3, 4];
 
-function StarScroe() {
+function StarScroe({setStar}) {
   const [clicked, setClicked] = useState([false, false, false, false, false]);
 
   const handleStarClick = index => {
     let clickStates = [...clicked];
+    let countStar = 0;
     for (let i = 0; i < 5; i++) {
       clickStates[i] = i <= index ? true : false;
     }
+    for (let i = 0; i < 5; i++){
+      if (clickStates[i] === true) {
+        countStar += 1;
+      }
+    }
+    setStar(countStar);
     setClicked(clickStates);
   };
 

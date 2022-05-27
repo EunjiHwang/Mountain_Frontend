@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -74,8 +74,12 @@ const Span = styled.span`
 function PasswordNext(props) {
   const [Password, setPassword] = useState('');
   const [RePassword, setRePassword] = useState('');
+  // const [passwordToken, setPasswordToken] = useState('');
 
   const navigate = useNavigate();
+
+  const { passwordToken } = useParams();
+  console.log(passwordToken);
 
   const onPasswordHandler = (event) => {
     setPassword(event.currentTarget.value);
@@ -120,7 +124,6 @@ function PasswordNext(props) {
         });
     }
   };
-
 
   return (
     <div>

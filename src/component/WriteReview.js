@@ -1,9 +1,9 @@
-import { useState, React } from 'react';
+import { useState, React, useEffect } from 'react';
 import styled from 'styled-components';
 import Header from './Header';
 import Footer from './Footer';
 import StarScore from './StarScore';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -187,6 +187,7 @@ const NoBtn = styled.button`
 
 function WriteReview(props) {
   const location = useLocation();
+  const [comment, setComment] = useState('');
   const [hashtag, setHashtag] = useState('');
   // yes면 true, no면 false
   const [toilet, setToilet] = useState(false);
@@ -195,6 +196,40 @@ function WriteReview(props) {
   const [food, setFood] = useState(false);
   const [drink, setDrink] = useState(false);
   const [clicked, setClicked] = useState(false);
+  const [star, setStar] = useState(0);
+
+  const [facility, setFacility] = useState([
+    {
+      idChecked: false,
+      facilityType: 'toilet',
+    },
+    {
+      idChecked: false,
+      facilityType: 'parking',
+    },
+    {
+      idChecked: false,
+      facilityType: 'water',
+    },
+    {
+      idChecked: false,
+      facilityType: 'food',
+    },
+    {
+      isChecked: false,
+      facilityType: 'drink',
+    },
+  ]);
+
+
+
+  const onHashHandler = (e) => {
+    setHashtag(e.target.value);
+  };
+
+  const onCommentHandler = (e) => {
+    setComment(e.target.value);
+  };
 
   const SelectToilet = () => {
     if (document.getElementById('toilet_yes')) {
@@ -347,10 +382,45 @@ function WriteReview(props) {
     }
   };
 
-  //단어를 입력하고 엔터를 누르면 해시태그 생성하는 키 프레스 이벤트
-  const onEnter = (e) => {
-    if (e.key === 'Enter') {
-      // onCreateHashtag();
+  const navigate = useNavigate();
+
+  const onClickSave = (e) => {
+    e.preventDefault();
+
+    let facilityArray = [];
+
+    for (let i = 0; i < 5; i++) {
+      facilityArray.push(facility[i].idChecked);
+    }
+
+    let body = {
+      writer: localStorage.getItem('userId'),
+      mountain: location.state.mountain,
+      address: location.state.address,
+      facility: facilityArray,
+      rating: star,
+      comment: comment,
+      hashtags: hashtag,
+      lat: Number(location.state.lat),
+      lng: Number(localStorage.getItem('lon')),
+    };
+
+    if (body) {
+      fetch('http://54.208.255.25:8080/api/review/write', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(body);
+          if (result.message === '후기가 업로드 되었습니다!') {
+            alert('후기가 등록되었습니다!');
+            navigate('/map');
+          } else {
+            alert('후기 등록에 실패하였습니다. 내용을 확인해주세요.');
+          }
+        });
     }
   };
 
@@ -361,12 +431,12 @@ function WriteReview(props) {
         <IntroDiv>
           <TitleContainer>
             <ReviewTitle>{location.state.mountain}</ReviewTitle>
-            <SaveBtn>저장</SaveBtn>
+            <SaveBtn onClick={onClickSave}>저장</SaveBtn>
           </TitleContainer>
           <UnderBar />
           <ScoreContainer>
             <ScoreTitle>총점</ScoreTitle>
-            <StarScore />
+            <StarScore setStar={setStar} />
           </ScoreContainer>
           <StrContainer>
             <StrTitle>시설 여부</StrTitle>
@@ -380,18 +450,34 @@ function WriteReview(props) {
             <BtnWrapper>
               <YesBtn
                 id="toilet_yes"
-                onClick={() => {
+                value={facility[0].facilityType}
+                onClick={(e) => {
                   SelectToilet();
                   setToilet(true);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: true }
+                        : item
+                    )
+                  );
                 }}
               >
                 YES
               </YesBtn>
               <NoBtn
                 id="toilet_no"
-                onClick={() => {
+                value={facility[0].facilityType}
+                onClick={(e) => {
                   SelectNoToilet();
                   setToilet(false);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: false }
+                        : item
+                    )
+                  );
                 }}
               >
                 NO
@@ -400,18 +486,34 @@ function WriteReview(props) {
             <BtnWrapper>
               <YesBtn
                 id="parking_yes"
-                onClick={() => {
+                value={facility[1].facilityType}
+                onClick={(e) => {
                   SelectParking();
                   setParking(true);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: true }
+                        : item
+                    )
+                  );
                 }}
               >
                 YES
               </YesBtn>
               <NoBtn
                 id="parking_no"
-                onClick={() => {
+                value={facility[1].facilityType}
+                onClick={(e) => {
                   SelectNoParking();
                   setParking(false);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: false }
+                        : item
+                    )
+                  );
                 }}
               >
                 NO
@@ -420,18 +522,34 @@ function WriteReview(props) {
             <BtnWrapper>
               <YesBtn
                 id="water_yes"
-                onClick={() => {
+                value={facility[2].facilityType}
+                onClick={(e) => {
                   SelectWater();
                   setWater(true);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: true }
+                        : item
+                    )
+                  );
                 }}
               >
                 YES
               </YesBtn>
               <NoBtn
                 id="water_no"
-                onClick={() => {
+                value={facility[2].facilityType}
+                onClick={(e) => {
                   SelectNoWater();
                   setWater(false);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: false }
+                        : item
+                    )
+                  );
                 }}
               >
                 NO
@@ -440,18 +558,34 @@ function WriteReview(props) {
             <BtnWrapper>
               <YesBtn
                 id="food_yes"
-                onClick={() => {
+                value={facility[3].facilityType}
+                onClick={(e) => {
                   SelectFood();
                   setFood(true);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: true }
+                        : item
+                    )
+                  );
                 }}
               >
                 YES
               </YesBtn>
               <NoBtn
                 id="food_no"
-                onClick={() => {
+                value={facility[3].facilityType}
+                onClick={(e) => {
                   SelectNoFood();
                   setFood(false);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: false }
+                        : item
+                    )
+                  );
                 }}
               >
                 NO
@@ -460,18 +594,34 @@ function WriteReview(props) {
             <BtnWrapper>
               <YesBtn
                 id="drink_yes"
-                onClick={() => {
+                value={facility[4].facilityType}
+                onClick={(e) => {
                   SelectDrink();
                   setDrink(true);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: true }
+                        : item
+                    )
+                  );
                 }}
               >
                 YES
               </YesBtn>
               <NoBtn
                 id="drink_no"
-                onClick={() => {
+                value={facility[4].facilityType}
+                onClick={(e) => {
                   SelectNoDrink();
                   setDrink(false);
+                  setFacility(
+                    facility.map((item) =>
+                      item.facilityType === e.target.value
+                        ? { ...item, idChecked: false }
+                        : item
+                    )
+                  );
                 }}
               >
                 NO
@@ -480,12 +630,17 @@ function WriteReview(props) {
           </BtnContainer>
           <CommentContainer>
             <CommentTitle>코멘트</CommentTitle>
-            <Textarea />
+            <Textarea
+              type="text"
+              placeholder="내용을 입력해주세요"
+              value={comment}
+              onChange={onCommentHandler}
+            />
             <Hashtag
               type="text"
               placeholder="#해시태그"
               value={hashtag}
-              onKeyPress={onEnter}
+              onChange={onHashHandler}
             />
           </CommentContainer>
         </IntroDiv>
