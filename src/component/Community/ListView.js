@@ -38,8 +38,10 @@ function ListView(props) {
   const [searchText, setSearchText] = React.useState('');
   const [items, setItems] = React.useState([]);
 
+  const { userId, isLogin } = props;
+
   React.useEffect(() => {
-    fetch('/api/post/main', {
+    fetch('http://54.208.255.25:8080/api/post/main', {
       method: 'GET',
       async: false,
     })
@@ -61,7 +63,12 @@ function ListView(props) {
   }, [currentpage, indexOfFirstPost, indexOfLastPost, items, postPerPage]);
 
   const handleClick = () => {
-    navigate('/community/add');
+    if (!isLogin) {
+      alert('로그인을 해주세요.');
+      return;
+    } else {
+      navigate('/community/add');
+    }
   };
 
   const setPage = (e) => {
@@ -92,22 +99,7 @@ function ListView(props) {
   };
 
   const onDetailClick = (id) => {
-    if (id) {
-      fetch('http://54.208.255.25:8080/api/post/detail/' + id, {
-        method: 'GET',
-        async: false,
-      })
-        .then((response) => {
-          console.log('res', response);
-          return response.json();
-        })
-        .then((data) => {
-          console.log('data', data.post);
-          const post = data.post;
-          const replies = data.replies;
-          navigate('/community/detail/' + id, { state: { post, replies } });
-        });
-    }
+    navigate('/community/detail/' + id, { state: { id } });
   };
 
   return (
@@ -122,7 +114,7 @@ function ListView(props) {
               </div>
               <div className="col">
                 <form onSubmit={onSubmit}>
-                  <input /*Input 시 이상해짐 */
+                  <input 
                     ref={inputRef}
                     value={searchText}
                     onChange={onChange}
@@ -147,7 +139,11 @@ function ListView(props) {
               currentPosts.map((item) => (
                 <div
                   className="row border border-2 mt-4"
-                  style={{ borderRadius: '15px', padding: '10px 0 10px 0' }}
+                  style={{
+                    borderRadius: '15px',
+                    padding: '10px 0 10px 0',
+                    cursor: 'pointer',
+                  }}
                   key={item._id}
                   onClick={() => onDetailClick(item.count)}
                 >
@@ -157,7 +153,10 @@ function ListView(props) {
                         {item.title}
                       </div>
                     </div>
-                    <div className="col text-end" style={{ color: '#808080' }}>
+                    <div
+                      className="col text-end"
+                      style={{ color: '#808080', lineHeight: '22px' }}
+                    >
                       {item.updatedAt.split('T')[0] +
                         ' ' +
                         item.updatedAt.split('T')[1].substr(0, 5) ||
@@ -183,7 +182,10 @@ function ListView(props) {
                         ></div>
                       </div>
                     </div>
-                    <div className="col text-end" style={{ color: '#808080' }}>
+                    <div
+                      className="col text-end"
+                      style={{ color: '#808080', lineHeight: '35px' }}
+                    >
                       {item.name}
                       &nbsp;&nbsp; level: {item.level}
                     </div>

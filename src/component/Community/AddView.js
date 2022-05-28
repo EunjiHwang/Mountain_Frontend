@@ -1,6 +1,5 @@
 import React from 'react';
 import styled from 'styled-components';
-//import { useDispatch, useSelector } from 'react-redux';
 import ReactQuill from 'react-quill';
 import { useNavigate, useLocation } from 'react-router-dom';
 import 'react-quill/dist/quill.snow.css';
@@ -35,32 +34,35 @@ function AddView(props) {
   const [content, setContent] = React.useState('');
   const [title, setTitle] = React.useState('');
   const post = location.state;
+  const { userId, isLogin } = props;
 
   useEffect(() => {
     if (post) {
       setContent(post.post.content);
       setTitle(post.post.title);
     }
-  }, [post]);
+  }, [post, userId, isLogin]);
 
-  const handleClick = () => {
-    navigate('/community');
+  const handleListClick = () => {
+    if (window.confirm('목록으로 돌아가시겠습니까?')) {
+      navigate('/community');
+    }
   };
 
   const handleSaveClick = () => {
-    let apiUrl = ``;
+    let apiurl = ``;
     let postObj = {};
     if (post) {
-      apiUrl = 'http://54.208.255.25:8080/api/post/update';
+      apiurl = 'http://54.208.255.25:8080/api/post/update';
       postObj = {
         _id: post.post._id,
         title,
         content,
       };
     } else {
-      apiUrl = 'http://54.208.255.25:8080/api/post/write';
+      apiurl = 'http://54.208.255.25:8080/api/post/write';
       postObj = {
-        writer: '627b8dccbb97cafec9e32628',
+        writer: userId,
         title,
         content,
       };
@@ -74,7 +76,7 @@ function AddView(props) {
       document.querySelector('.ql-editor').focus();
       return false;
     } else if (window.confirm('게시물을 저장하시겠습니까?')) {
-      fetch(apiUrl, {
+      fetch(apiurl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(postObj),
@@ -84,19 +86,17 @@ function AddView(props) {
           alert('등록되었습니다.');
           navigate('/community');
         });
-    } else {
-      alert('게시물을 저장하는데 실패하였습니다.');
     }
   };
 
-  const handlePreview = () => {
-    window.open(
-      `popup.html?content=${content}`,
-      'popup_window',
-      'width=880px, height=640'
-    );
-    return;
-  };
+   const handlePreview = () => {
+     window.open(
+       `popup.html?content=${content}`,
+       'popup_window',
+       'width=880px, height=640'
+     );
+     return;
+   };
 
   const onChange = (e) => {
     const {
@@ -115,6 +115,14 @@ function AddView(props) {
               <H3 className="col form-control-lg">게시글 작성하기</H3>
               <div className="col form-control-lg d-flex justify-content-end">
                 <Button
+                  className="btn btn-outline-success"
+                  type="button"
+                  onClick={handleListClick}
+                  style={{ marginRight: '1rem' }}
+                >
+                  목록
+                </Button>
+                <Button
                   className="btn btn-outline-success "
                   type="button"
                   onClick={handleSaveClick}
@@ -122,15 +130,7 @@ function AddView(props) {
                 >
                   등록
                 </Button>
-                <Button
-                  className="btn btn-outline-success"
-                  type="button"
-                  onClick={handleClick}
-                  style={{ marginRight: '1rem' }}
-                >
-                  목록
-                </Button>
-                <button
+                { <button
                   className="btn btn-outline-success"
                   style={{
                     width: '90px',
@@ -141,7 +141,7 @@ function AddView(props) {
                   onClick={handlePreview}
                 >
                   미리보기
-                </button>
+                </button> }
               </div>
             </div>
             <div className="row mt-4">
@@ -205,6 +205,7 @@ function AddView(props) {
             />
           </div>
         </Div>
+        <div style={{ width: '100%', height: '100px' }}></div>
         <Footer />
       </div>
     </>

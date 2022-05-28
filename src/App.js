@@ -66,10 +66,22 @@ function App() {
         <Route path="/intro" element={<Intro />} />
         <Route path="/map" element={<Map />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/community" element={<ListView />} />
-        <Route path="/community/add" element={<AddView />} />
-        <Route path="/community/edit" element={<AddView />} />
-        <Route path="/community/detail/:id" element={<DetailView />} />
+        <Route
+          path="/community"
+          element={<ListView isLogin={isLogin} userId={userId} />}
+        />
+        <Route
+          path="/community/add"
+          element={<AddView isLogin={isLogin} userId={userId} />}
+        />
+        <Route
+          path="/community/edit"
+          element={<AddView isLogin={isLogin} userId={userId} />}
+        />
+        <Route
+          path="/community/detail/:id"
+          element={<DetailView isLogin={isLogin} userId={userId} />}
+        />
         <Route path="/join" element={<Join />} />
         <Route path="/password" element={<Password />} />
         <Route path="/mypage" element={<Mypage />} />

@@ -103,7 +103,7 @@ function Login(props) {
             console.log(result.userId);
             // 홈으로 이동
             alert('로그인 되었습니다.');
-            navigate('/');
+            window.location.replace('/');
           } else {
             alert('회원가입이나 비밀번호 확인이 필요합니다.');
           }
