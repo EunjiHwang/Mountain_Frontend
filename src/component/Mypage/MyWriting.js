@@ -51,7 +51,6 @@ function MyWriting(props) {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const inputRef = React.useRef(null);
-  //const items = useSelector((state) => state);
   const [count, setCount] = React.useState(0);
   const [currentpage, setCurrentpage] = React.useState(1); //현재페이지
   const [postPerPage] = React.useState(3); //페이지당 콘텐츠 개수
@@ -63,10 +62,16 @@ function MyWriting(props) {
   const [searchText, setSearchText] = React.useState('');
   const [items, setItems] = React.useState([]);
 
+  const searchContent = (text) => dispatch(searchContent(text));
   React.useEffect(() => {
-    fetch('http://54.208.255.25:8080/api/post/main', {
-      method: 'GET',
-      async: false,
+    fetch('http://54.208.255.25:8080/api/post/history', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+         writer: localStorage.getItem('userId'),
+      }),
     })
       .then((response) => {
         console.log('res', response);
@@ -74,14 +79,16 @@ function MyWriting(props) {
       })
       .then((data) => {
         console.log('data', data.list);
-        // for (let i = 0; i < data.list.length; i++) {
-        //   setItems([data.list[i]]);
-        // }
+         for (let i = 0; i < data.list.length; i++) {
+           setItems([data.list[i]]);
+         }
         setItems(data.list);
-
-        console.log('items', items);
       });
   }, []);
+
+  React.useEffect(() => {
+    setCount(items.length);
+ }, [items]);
 
   React.useEffect(() => {
     setCount(items.length);
@@ -120,32 +127,15 @@ function MyWriting(props) {
         })
         .then((data) => {
           console.log('data', data.list);
-          // for (let i = 0; i < data.list.length; i++) {
-          //   setItems([data.list[i]]);
-          // }
           setItems(data.list);
         });
     }
   };
 
   const onDetailClick = (id) => {
-    if (id) {
-      fetch('http://54.208.255.25:8080/api/post/detail/' + id, {
-        method: 'GET',
-        async: false,
-      })
-        .then((response) => {
-          console.log('res', response);
-          return response.json();
-        })
-        .then((data) => {
-          console.log('data', data.post);
-          const post = data.post;
-          const replies = data.replies;
-          navigate('/community/detail/' + id, { state: { post, replies } });
-        });
-    }
+    navigate('/community/detail/' + id, { state: { id } });
   };
+
 
   return (
     <>
@@ -163,8 +153,7 @@ function MyWriting(props) {
               type="button"
               onClick={handleClick}
               style={{ float: 'right' }}
-            >
-                작성
+            >  작성
             </Button>
           </div>
         </div>
@@ -207,8 +196,6 @@ function MyWriting(props) {
                 </div>
                 <div className="col text-end" style={{ color: '#808080' }}>
                       {item.name}
-                      &nbsp;&nbsp;
-                      level: {item.level}
                     </div>
               
             </div>

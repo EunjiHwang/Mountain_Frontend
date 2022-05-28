@@ -254,7 +254,7 @@ function Mypage(props) {
     var zoomControl = new kakao.maps.ZoomControl();
     map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-    fetch('/api/mypage/main', {
+    fetch('http://54.208.255.25:8080/api/mypage/main', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

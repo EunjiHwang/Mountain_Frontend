@@ -87,8 +87,13 @@ function App() {
         <Route path="/mypage" element={<Mypage />} />
         <Route path="/writereview" element={<WriteReview />} />
         <Route path="/editreview" element={<EditReview />} />
-        <Route path="/mywriting" element={<MyWriting />} />
-        <Route path="/mycomment" element={<MyComment />} />
+        <Route
+          path="/mywriting"
+          element={<MyWriting isLogin={isLogin} userId={userId} />}
+        />
+        <Route 
+         path="/mycomment" 
+         element={<MyComment  isLogin={isLogin} userId={userId} />} />
         <Route path="/myreview" element={<MyReview />} />
         <Route path="/editme" element={<EditMe />} />
         <Route

@@ -112,7 +112,7 @@ function ListView(props) {
               <div className="col">
                 <H3 className="form-control-lg gr">커뮤니티 게시판</H3>
               </div>
-              <div className="col">
+              <div className="col" >
                 <form onSubmit={onSubmit}>
                   <input 
                     ref={inputRef}
