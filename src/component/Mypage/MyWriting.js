@@ -1,10 +1,9 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { renderMatches, useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
-import { Paging } from '../Paging';
+import { Paging } from '../Paging/WritingPaging';
+import { useNavigate } from 'react-router-dom';
 
 const Div = styled.div`
     /* 전체 Div 스타일 */
@@ -49,8 +48,8 @@ const Button = styled.button`
 
 function MyWriting(props) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const inputRef = React.useRef(null);
+
+
   const [count, setCount] = React.useState(0);
   const [currentpage, setCurrentpage] = React.useState(1); //현재페이지
   const [postPerPage] = React.useState(3); //페이지당 콘텐츠 개수
@@ -62,7 +61,7 @@ function MyWriting(props) {
   const [searchText, setSearchText] = React.useState('');
   const [items, setItems] = React.useState([]);
 
-  const searchContent = (text) => dispatch(searchContent(text));
+ 
   React.useEffect(() => {
     fetch('http://54.208.255.25:8080/api/post/history', {
       method: 'POST',
@@ -79,9 +78,6 @@ function MyWriting(props) {
       })
       .then((data) => {
         console.log('data', data.list);
-         for (let i = 0; i < data.list.length; i++) {
-           setItems([data.list[i]]);
-         }
         setItems(data.list);
       });
   }, []);
@@ -97,7 +93,6 @@ function MyWriting(props) {
     setCurrentPosts(items.slice(indexOfFirstPost, indexOfLastPost));
   }, [currentpage, indexOfFirstPost, indexOfLastPost, items, postPerPage]);
 
-  //const searchContent = (text) => dispatch(searchContent(text));
 
   const handleClick = () => {
     navigate('/community/add');
@@ -105,13 +100,6 @@ function MyWriting(props) {
 
   const setPage = (e) => {
     setCurrentpage(e);
-  };
-
-  const onChange = (e) => {
-    const {
-      target: { value },
-    } = e;
-    setSearchText(value);
   };
 
   const onSubmit = (e) => {
@@ -191,7 +179,9 @@ function MyWriting(props) {
                     color: '#808080',
                   }}
                 >
-                  {item.content}
+                   <div
+                          dangerouslySetInnerHTML={{ __html: item.content }}
+                        ></div>
                 </div>
                 </div>
                 <div className="col text-end" style={{ color: '#808080' }}>
@@ -208,7 +198,7 @@ function MyWriting(props) {
               >
                 <div className="row pt-2">
                   <div className="col-10">
-                    <div className="fw-bold">게시글이 존재하지 않습니다</div>
+                    <div className="fw-bold">작성한 게시글이 존재하지 않습니다</div>
                   </div>
                 </div>
                 <div className="row pt-2 pb-2">

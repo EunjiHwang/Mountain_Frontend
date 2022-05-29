@@ -3,7 +3,8 @@ import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
-import { Paging } from '../Paging';
+import { Paging } from '../Paging/ListViewPaging';
+
 
 const Div = styled.div`
   /* 전체 Div 스타일 */
@@ -101,6 +102,7 @@ function ListView(props) {
   const onDetailClick = (id) => {
     navigate('/community/detail/' + id, { state: { id } });
   };
+
 
   return (
     <>
@@ -220,6 +222,7 @@ function ListView(props) {
                 </div>
               </div>
             )}
+       
             <Paging page={currentpage} count={count} setPage={setPage} />
           </div>
         </Div>

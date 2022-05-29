@@ -1,10 +1,9 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { renderMatches, useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
-import { Paging } from '../Paging';
+import { Paging } from '../Paging/CommentPaging';
+import { useNavigate } from 'react-router-dom';
 
 const H3 = styled.h3`
   /* 제목 스타일 */
@@ -41,15 +40,17 @@ const Div = styled.div`
 `
 
 function MyComment(props) {
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const inputRef = React.useRef(null);
-  const [items, setItems] = React.useState([]);
 
+  const navigate = useNavigate();
   const [count, setCount] = React.useState(0);
   const [currentpage, setCurrentpage] = React.useState(1); //현재페이지
   const [postPerPage] = React.useState(6); //페이지당 콘텐츠 개수
- 
+  const [indexOfLastPost, setIndexOfLastPost] = React.useState(0);
+  const [indexOfFirstPost, setIndexOfFirstPost] = React.useState(0);
+  const [currentPosts, setCurrentPosts] = React.useState(0);
+
+
+  const [items, setItems] = React.useState([]);
 
   React.useEffect(() => {
     fetch('http://54.208.255.25:8080/api/reply/history', {
@@ -74,9 +75,17 @@ function MyComment(props) {
       });
   }, []);
 
-  const indexOfLastPost = currentpage * postPerPage;
-  const indexOfFirstPost = indexOfLastPost - postPerPage;
-  const currentPosts = items.slice(indexOfFirstPost, indexOfLastPost);
+
+  React.useEffect(() => {
+    setCount(items.length);
+ }, [items]);
+
+  React.useEffect(() => {
+    setCount(items.length);
+    setIndexOfLastPost(currentpage * postPerPage);
+    setIndexOfFirstPost(indexOfLastPost - postPerPage);
+    setCurrentPosts(items.slice(indexOfFirstPost, indexOfLastPost));
+  }, [currentpage, indexOfFirstPost, indexOfLastPost, items, postPerPage]);
 
 
   const setPage = (e) => {
@@ -86,10 +95,7 @@ function MyComment(props) {
   const onDetailClick = (id) => {
     navigate('/community/detail/' + id, { state: { id } });
   };
-  
-const style={
-    backgroundcolor: 'green',
-}
+
   return (
     <>
       <div >
@@ -101,7 +107,9 @@ const style={
             <H3>내가 작성한 댓글</H3>
           </div>
         </div>
-        {currentPosts.map((item) => (
+        
+        {currentPosts && items.length > 0 ? (
+              currentPosts.map((item) => (
           <div
             className="row border border-2 mt-4"
             style={{ borderRadius: '15px' }}
@@ -126,7 +134,35 @@ const style={
               </div>
             </div>
           </div>
-        ))}
+        ))
+        ) : (
+          <div
+          className="row border border-2 mt-4"
+          style={{ borderRadius: '15px' }}
+        >
+          <div className="row pt-2">
+            <div className="col-10">
+              <div className="fw-bold">작성한 댓글이 존재하지 않습니다</div>
+            </div>
+          </div>
+          <div className="row pt-2 pb-2">
+            <div className="col-10">
+              <div
+                style={{
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  overflow: 'hidden',
+                  color: '#808080',
+                }}
+              ></div>
+            </div>
+            <div
+              className="col text-end"
+              style={{ color: '#808080' }}
+            ></div>
+          </div>
+        </div>
+        )}
         <div>
             <hr width="100% " /><br />  
         </div>

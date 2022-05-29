@@ -1,11 +1,10 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
-import { renderMatches, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from '../Header';
 import Footer from '../Footer';
-// import { useState } from 'react';
-import { Paging } from '../Paging';
+import { Paging } from '../Paging/ReviewPaging';
+
 const Div = styled.div`
   /* 전체 Div 스타일 */
   margin: 0;
@@ -48,9 +47,7 @@ const Button = styled.button`
 
 function MyReview(props) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const inputRef = React.useRef(null);
-  //const items = useSelector((state) => state);
+
   const [list, setList] = React.useState([]);
 
   const [count, setCount] = React.useState(0);
@@ -109,9 +106,20 @@ function MyReview(props) {
       });
       setList(initData);
       setCount(initData.length);
-      // console.log(initData[0].updateAt);
     });
-  // console.log(items);
+
+    React.useEffect(() => {
+      setCount(list.length);
+   }, [list]);
+  
+    React.useEffect(() => {
+      setCount(list.length);
+      setIndexOfLastPost(currentpage * postPerPage);
+      setIndexOfFirstPost(indexOfLastPost - postPerPage);
+      setCurrentPosts(list.slice(indexOfFirstPost, indexOfLastPost));
+    }, [currentpage, indexOfFirstPost, indexOfLastPost, list, postPerPage]);
+  
+    
   const style = {
     backgroundcolor: 'green',
   };
@@ -127,7 +135,9 @@ function MyReview(props) {
               </div>
             </div>
 
-            {list.map((lists) => (
+            {currentPosts && list.length > 0 ? (
+              currentPosts.map((lists) => (
+
               <div
                 className="row border border-2 mt-4"
                 style={{ borderRadius: '15px' }}
@@ -158,7 +168,35 @@ function MyReview(props) {
                   </div>
                 </div>
               </div>
-            ))}
+            ))
+            ) : (
+              <div
+              className="row border border-2 mt-4"
+              style={{ borderRadius: '15px' }}
+            >
+              <div className="row pt-2">
+                <div className="col-10">
+                  <div className="fw-bold">작성한 후기가 존재하지 않습니다</div>
+                </div>
+              </div>
+              <div className="row pt-2 pb-2">
+                <div className="col-10">
+                  <div
+                    style={{
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      color: '#808080',
+                    }}
+                  ></div>
+                </div>
+                <div
+                  className="col text-end"
+                  style={{ color: '#808080' }}
+                ></div>
+              </div>
+            </div>
+            )}
 
             <hr width="100% " />
             <br />
