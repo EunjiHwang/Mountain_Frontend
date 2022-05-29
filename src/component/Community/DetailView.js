@@ -338,7 +338,7 @@ function DetailView(props) {
                           replies.map((item, idx) => (
                             <tr className="">
                               <td className="form-control-lg gr" width="18%">
-                                닉네임: {item.name}
+                                {item.name}
                               </td>
                               <td className="form-control-lg gr">
                                 {targetEdit.state &&

@@ -48,13 +48,12 @@ const MainDiv = styled.div`
     height: 150px;
     border: 1px solid #70707063;
     border-radius: 75px;
-
-    margin-right: 50px;
     margin-top: 40px;
   }
 
   form {
     margin-top: 50px;
+    padding-right: 40px;
   }
 `;
 
@@ -123,6 +122,10 @@ const SaveBtn = styled.button`
 
 const Img = styled.div`
   height: 100%;
+
+  #fileName {
+    margin-left: 60px;
+  }
 `;
 
 function EditMe() {
@@ -164,21 +167,24 @@ function EditMe() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
+        // _id: '627b8dccbb97cafec9e32628',
+        _id: localStorage.getItem('userId'),
+        // _id: '6291a392541bb349d6b75a53',
         name: Nickname,
         email: Email,
         password: CheckPassword,
         old_password: CurPassword,
+        img: null,
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        if (res.success) {
-          if (!res.message) {
-            alert('현재 비밀번호가 일치하지 않습니다');
-          } else {
-            alert('정보가 수정되었습니다.');
-            navigate('/mypage');
-          }
+        console.log(res);
+        if (res.message === '사용자 정보가 변경되었습니다.') {
+          alert('정보가 변경되었습니다.');
+          navigate('/mypage');
+        } else {
+          alert('변경에 실패하였습니다.\n비밀번호를 다시 확인해주세요.');
         }
       })
       .then((error) => {
@@ -209,16 +215,27 @@ function EditMe() {
       },
       body: JSON.stringify({
         _id: localStorage.getItem('userId'),
+        // _id: '6291a392541bb349d6b75a53',
       }),
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res);
         alert('탈퇴가 완료되었습니다.');
-      })
-      .then((error) => {
-        console.log('error');
+        navigate('/');
       });
   };
+
+  // const onImgInputBtnClick = (e) => {
+  //   e.preventDefault();
+  //   logoImgInput.current.click();
+  // };
+
+  // const onImgChange = async (e) => {
+  //   const formData = new FormData();
+  //   formData.append('file', e.target.files[0]);
+  //   const response = await apiClient.post('/brand/logo_image', formData);
+  // }
 
   return (
     <div>
@@ -235,7 +252,15 @@ function EditMe() {
             <Img>
               <img src="https://cdn-icons-png.flaticon.com/512/1142/1142743.png"></img>
 
-              <Btn type="submit">사진 변경</Btn>
+              {/* <Btn type="submit">사진 변경</Btn> */}
+              <input
+                id="fileName"
+                // ref={logoImgInput}
+                type="file"
+                accept="image/*"
+                name="file"
+                // onChange={onImgChange}
+              />
             </Img>
 
             <form

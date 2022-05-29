@@ -12,7 +12,6 @@ import { MdSpeakerNotes } from 'react-icons/md'; // 내가 작성한 댓글
 import { MdChevronRight } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { $CombinedState } from 'redux';
 
 const AllPage = styled.div`
   width: 100vw;
@@ -206,6 +205,7 @@ function Mypage(props) {
   const [len, setLen] = useState(0);
   const navigate = useNavigate();
   const [Overlay, setOverlay] = useState(false);
+  const [load, setLoad] = useState(false);
   const onClickReview = () => {
     navigate('/myreview');
   };
@@ -218,13 +218,9 @@ function Mypage(props) {
     navigate('/mywriting');
   };
 
-  // const onClickMap = (name) => {
-  //   navigate('/map/' + name);
-  // };
-
   const setLevelName = (level) => {
     if (level === 1) {
-      setUserLevel('준비생');
+      setUserLevel('시작한닭');
       setLevelUrl('https://cdn-icons-png.flaticon.com/512/2431/2431640.png');
     } else if (level >= 2 && level <= 5) {
       setUserLevel('등린이');
@@ -232,14 +228,13 @@ function Mypage(props) {
     } else if (level >= 6 && level <= 8) {
       setUserLevel('등시생');
       setLevelUrl(
-        'https://cdn-icons.flaticon.com/png/512/2632/premium/2632844.png?token=exp=1653242691~hmac=1fa7d1f6f501536ba5d2e6711f92fb1e'
+        'https://cdn-icons.flaticon.com/png/512/2632/premium/2632844.png?token=exp=1653755646~hmac=77328d2dfdf657a09220a7b01afa2b00'
       );
     } else if (level >= 9 && level <= 10) {
-      setUserLevel('등산고수');
+      setUserLevel('잘탄닭');
       setLevelUrl('https://cdn-icons-png.flaticon.com/512/7309/7309075.png');
     }
   };
-
   useEffect(() => {
     mapscript();
   });
@@ -260,37 +255,26 @@ function Mypage(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        _id: '627b8dccbb97cafec9e32628',
-        // _id: localStorage.getItem('userId'),
+        // _id: '6291a392541bb349d6b75a53',
+        // _id: '627b8dccbb97cafec9e32628',
+        _id: localStorage.getItem('userId'),
       }),
     })
       .then((res) => res.json())
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         setUserName(res.user.name);
         setNumReview(res.user.review);
-        // setUserLevel(res.user.level);
         setLevelName(res.user.level);
-        const initData = res.mountains.map((it) => {
-          return {
-            _id: it._id,
-            name: it.name,
-            address: it.address,
-            avgRating: it.avgRating,
-            count: it.count,
-            hashtags: it.hashtag,
-            latitude: it.latitude,
-            longitude: it.longitude,
-          };
-        });
-        // setMnt(initData);
+        setLen(res.mountains.length);
 
         var imageSrc =
           'https://cdn-icons-png.flaticon.com/512/2107/2107845.png';
         // 마커 이미지의 이미지 크기 입니다
         var imageSize = new kakao.maps.Size(30, 30);
         for (var i = 0; i < res.mountains.length; i++) {
-          console.log('good');
+          // console.log('good');
+          const name = res.mountains[i].name;
           localStorage.setItem('name', res.mountains[i].name);
           // 마커 이미지를 생성합니다
           var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize);
@@ -308,13 +292,12 @@ function Mypage(props) {
           content.style.cssText =
             'width: 250px; height: 200px; background: white; border-radius: 10px;';
           content.onclick = function () {
-            navigate('/map', { state: localStorage.getItem('name') });
+            navigate('/map', { state: name });
             console.log('click');
           };
-          // content.onClick = onClickMap(res.mountains[i].name);
           var topDiv = document.createElement('div');
           topDiv.style.cssText =
-            'width: 250px; height: 30px; border-radius: 10px 10px 0 0; background: #afafaf; text-align: center; color: white; font-size: 20px; line-height: 28px;';
+            'width: 250px; height: 30px; border-radius: 10px 10px 0 0; background: #afafaf; text-align: center; color: white; font-size: 20px; line-height: 28px; font: normal normal 600 19px Segoe UI';
           topDiv.innerHTML = res.mountains[i].name;
           var topBtn = document.createElement('button');
           topBtn.onClick = function () {
@@ -332,7 +315,8 @@ function Mypage(props) {
           img.src = res.mountains[i].image;
           content.appendChild(img);
           var bottomDiv = document.createElement('div');
-          bottomDiv.style.cssText = 'line-height: 26px;';
+          bottomDiv.style.cssText =
+            'line-height: 26px; font: normal normal 600 18px Segoe UI';
           bottomDiv.innerHTML = res.mountains[i].hashtags;
           content.appendChild(bottomDiv);
           let customOverlay = new kakao.maps.CustomOverlay({
@@ -341,41 +325,10 @@ function Mypage(props) {
           });
           kakao.maps.event.addListener(marker, 'click', function () {
             customOverlay.setMap(map);
-            // if (Overlay === false) {
-            //   customOverlay.setMap(map);
-            //   console.log('open');
-            //   setOverlay(true);
-            // }
-            // } else {
-            //   customOverlay.setMap();
-            //   console.log('close');
-            //   setOverlay(false);
-            // }
           });
         }
       });
   };
-
-  // let content =
-  //   '<div style="width: 250px; height: 200px; background: white; border-radius: 10px;">' +
-  //   '<div style="width: 250px; height: 30px; border-radius: 10px 10px 0 0; background: #afafaf; text-align: center; color: white; font-size: 20px; line-height: 28px;">' +
-  //   mnt.mountain[i].name +
-  //   '<button type="button" onClick="closeOverlay()" title="닫기" style="float: right; background: white; border: none; fone-size: 10px;">' +
-  //   'X' +
-  //   '</button>' +
-  //   '</div>' +
-  //   '<div>' +
-  //   '<div>' +
-  //   '<img style = "width: 100%; height: 135px;" src="' +
-  //   mnt.mountain[i].image +
-  //   '">' +
-  //   '<img />' +
-  //   '</div>' +
-  //   '<div style = "line-height: 26px;">' +
-  //   '#충청남도 #청양 #얼음분수' +
-  //   '</div>' +
-  //   '</div>' +
-  //   '</div>';
 
   return (
     <div>
@@ -403,7 +356,7 @@ function Mypage(props) {
                   후기개수
                 </DetailText>
                 <DetailText size="22px" left="115px" top="11px">
-                  {mnt.length}
+                  {len}
                 </DetailText>
                 <DetailText size="22px" left="115px" top="51px">
                   {numReview}

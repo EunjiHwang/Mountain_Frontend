@@ -7,9 +7,6 @@ export default function Map() {
   const location = useLocation();
   useEffect(() => {
     mapscript();
-    if (location.state) {
-      console.log(location.state);
-    }
   }, []);
 
   const mapscript = () => {
@@ -135,7 +132,7 @@ export default function Map() {
       var placePosition = new kakao.maps.LatLng(places[0].y, places[0].x);
       localStorage.setItem('lat', places[0].y);
       localStorage.setItem('lon', places[0].x);
-      // console.log('위도: ', places[0].y, ', 경도: ', places[0].x);
+      console.log('위도: ', places[0].y, ', 경도: ', places[0].x);
 
       // 마커를 생성
       var marker = new kakao.maps.Marker({
@@ -171,5 +168,9 @@ export default function Map() {
     }
   };
 
-  return <MapSearch />;
+  if (location.state) {
+    return <MapSearch pos={location.state} />;
+  } else {
+    return <MapSearch />;
+  }
 }

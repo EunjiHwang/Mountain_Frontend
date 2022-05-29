@@ -222,7 +222,7 @@ const MenuInfo = styled.div`
   }
 `;
 
-const MapSearch = () => {
+const MapSearch = (props) => {
   const [pos, setPos] = useState('');
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
@@ -243,7 +243,36 @@ const MapSearch = () => {
 
   const [review, setReview] = useState([]);
   const [mntImage, setMntImage] = useState('');
+
+  const [load, setLoad] = useState(false);
   // const navigate = useNavigate();
+
+  useEffect(() => {
+    const p = localStorage.getItem('pos');
+    if (props.pos) {
+      setPos(props.pos);
+    }
+    if (p) {
+      setPos(p);
+    }
+    const a = localStorage.getItem('address');
+    if (a) {
+      setAddress(a);
+    }
+    const la = localStorage.getItem('lat');
+    if (la) {
+      setLatitude(la);
+    }
+    const ln = localStorage.getItem('lon');
+    if (ln) {
+      setLongitude(ln);
+    }
+
+    if (props.state && load === false) {
+      setLoad(true);
+      window.location.reload();
+    }
+  }, [pos]);
 
   if (pos) {
     fetch('http://54.208.255.25:8080/api/map/' + pos, {
@@ -285,8 +314,14 @@ const MapSearch = () => {
           };
         });
         setReview(initData);
-        if (data.reviews.length >= 1) {
-          setHeart(true);
+        // const id = '6291a392541bb349d6b75a53';
+        const id = localStorage.getItem('userId');
+        // const id = '627b8dccbb97cafec9e32628';
+        for (var i = 0; i < data.reviews.length; i++) {
+          if (data.reviews[i].writer === id) {
+            setHeart(true);
+            return;
+          }
         }
       })
       .then((error) => {
@@ -317,28 +352,6 @@ const MapSearch = () => {
       },
     });
   };
-  // const clickHeart = () => {
-  //   setHeart(!heart);
-  // };
-
-  useEffect(() => {
-    const p = localStorage.getItem('pos');
-    if (p) {
-      setPos(p);
-    }
-    const a = localStorage.getItem('address');
-    if (a) {
-      setAddress(a);
-    }
-    const la = localStorage.getItem('lat');
-    if (la) {
-      setLatitude(la);
-    }
-    const ln = localStorage.getItem('long');
-    if (ln) {
-      setLongitude(ln);
-    }
-  }, []);
 
   return (
     <div>

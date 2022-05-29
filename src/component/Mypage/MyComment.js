@@ -44,7 +44,7 @@ function MyComment(props) {
   const navigate = useNavigate();
   const [count, setCount] = React.useState(0);
   const [currentpage, setCurrentpage] = React.useState(1); //현재페이지
-  const [postPerPage] = React.useState(6); //페이지당 콘텐츠 개수
+  const [postPerPage] = React.useState(5); //페이지당 콘텐츠 개수
   const [indexOfLastPost, setIndexOfLastPost] = React.useState(0);
   const [indexOfFirstPost, setIndexOfFirstPost] = React.useState(0);
   const [currentPosts, setCurrentPosts] = React.useState(0);
@@ -116,24 +116,27 @@ function MyComment(props) {
             key={item.id}
             onClick={() => onDetailClick(item.post_count)}
           >
-              <div className="row pt-2">
-              <div className="col-10">
-              <div
+            <div className="row pt-2">
+              <div className="col-10" 
                   style={{
                     textOverflow: 'ellipsis',
                     whiteSpace: 'nowrap',
                     overflow: 'hidden',
                     color: '#808080',
                   }}
-                >
-                  {item.content}
-                </div>
+                > {item.content}
               </div>
-              <div className="col text-end" style={{ color: '#808080' }}>
-                {item.data}
+              <div className="col text-end"  style={{ color: '#808080', lineHeight: '20px' }}>
+              {item.updatedAt.split('T')[0] +
+                        ' ' +
+                        item.updatedAt.split('T')[1].substr(0, 5) ||
+                        item.createdAt.split('T')[0] +
+                          ' ' +
+                          item.createdAt.split('T')[1].substr(0, 5)}
               </div>
             </div>
           </div>
+       
         ))
         ) : (
           <div

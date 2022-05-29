@@ -5,6 +5,7 @@ import Header from '../Header';
 import Footer from '../Footer';
 import { Paging } from '../Paging/ReviewPaging';
 
+
 const Div = styled.div`
   /* 전체 Div 스타일 */
   margin: 0;
@@ -73,8 +74,8 @@ function MyReview(props) {
     setCurrentpage(e);
   };
 
-  const handleClick = () => {
-    navigate('/map');
+  const handleClick = (mountain_name) => {
+    navigate('/map' , { state : mountain_name});
   };
 
   fetch('http://54.208.255.25:8080/api/review/history', {
@@ -141,8 +142,10 @@ function MyReview(props) {
               <div
                 className="row border border-2 mt-4"
                 style={{ borderRadius: '15px' }}
-                onClick={handleClick}
+             
+                onClick={() => handleClick(lists.mountainName)}
                 key={lists._id}
+                
               >
                 <div className="row pt-2">
                   <div className="col-10">
