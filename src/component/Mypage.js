@@ -1,7 +1,6 @@
 /*global kakao */
 import Header from './Header';
 import Footer from './Footer';
-import MountainInfo from './MountainInfo';
 import { Link } from 'react-router-dom';
 import Mnt from './assets/mypage_mnt.png';
 import styled from 'styled-components';
@@ -11,7 +10,7 @@ import { GoComment } from 'react-icons/go'; // 내가 작성한 후기
 import { MdSpeakerNotes } from 'react-icons/md'; // 내가 작성한 댓글
 import { MdChevronRight } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AllPage = styled.div`
   width: 100vw;
@@ -200,12 +199,8 @@ function Mypage(props) {
   const [numReview, setNumReview] = useState(0);
   const [userLevel, setUserLevel] = useState('');
   const [levelUrl, setLevelUrl] = useState('');
-  const [mnt, setMnt] = useState([]);
-  const [mntName, setMntName] = useState('');
   const [len, setLen] = useState(0);
   const navigate = useNavigate();
-  const [Overlay, setOverlay] = useState(false);
-  const [load, setLoad] = useState(false);
   const onClickReview = () => {
     navigate('/myreview');
   };
@@ -255,8 +250,6 @@ function Mypage(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        // _id: '6291a392541bb349d6b75a53',
-        // _id: '627b8dccbb97cafec9e32628',
         _id: localStorage.getItem('userId'),
       }),
     })

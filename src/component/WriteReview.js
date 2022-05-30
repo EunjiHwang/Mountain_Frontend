@@ -221,8 +221,6 @@ function WriteReview(props) {
     },
   ]);
 
-
-
   const onHashHandler = (e) => {
     setHashtag(e.target.value);
   };
@@ -396,7 +394,8 @@ function WriteReview(props) {
     let body = {
       writer: localStorage.getItem('userId'),
       mountain: location.state.mountain,
-      address: location.state.address,
+      // address: location.state.address,
+      address: localStorage.getItem('address'),
       facility: facilityArray,
       rating: star,
       comment: comment,

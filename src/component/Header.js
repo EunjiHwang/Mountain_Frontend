@@ -61,44 +61,47 @@ const AuthItem = styled.div`
 `;
 
 const LogoutButton = styled.button`
-    display: flex;
-    flex-direction: row;
-    font-size: 20px;
-    font-weight: 600;
-    color: black;
-    margin-left: 40px;
-    border: 0;
-    outline: 0;
-    background-color: transparent;
-`
-
-
-
+  display: flex;
+  flex-direction: row;
+  font-size: 20px;
+  font-weight: 600;
+  color: black;
+  margin-left: 40px;
+  border: 0;
+  outline: 0;
+  background-color: transparent;
+`;
 
 function Header() {
-
   const navigate = useNavigate();
 
+  const clickMypage = () => {
+    if (localStorage.getItem('isLogin') === 'true') {
+      navigate('/mypage');
+    } else {
+      alert('로그인이 필요한 서비스입니다.');
+      navigate('/login');
+    }
+  };
+
   const onLogout = (isLogin) => {
-  
     fetch('http://54.208.255.25:8080/api/users/logout', {
       method: 'GET',
       async: false,
     })
-    .then((response) => response.json())
-    .then((response) => {
-      // 로그아웃 성공 시
-      localStorage.removeItem('user_id');
-      localStorage.removeItem('token');
-      localStorage.setItem('isLogin', false);
-      console.log(response.success);
-      alert('로그아웃 되었습니다.');
-      navigate('/');
-    })
-    .then((data) => {
-      //
-    });
-    
+      .then((response) => response.json())
+      .then((response) => {
+        // 로그아웃 성공 시
+        localStorage.removeItem('user_id');
+        localStorage.removeItem('token');
+        localStorage.setItem('isLogin', false);
+        console.log(response.success);
+        alert('로그아웃 되었습니다.');
+        navigate('/');
+      })
+      .then((data) => {
+        //
+      });
   };
 
   return (
@@ -116,18 +119,19 @@ function Header() {
         <Link to="/map" style={{ textDecoration: 'none' }}>
           <MenuItem>지도</MenuItem>
         </Link>
-        <Link to="/mypage" style={{ textDecoration: 'none' }}>
-          <MenuItem>마이페이지</MenuItem>
-        </Link>
+        <MenuItem onClick={clickMypage}>마이페이지</MenuItem>
       </MenuList>
-      {localStorage.getItem('isLogin') === 'true' ? 
+      {localStorage.getItem('isLogin') === 'true' ? (
         <AuthList>
-          <LogoutButton onClick={() => onLogout()} style={{ textDecoration: 'none' }}>
+          <LogoutButton
+            onClick={() => onLogout()}
+            style={{ textDecoration: 'none' }}
+          >
             로그아웃
           </LogoutButton>
         </AuthList>
-        :
-          <AuthList>
+      ) : (
+        <AuthList>
           <Link to="/login" style={{ textDecoration: 'none' }}>
             <AuthItem>로그인</AuthItem>
           </Link>
@@ -135,7 +139,7 @@ function Header() {
             <AuthItem>회원가입</AuthItem>
           </Link>
         </AuthList>
-      }
+      )}
     </Wrapper>
   );
 }

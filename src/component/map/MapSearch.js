@@ -3,15 +3,12 @@ import Footer from '../Footer';
 import ReviewItem from './ReviewItem';
 import styled from 'styled-components';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { MdSearch } from 'react-icons/md';
 import { WiDayCloudy } from 'react-icons/wi';
-// import { BiStar } from 'react-icons/bi'; // 빈 별
-// import { ImStarFull } from 'react-icons/im'; // 꽉찬별
 import { FiHeart } from 'react-icons/fi'; // 빈 하트
 import { ImHeart } from 'react-icons/im'; // 꽉찬하트
-import { Link } from 'react-router-dom';
 
 const MapPage = styled.div`
   position: relative;
@@ -245,7 +242,8 @@ const MapSearch = (props) => {
   const [mntImage, setMntImage] = useState('');
 
   const [load, setLoad] = useState(false);
-  // const navigate = useNavigate();
+  const [count, setCount] = useState(0);
+  const [see, setSee] = useState('hidden');
 
   useEffect(() => {
     const p = localStorage.getItem('pos');
@@ -274,7 +272,8 @@ const MapSearch = (props) => {
     }
   }, [pos]);
 
-  if (pos) {
+  if (pos && count === 0) {
+    console.log('fetch');
     fetch('http://54.208.255.25:8080/api/map/' + pos, {
       method: 'GET',
       async: false,
@@ -286,37 +285,54 @@ const MapSearch = (props) => {
         setToiletO(data.mountain.facility[0].t);
         setToiletX(data.mountain.facility[0].f);
         setParkingO(data.mountain.facility[1].t);
-        setParkingX(data.mountain.facility[1].t);
+        setParkingX(data.mountain.facility[1].f);
         setDrinkO(data.mountain.facility[2].t);
-        setDrinkX(data.mountain.facility[2].t);
+        setDrinkX(data.mountain.facility[2].f);
         setEatO(data.mountain.facility[3].t);
-        setEatX(data.mountain.facility[3].t);
+        setEatX(data.mountain.facility[3].f);
         setStoreO(data.mountain.facility[4].t);
-        setStoreX(data.mountain.facility[4].t);
+        setStoreX(data.mountain.facility[4].f);
 
         setHashtag(data.mountain.hashtags);
         setMntImage(data.mountain.image);
-        // console.log(data.reviews[1]._id);
+
+        const id = localStorage.getItem('userId');
         const initData = data.reviews.map((it) => {
-          return {
-            _id: it._id,
-            writer: it.writer,
-            mountain: it.mountain,
-            rating: it.rating,
-            hashtags: it.hashtags,
-            visited: it.visited,
-            createdAt: it.createdAt,
-            updatedAt: it.updatedAt,
-            comment: it.comment,
-            level: it.level,
-            name: it.name,
-            image: it.image,
-          };
+          if (it.writer === id) {
+            return {
+              _id: it._id,
+              writer: it.writer,
+              mountain: it.mountain,
+              rating: it.rating,
+              hashtags: it.hashtags,
+              visited: it.visited,
+              createdAt: it.createdAt,
+              updatedAt: it.updatedAt,
+              comment: it.comment,
+              level: it.level,
+              name: it.name,
+              image: it.image,
+              see: 'visible',
+            };
+          } else {
+            return {
+              _id: it._id,
+              writer: it.writer,
+              mountain: it.mountain,
+              rating: it.rating,
+              hashtags: it.hashtags,
+              visited: it.visited,
+              createdAt: it.createdAt,
+              updatedAt: it.updatedAt,
+              comment: it.comment,
+              level: it.level,
+              name: it.name,
+              image: it.image,
+              see: 'hidden',
+            };
+          }
         });
         setReview(initData);
-        // const id = '6291a392541bb349d6b75a53';
-        const id = localStorage.getItem('userId');
-        // const id = '627b8dccbb97cafec9e32628';
         for (var i = 0; i < data.reviews.length; i++) {
           if (data.reviews[i].writer === id) {
             setHeart(true);
@@ -327,10 +343,12 @@ const MapSearch = (props) => {
       .then((error) => {
         console.log(error);
       });
+    setCount(1);
   }
 
   const onSubmit = (e) => {
     saveLocal();
+    setCount(0);
   };
 
   const saveLocal = () => {
@@ -433,15 +451,15 @@ const MapSearch = (props) => {
                   <span className="eT">O</span> (<span>{storeO}</span>)
                 </div>
                 <div className="eResult">
-                  <span className="eT">X</span> (<span>{toiletX}</span>)
+                  <span className="eF">X</span> (<span>{toiletX}</span>)
                   <br />
-                  <span className="eT">X</span> (<span>{parkingX}</span>)
+                  <span className="eF">X</span> (<span>{parkingX}</span>)
                   <br />
-                  <span className="eT">X</span> (<span>{drinkX}</span>)
+                  <span className="eF">X</span> (<span>{drinkX}</span>)
                   <br />
-                  <span className="eT">X</span> (<span>{eatX}</span>)
+                  <span className="eF">X</span> (<span>{eatX}</span>)
                   <br />
-                  <span className="eT">X</span> (<span>{storeX}</span>)
+                  <span className="eF">X</span> (<span>{storeX}</span>)
                 </div>
               </div>
             </div>
@@ -464,12 +482,15 @@ const MapSearch = (props) => {
               {/* </Link> */}
               {review.map((reviews) => (
                 <ReviewItem
+                  id={reviews._id}
+                  writer={reviews.writer}
                   name={reviews.name}
                   level={reviews.level}
                   date={reviews.updatedAt.slice(0, 10)}
                   visit={reviews.visited}
                   comment={reviews.comment}
                   rating={reviews.rating}
+                  see={reviews.see}
                 />
               ))}
             </div>

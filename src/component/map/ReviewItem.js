@@ -33,6 +33,7 @@ const UserName = styled.div`
 `;
 
 const UserfontM = styled.div`
+  // display: inline;
   font: normal normal normal 10px Segoe UI;
 `;
 
@@ -41,24 +42,81 @@ const UserfontS = styled.div`
   font: normal normal normal 8px Segoe UI;
 `;
 
-function ReviewItem({ name, level, date, visit, comment, rating }) {
+const Btn = styled.button`
+  display: inline;
+  font: normal normal normal 8px Segoe UI;
+  background: none;
+  border: none;
+`;
+
+const Btndiv = styled.div`
+  visibility: ${(props) => props.see || 'hidden'};
+  display: inline;
+  float: right;
+  margin-right: 180px;
+`;
+
+function ReviewItem({
+  id,
+  writer,
+  name,
+  level,
+  date,
+  visit,
+  comment,
+  rating,
+  see,
+}) {
   if (level === 1) {
-    level = '준비생';
+    level = '시작한닭';
   } else if (level >= 2 && level <= 5) {
     level = '등린이';
   } else if (level >= 6 && level <= 8) {
     level = '등시생';
   } else if (level >= 9 && level <= 10) {
-    level = '등산고수';
+    level = '잘탄닭';
   }
 
   rating = parseInt(rating);
+
+  const editReview = () => {};
+
+  const deleteReview = () => {
+    fetch('http://54.208.255.25:8080/api/review/delete', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        _id: id,
+        writer: writer,
+      }),
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        if (res.message === true) {
+          alert('후기가 삭제되었습니다.');
+          window.location.reload();
+        } else {
+          alert('삭제에 실패하였습니다.');
+        }
+      })
+      .then((error) => {
+        console.log('error');
+      });
+  };
 
   if (rating === 0) {
     return (
       <Review>
         <UserImg />
-        <UserName id="userName">{name}</UserName>
+        <UserName id="userName">
+          {name}
+          <Btndiv see={see}>
+            <Btn onClick={editReview}>수정</Btn>|
+            <Btn onClick={deleteReview}>삭제</Btn>
+          </Btndiv>
+        </UserName>
         <UserfontM id="userLevel">Level. {level}</UserfontM>
         <ZeroStar />
         <UserfontS>{date}</UserfontS>
@@ -71,7 +129,13 @@ function ReviewItem({ name, level, date, visit, comment, rating }) {
     return (
       <Review>
         <UserImg />
-        <UserName id="userName">{name}</UserName>
+        <UserName id="userName">
+          {name}
+          <Btndiv see={see}>
+            <Btn onClick={editReview}>수정</Btn>|
+            <Btn onClick={deleteReview}>삭제</Btn>
+          </Btndiv>
+        </UserName>
         <UserfontM id="userLevel">Level. {level}</UserfontM>
         <OneStar />
         <UserfontS>{date}</UserfontS>
@@ -84,7 +148,13 @@ function ReviewItem({ name, level, date, visit, comment, rating }) {
     return (
       <Review>
         <UserImg />
-        <UserName id="userName">{name}</UserName>
+        <UserName id="userName">
+          {name}
+          <Btndiv see={see}>
+            <Btn onClick={editReview}>수정</Btn>|
+            <Btn onClick={deleteReview}>삭제</Btn>
+          </Btndiv>
+        </UserName>
         <UserfontM id="userLevel">Level. {level}</UserfontM>
         <TwoStar />
         <UserfontS>{date}</UserfontS>
@@ -97,7 +167,13 @@ function ReviewItem({ name, level, date, visit, comment, rating }) {
     return (
       <Review>
         <UserImg />
-        <UserName id="userName">{name}</UserName>
+        <UserName id="userName">
+          {name}
+          <Btndiv see={see}>
+            <Btn onClick={editReview}>수정</Btn>|
+            <Btn onClick={deleteReview}>삭제</Btn>
+          </Btndiv>
+        </UserName>
         <UserfontM id="userLevel">Level. {level}</UserfontM>
         <ThreeStar />
         <UserfontS>{date}</UserfontS>
@@ -110,7 +186,13 @@ function ReviewItem({ name, level, date, visit, comment, rating }) {
     return (
       <Review>
         <UserImg />
-        <UserName id="userName">{name}</UserName>
+        <UserName id="userName">
+          {name}
+          <Btndiv see={see}>
+            <Btn onClick={editReview}>수정</Btn>|
+            <Btn onClick={deleteReview}>삭제</Btn>
+          </Btndiv>
+        </UserName>
         <UserfontM id="userLevel">Level. {level}</UserfontM>
         <FourStar />
         <UserfontS>{date}</UserfontS>
@@ -123,7 +205,13 @@ function ReviewItem({ name, level, date, visit, comment, rating }) {
     return (
       <Review>
         <UserImg />
-        <UserName id="userName">{name}</UserName>
+        <UserName id="userName">
+          {name}
+          <Btndiv see={see}>
+            <Btn onClick={editReview}>수정</Btn>|
+            <Btn onClick={deleteReview}>삭제</Btn>
+          </Btndiv>
+        </UserName>
         <UserfontM id="userLevel">Level. {level}</UserfontM>
         <FiveStar />
         <UserfontS>{date}</UserfontS>
