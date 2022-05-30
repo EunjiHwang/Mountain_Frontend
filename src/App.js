@@ -98,7 +98,7 @@ function App() {
         <Route path="/editme" element={<EditMe />} />
         <Route
           path="/passwordnext/:passwordToken"
-          element={<PasswordNext />}
+          element={<PasswordNext passwordToken={passwordToken}/>}
         />
       </Routes>
     </div>
