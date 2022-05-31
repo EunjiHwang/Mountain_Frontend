@@ -19,13 +19,13 @@ const H3 = styled.h3`
 `;
 
 const Button = styled.button`
-  /* 등록, 목록 버튼 스타일 */
+  /* 등록, 목록, 수정, 삭제 버튼 스타일 */
   margin: 10px;
   width: 60px;
   border-radius: 10px;
 `;
 const ReplyButton = styled.button`
-  /* 댓글 등록, 목록 버튼 스타일 */
+  /* 댓글 등록 버튼 스타일 */
   width: 60px;
   border-radius: 10px;
 `;
@@ -213,7 +213,7 @@ function DetailView(props) {
                 >
                   목록
                 </Button>
-                {userId === post.writer && (
+                {localStorage.getItem('isLogin') === 'true'&&userId === post.writer && (
                   <>
                     <Button
                       className="btn btn-outline-success "
@@ -248,7 +248,7 @@ function DetailView(props) {
                     style={{ margin: '10px 0 10px 0' }}
                   >
                     <div className="form-control-lg gr">{post.name}</div>
-                    <div className="form-control-lg gr">
+                    <div className="form-control-lg gr" >
                       {post.updatedAt
                         ? post.updatedAt.split('T')[0] +
                           ' ' +
@@ -270,7 +270,7 @@ function DetailView(props) {
                       ></div>
                     </div>
                   </div>
-                  {isLogin && (
+                  {localStorage.getItem('isLogin') === 'true' &&  (
                     <div
                       style={{
                         bottom: '10px',
@@ -289,19 +289,20 @@ function DetailView(props) {
                             aria-label="reply"
                             aria-describedby="addon-wrapping"
                             name="reply"
+                            width="200px"
                             value={reply}
                             onChange={onChange}
                           />
                         </div>
                         <div>
-                          <button
+                          <ReplyButton
                             className="btn btn-outline-success"
                             type="button"
-                            widht="60%"
+                            width="50px"
                             onClick={onReplySaveClick}
                           >
                             등록
-                          </button>
+                          </ReplyButton>
                         </div>
                       </div>
                     </div>
@@ -359,7 +360,7 @@ function DetailView(props) {
                                   item.content
                                 )}
                               </td>
-                              {item.writer === userId ? (
+                              {item.writer === userId && localStorage.getItem('isLogin') === 'true'? (
                                 <>
                                   <td className="form-control-lg gr">
                                     <ReplyButton
@@ -393,7 +394,7 @@ function DetailView(props) {
                                   <td className="form-control-lg gr"></td>
                                 </>
                               )}
-                              <td className="form-control-lg gr">
+                              <td className="form-control-lg gr" style={{ fontSize: '15px' }}>
                                 {item.updatedAt
                                   ? item.updatedAt.split('T')[0] +
                                     ' ' +
