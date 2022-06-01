@@ -51,7 +51,7 @@ const InputContainer = styled.input`
   }
 `;
 
-const ChangeBtn = styled.div`
+const ChangeBtn = styled.button`
   width: 263px;
   height: 33px;
   background-color: #4c8969;
@@ -79,7 +79,7 @@ function PasswordNext(props) {
   const navigate = useNavigate();
 
   const { passwordToken } = useParams();
-  console.log(passwordToken);
+  // console.log(passwordToken);
 
   const onPasswordHandler = (event) => {
     setPassword(event.currentTarget.value);
@@ -106,7 +106,7 @@ function PasswordNext(props) {
     };
 
     if (body) {
-      fetch('http://54.208.255.25:8080/api/users/reset/token', {
+      fetch(`http://54.208.255.25:8080/api/users/reset/${passwordToken}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -115,12 +115,14 @@ function PasswordNext(props) {
       })
         .then((response) => response.json())
         .then((result) => {
-          if (result.success === true) {
-            alert('비밀번호가 정상적으로 변경되었습니다.');
-            navigate('/login');
-          } else {
-            alert('비밀번호를 다시 확인해주세요.');
-          }
+          alert('비밀번호가 정상적으로 변경되었습니다.');
+          navigate('/login');
+          // if (result.success === true) {
+          //   alert('비밀번호가 정상적으로 변경되었습니다.');
+          //   navigate('/login');
+          // } else {
+          //   alert('비밀번호를 다시 확인해주세요.');
+          // }
         });
     }
   };
@@ -159,7 +161,7 @@ function PasswordNext(props) {
               placeholder="새로운 비밀번호 확인"
             />
             <Span>º 비밀번호를 변경하시겠습니까?</Span>
-            <ChangeBtn type="submit">변경</ChangeBtn>
+            <ChangeBtn type="submit" >변경</ChangeBtn>
             <br />
           </form>
         </PasswordNextDiv>

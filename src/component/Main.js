@@ -145,7 +145,7 @@ const HamburgerMenu = styled.div`
 
 const SideMenu = styled.div`
   width: 330px;
-  height: 900px;
+  height: 1200px;
   /* background-color: red; */
   background-color: rgba(255, 255, 255, 0.7);
   position: absolute;
