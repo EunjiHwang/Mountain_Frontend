@@ -224,7 +224,7 @@ const MapSearch = (props) => {
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
   const [address, setAddress] = useState('');
-  const [hashtag, setHashtag] = useState('');
+  const [hashtag, setHashtag] = useState([]);
 
   const [heart, setHeart] = useState(false);
   const [toiletO, setToiletO] = useState(0);
@@ -282,6 +282,7 @@ const MapSearch = (props) => {
         return response.json();
       })
       .then((data) => {
+        // console.log(data);
         setToiletO(data.mountain.facility[0].t);
         setToiletX(data.mountain.facility[0].f);
         setParkingO(data.mountain.facility[1].t);
@@ -294,6 +295,7 @@ const MapSearch = (props) => {
         setStoreX(data.mountain.facility[4].f);
 
         setHashtag(data.mountain.hashtags);
+
         setMntImage(data.mountain.image);
 
         const id = localStorage.getItem('userId');
@@ -339,9 +341,6 @@ const MapSearch = (props) => {
             return;
           }
         }
-      })
-      .then((error) => {
-        console.log(error);
       });
     setCount(1);
   }
@@ -367,6 +366,7 @@ const MapSearch = (props) => {
         address: address,
         lat: latitude,
         lng: longitude,
+        state: 'write',
       },
     });
   };
@@ -411,7 +411,6 @@ const MapSearch = (props) => {
             <div className="title">
               <span className="mTitle" id="mName"></span>
               <span className="mTag">{hashtag}</span>
-              {/* <button onClick={clickHeart} className="mLikebtn"> */}
               <button className="mLikebtn">
                 {heart ? (
                   <ImHeart className="mLike" />
@@ -482,6 +481,7 @@ const MapSearch = (props) => {
               {/* </Link> */}
               {review.map((reviews) => (
                 <ReviewItem
+                  mntName={pos}
                   id={reviews._id}
                   writer={reviews.writer}
                   name={reviews.name}

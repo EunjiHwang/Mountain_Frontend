@@ -391,7 +391,7 @@ function WriteReview(props) {
       facilityArray.push(facility[i].idChecked);
     }
 
-    let body = {
+    let writebody = {
       writer: localStorage.getItem('userId'),
       mountain: location.state.mountain,
       // address: location.state.address,
@@ -404,20 +404,46 @@ function WriteReview(props) {
       lng: Number(localStorage.getItem('lon')),
     };
 
-    if (body) {
+    let editbody = {
+      _id: location.state._id,
+      facility: facilityArray,
+      rating: star,
+      comment: comment,
+      hashtag: hashtag,
+    };
+
+    if (writebody && location.state.state === 'write') {
       fetch('http://54.208.255.25:8080/api/review/write', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(body),
+        body: JSON.stringify(writebody),
       })
         .then((response) => response.json())
         .then((result) => {
-          console.log(body);
+          console.log(writebody);
           if (result.message === '후기가 업로드 되었습니다!') {
             alert('후기가 등록되었습니다!');
-            navigate('/map');
+            navigate('/map', { state: location.state.mountain });
           } else {
             alert('후기 등록에 실패하였습니다. 내용을 확인해주세요.');
+          }
+        });
+    }
+
+    if (editbody && location.state.state === 'edit') {
+      fetch('http://54.208.255.25:8080/api/review/update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(editbody),
+      })
+        .then((response) => response.json())
+        .then((result) => {
+          console.log(editbody);
+          if (result.message === '후기가 수정 되었습니다!') {
+            alert('후기가 수정되었습니다!');
+            navigate('/map', { state: location.state.mountain });
+          } else {
+            alert('후기 수정에 실패하였습니다. 내용을 확인해주세요.');
           }
         });
     }

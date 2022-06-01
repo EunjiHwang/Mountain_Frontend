@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { BsStarFill } from 'react-icons/bs'; // 꽉찬별
 import { BsStarHalf } from 'react-icons/bs'; // 반별
 import { BsStar } from 'react-icons/bs'; // 빈별
@@ -25,6 +26,9 @@ const UserImg = styled.div`
   border: 1px solid #7a7a7a;
   border-radius: 25px;
   margin-right: 10px;
+  background: url('https://cdn-icons-png.flaticon.com/512/1142/1142743.png')
+    no-repeat;
+  background-size: 30px;
 `;
 
 const UserName = styled.div`
@@ -57,6 +61,7 @@ const Btndiv = styled.div`
 `;
 
 function ReviewItem({
+  mntName,
   id,
   writer,
   name,
@@ -78,8 +83,17 @@ function ReviewItem({
   }
 
   rating = parseInt(rating);
-
-  const editReview = () => {};
+  // console.log(mntName);
+  const navigate = useNavigate();
+  const editReview = (e) => {
+    navigate('/writereview', {
+      state: {
+        _id: id,
+        mountain: mntName,
+        state: 'edit',
+      },
+    });
+  };
 
   const deleteReview = () => {
     fetch('http://54.208.255.25:8080/api/review/delete', {
