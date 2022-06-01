@@ -10,6 +10,13 @@ import { WiDayCloudy } from 'react-icons/wi';
 import { FiHeart } from 'react-icons/fi'; // 빈 하트
 import { ImHeart } from 'react-icons/im'; // 꽉찬하트
 
+import ZeroStar from './ZeroStar';
+import OneStar from './OneStar';
+import TwoStar from './TwoStar';
+import ThreeStar from './ThreeStar';
+import FourStar from './FourStar';
+import FiveStar from './FiveStar';
+
 const MapPage = styled.div`
   position: relative;
   height: 75vh;
@@ -118,7 +125,7 @@ const MenuInfo = styled.div`
   .title {
     margin-top: 10px;
     margin-left: 15px;
-    height: 50px;
+    height: 70px;
   }
 
   .mTitle {
@@ -137,8 +144,10 @@ const MenuInfo = styled.div`
   }
 
   .mContent {
+    display: inline-block;
     font: normal normal normal 13px Segoe UI;
     margin-top: 5px;
+    margin-bottom: 5px;
   }
 
   .mLikebtn {
@@ -243,7 +252,7 @@ const MapSearch = (props) => {
 
   const [load, setLoad] = useState(false);
   const [count, setCount] = useState(0);
-  const [see, setSee] = useState('hidden');
+  const [rating, setRating] = useState(0);
 
   useEffect(() => {
     const p = localStorage.getItem('pos');
@@ -273,7 +282,6 @@ const MapSearch = (props) => {
   }, [pos]);
 
   if (pos && count === 0) {
-    console.log('fetch');
     fetch('http://54.208.255.25:8080/api/map/' + pos, {
       method: 'GET',
       async: false,
@@ -282,7 +290,6 @@ const MapSearch = (props) => {
         return response.json();
       })
       .then((data) => {
-        // console.log(data);
         setToiletO(data.mountain.facility[0].t);
         setToiletX(data.mountain.facility[0].f);
         setParkingO(data.mountain.facility[1].t);
@@ -294,7 +301,14 @@ const MapSearch = (props) => {
         setStoreO(data.mountain.facility[4].t);
         setStoreX(data.mountain.facility[4].f);
 
-        setHashtag(data.mountain.hashtags);
+        setRating(Math.floor(data.mountain.avgRating));
+        setHashtag(
+          data.mountain.hashtags[0] +
+            ' ' +
+            data.mountain.hashtags[1] +
+            ' ' +
+            data.mountain.hashtags[2]
+        );
 
         setMntImage(data.mountain.image);
 
@@ -371,135 +385,745 @@ const MapSearch = (props) => {
     });
   };
 
-  return (
-    <div>
-      <Header />
-      <MapPage id="mapPage">
-        <Map id="map" />
-        <MapInput>
-          <Search className="search">
-            <form onSubmit={onSubmit}>
-              <Input
-                type="text"
-                id="keyword"
-                placeholder="장소명을 검색하세요."
-                autoComplete="off"
-                value={pos}
-                onChange={onChange}
-              />
-
-              <Button type="submit">
-                <MdSearch />
-              </Button>
-            </form>
-          </Search>
-          <ul id="placesList"></ul>
-        </MapInput>
-
-        <Menu id="menu" see="hidden">
-          <MenuTop id="menuTop" url={mntImage}>
-            <SunInfo>
-              <WiDayCloudy className="weather" />
-              <span className="time">
-                일출 | <span id="sunset"> 07:00 </span> | 일몰 |
-                <span id="sunrise"> 19:00 </span>
-              </span>
-            </SunInfo>
-          </MenuTop>
-
-          <MenuInfo>
-            <div className="title">
-              <span className="mTitle" id="mName"></span>
-              <span className="mTag">{hashtag}</span>
-              <button className="mLikebtn">
-                {heart ? (
-                  <ImHeart className="mLike" />
-                ) : (
-                  <FiHeart className="mLike" />
-                )}
-              </button>
-              <div className="mContent" id="mPos"></div>
-            </div>
-            <div className="line-out">
-              <div className="line" />
-            </div>
-            <div className="element">
-              <div className="sTitle">시설 여부</div>
-              <div className="eName">
-                화장실
-                <br />
-                주차공간
-                <br />
-                음수대
-                <br />
-                먹거리시설
-                <br />
-                물, 음료 파는 곳
-              </div>
-
-              <div>
-                <div className="eResult">
-                  <span className="eT">O</span> (<span>{toiletO}</span>)
-                  <br />
-                  <span className="eT">O</span> (<span>{parkingO}</span>)
-                  <br />
-                  <span className="eT">O</span> (<span>{drinkO}</span>)
-                  <br />
-                  <span className="eT">O</span> (<span>{eatO}</span>)
-                  <br />
-                  <span className="eT">O</span> (<span>{storeO}</span>)
-                </div>
-                <div className="eResult">
-                  <span className="eF">X</span> (<span>{toiletX}</span>)
-                  <br />
-                  <span className="eF">X</span> (<span>{parkingX}</span>)
-                  <br />
-                  <span className="eF">X</span> (<span>{drinkX}</span>)
-                  <br />
-                  <span className="eF">X</span> (<span>{eatX}</span>)
-                  <br />
-                  <span className="eF">X</span> (<span>{storeX}</span>)
-                </div>
-              </div>
-            </div>
-            <div className="line-out">
-              <div className="line" />
-            </div>
-            <div className="review">
-              <span className="sTitle">후기</span>
-              {/* <Link to="/writereview"> */}
-              <button
-                onClick={clickReview}
-                className="cReview"
-                // mountain={pos}
-                // address={address}
-                // lat={latitude}
-                // lng={longitude}
-              >
-                후기작성
-              </button>
-              {/* </Link> */}
-              {review.map((reviews) => (
-                <ReviewItem
-                  mntName={pos}
-                  id={reviews._id}
-                  writer={reviews.writer}
-                  name={reviews.name}
-                  level={reviews.level}
-                  date={reviews.updatedAt.slice(0, 10)}
-                  visit={reviews.visited}
-                  comment={reviews.comment}
-                  rating={reviews.rating}
-                  see={reviews.see}
+  if (rating === 0) {
+    return (
+      <div>
+        <Header />
+        <MapPage id="mapPage">
+          <Map id="map" />
+          <MapInput>
+            <Search className="search">
+              <form onSubmit={onSubmit}>
+                <Input
+                  type="text"
+                  id="keyword"
+                  placeholder="장소명을 검색하세요."
+                  autoComplete="off"
+                  value={pos}
+                  onChange={onChange}
                 />
-              ))}
-            </div>
-          </MenuInfo>
-        </Menu>
-      </MapPage>
-      <Footer />
-    </div>
-  );
+
+                <Button type="submit">
+                  <MdSearch />
+                </Button>
+              </form>
+            </Search>
+            <ul id="placesList"></ul>
+          </MapInput>
+
+          <Menu id="menu" see="hidden">
+            <MenuTop id="menuTop" url={mntImage}>
+              <SunInfo>
+                <WiDayCloudy className="weather" />
+                <span className="time">
+                  일출 | <span id="sunset"> 07:00 </span> | 일몰 |
+                  <span id="sunrise"> 19:00 </span>
+                </span>
+              </SunInfo>
+            </MenuTop>
+
+            <MenuInfo>
+              <div className="title">
+                <span className="mTitle" id="mName"></span>
+                <span className="mTag">{hashtag}</span>
+                <button className="mLikebtn">
+                  {heart ? (
+                    <ImHeart className="mLike" />
+                  ) : (
+                    <FiHeart className="mLike" />
+                  )}
+                </button>
+                <div className="mContent" id="mPos"></div>
+                <br />
+                <ZeroStar />
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="element">
+                <div className="sTitle">시설 여부</div>
+                <div className="eName">
+                  화장실
+                  <br />
+                  주차공간
+                  <br />
+                  음수대
+                  <br />
+                  먹거리시설
+                  <br />
+                  물, 음료 파는 곳
+                </div>
+
+                <div>
+                  <div className="eResult">
+                    <span className="eT">O</span> (<span>{toiletO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{parkingO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{drinkO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{eatO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{storeO}</span>)
+                  </div>
+                  <div className="eResult">
+                    <span className="eF">X</span> (<span>{toiletX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{parkingX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{drinkX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{eatX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{storeX}</span>)
+                  </div>
+                </div>
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="review">
+                <span className="sTitle">후기</span>
+                <button onClick={clickReview} className="cReview">
+                  후기작성
+                </button>
+                {review.map((reviews) => (
+                  <ReviewItem
+                    mntName={pos}
+                    id={reviews._id}
+                    writer={reviews.writer}
+                    name={reviews.name}
+                    level={reviews.level}
+                    date={reviews.updatedAt.slice(0, 10)}
+                    visit={reviews.visited}
+                    comment={reviews.comment}
+                    rating={reviews.rating}
+                    see={reviews.see}
+                  />
+                ))}
+              </div>
+            </MenuInfo>
+          </Menu>
+        </MapPage>
+        <Footer />
+      </div>
+    );
+  } else if (rating === 1) {
+    return (
+      <div>
+        <Header />
+        <MapPage id="mapPage">
+          <Map id="map" />
+          <MapInput>
+            <Search className="search">
+              <form onSubmit={onSubmit}>
+                <Input
+                  type="text"
+                  id="keyword"
+                  placeholder="장소명을 검색하세요."
+                  autoComplete="off"
+                  value={pos}
+                  onChange={onChange}
+                />
+
+                <Button type="submit">
+                  <MdSearch />
+                </Button>
+              </form>
+            </Search>
+            <ul id="placesList"></ul>
+          </MapInput>
+
+          <Menu id="menu" see="hidden">
+            <MenuTop id="menuTop" url={mntImage}>
+              <SunInfo>
+                <WiDayCloudy className="weather" />
+                <span className="time">
+                  일출 | <span id="sunset"> 07:00 </span> | 일몰 |
+                  <span id="sunrise"> 19:00 </span>
+                </span>
+              </SunInfo>
+            </MenuTop>
+
+            <MenuInfo>
+              <div className="title">
+                <span className="mTitle" id="mName"></span>
+                <span className="mTag">{hashtag}</span>
+                <button className="mLikebtn">
+                  {heart ? (
+                    <ImHeart className="mLike" />
+                  ) : (
+                    <FiHeart className="mLike" />
+                  )}
+                </button>
+                <div className="mContent" id="mPos"></div>
+                <br />
+                <OneStar />
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="element">
+                <div className="sTitle">시설 여부</div>
+                <div className="eName">
+                  화장실
+                  <br />
+                  주차공간
+                  <br />
+                  음수대
+                  <br />
+                  먹거리시설
+                  <br />
+                  물, 음료 파는 곳
+                </div>
+
+                <div>
+                  <div className="eResult">
+                    <span className="eT">O</span> (<span>{toiletO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{parkingO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{drinkO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{eatO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{storeO}</span>)
+                  </div>
+                  <div className="eResult">
+                    <span className="eF">X</span> (<span>{toiletX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{parkingX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{drinkX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{eatX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{storeX}</span>)
+                  </div>
+                </div>
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="review">
+                <span className="sTitle">후기</span>
+                <button onClick={clickReview} className="cReview">
+                  후기작성
+                </button>
+                {review.map((reviews) => (
+                  <ReviewItem
+                    mntName={pos}
+                    id={reviews._id}
+                    writer={reviews.writer}
+                    name={reviews.name}
+                    level={reviews.level}
+                    date={reviews.updatedAt.slice(0, 10)}
+                    visit={reviews.visited}
+                    comment={reviews.comment}
+                    rating={reviews.rating}
+                    see={reviews.see}
+                  />
+                ))}
+              </div>
+            </MenuInfo>
+          </Menu>
+        </MapPage>
+        <Footer />
+      </div>
+    );
+  } else if (rating === 2) {
+    return (
+      <div>
+        <Header />
+        <MapPage id="mapPage">
+          <Map id="map" />
+          <MapInput>
+            <Search className="search">
+              <form onSubmit={onSubmit}>
+                <Input
+                  type="text"
+                  id="keyword"
+                  placeholder="장소명을 검색하세요."
+                  autoComplete="off"
+                  value={pos}
+                  onChange={onChange}
+                />
+
+                <Button type="submit">
+                  <MdSearch />
+                </Button>
+              </form>
+            </Search>
+            <ul id="placesList"></ul>
+          </MapInput>
+
+          <Menu id="menu" see="hidden">
+            <MenuTop id="menuTop" url={mntImage}>
+              <SunInfo>
+                <WiDayCloudy className="weather" />
+                <span className="time">
+                  일출 | <span id="sunset"> 07:00 </span> | 일몰 |
+                  <span id="sunrise"> 19:00 </span>
+                </span>
+              </SunInfo>
+            </MenuTop>
+
+            <MenuInfo>
+              <div className="title">
+                <span className="mTitle" id="mName"></span>
+                <span className="mTag">{hashtag}</span>
+                <button className="mLikebtn">
+                  {heart ? (
+                    <ImHeart className="mLike" />
+                  ) : (
+                    <FiHeart className="mLike" />
+                  )}
+                </button>
+                <div className="mContent" id="mPos"></div>
+                <br />
+                <TwoStar />
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="element">
+                <div className="sTitle">시설 여부</div>
+                <div className="eName">
+                  화장실
+                  <br />
+                  주차공간
+                  <br />
+                  음수대
+                  <br />
+                  먹거리시설
+                  <br />
+                  물, 음료 파는 곳
+                </div>
+
+                <div>
+                  <div className="eResult">
+                    <span className="eT">O</span> (<span>{toiletO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{parkingO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{drinkO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{eatO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{storeO}</span>)
+                  </div>
+                  <div className="eResult">
+                    <span className="eF">X</span> (<span>{toiletX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{parkingX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{drinkX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{eatX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{storeX}</span>)
+                  </div>
+                </div>
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="review">
+                <span className="sTitle">후기</span>
+                <button onClick={clickReview} className="cReview">
+                  후기작성
+                </button>
+                {review.map((reviews) => (
+                  <ReviewItem
+                    mntName={pos}
+                    id={reviews._id}
+                    writer={reviews.writer}
+                    name={reviews.name}
+                    level={reviews.level}
+                    date={reviews.updatedAt.slice(0, 10)}
+                    visit={reviews.visited}
+                    comment={reviews.comment}
+                    rating={reviews.rating}
+                    see={reviews.see}
+                  />
+                ))}
+              </div>
+            </MenuInfo>
+          </Menu>
+        </MapPage>
+        <Footer />
+      </div>
+    );
+  } else if (rating === 3) {
+    return (
+      <div>
+        <Header />
+        <MapPage id="mapPage">
+          <Map id="map" />
+          <MapInput>
+            <Search className="search">
+              <form onSubmit={onSubmit}>
+                <Input
+                  type="text"
+                  id="keyword"
+                  placeholder="장소명을 검색하세요."
+                  autoComplete="off"
+                  value={pos}
+                  onChange={onChange}
+                />
+
+                <Button type="submit">
+                  <MdSearch />
+                </Button>
+              </form>
+            </Search>
+            <ul id="placesList"></ul>
+          </MapInput>
+
+          <Menu id="menu" see="hidden">
+            <MenuTop id="menuTop" url={mntImage}>
+              <SunInfo>
+                <WiDayCloudy className="weather" />
+                <span className="time">
+                  일출 | <span id="sunset"> 07:00 </span> | 일몰 |
+                  <span id="sunrise"> 19:00 </span>
+                </span>
+              </SunInfo>
+            </MenuTop>
+
+            <MenuInfo>
+              <div className="title">
+                <span className="mTitle" id="mName"></span>
+                <span className="mTag">{hashtag}</span>
+                <button className="mLikebtn">
+                  {heart ? (
+                    <ImHeart className="mLike" />
+                  ) : (
+                    <FiHeart className="mLike" />
+                  )}
+                </button>
+                <div className="mContent" id="mPos"></div>
+                <br />
+                <ThreeStar />
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="element">
+                <div className="sTitle">시설 여부</div>
+                <div className="eName">
+                  화장실
+                  <br />
+                  주차공간
+                  <br />
+                  음수대
+                  <br />
+                  먹거리시설
+                  <br />
+                  물, 음료 파는 곳
+                </div>
+
+                <div>
+                  <div className="eResult">
+                    <span className="eT">O</span> (<span>{toiletO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{parkingO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{drinkO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{eatO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{storeO}</span>)
+                  </div>
+                  <div className="eResult">
+                    <span className="eF">X</span> (<span>{toiletX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{parkingX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{drinkX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{eatX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{storeX}</span>)
+                  </div>
+                </div>
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="review">
+                <span className="sTitle">후기</span>
+                <button onClick={clickReview} className="cReview">
+                  후기작성
+                </button>
+                {review.map((reviews) => (
+                  <ReviewItem
+                    mntName={pos}
+                    id={reviews._id}
+                    writer={reviews.writer}
+                    name={reviews.name}
+                    level={reviews.level}
+                    date={reviews.updatedAt.slice(0, 10)}
+                    visit={reviews.visited}
+                    comment={reviews.comment}
+                    rating={reviews.rating}
+                    see={reviews.see}
+                  />
+                ))}
+              </div>
+            </MenuInfo>
+          </Menu>
+        </MapPage>
+        <Footer />
+      </div>
+    );
+  } else if (rating === 4) {
+    return (
+      <div>
+        <Header />
+        <MapPage id="mapPage">
+          <Map id="map" />
+          <MapInput>
+            <Search className="search">
+              <form onSubmit={onSubmit}>
+                <Input
+                  type="text"
+                  id="keyword"
+                  placeholder="장소명을 검색하세요."
+                  autoComplete="off"
+                  value={pos}
+                  onChange={onChange}
+                />
+
+                <Button type="submit">
+                  <MdSearch />
+                </Button>
+              </form>
+            </Search>
+            <ul id="placesList"></ul>
+          </MapInput>
+
+          <Menu id="menu" see="hidden">
+            <MenuTop id="menuTop" url={mntImage}>
+              <SunInfo>
+                <WiDayCloudy className="weather" />
+                <span className="time">
+                  일출 | <span id="sunset"> 07:00 </span> | 일몰 |
+                  <span id="sunrise"> 19:00 </span>
+                </span>
+              </SunInfo>
+            </MenuTop>
+
+            <MenuInfo>
+              <div className="title">
+                <span className="mTitle" id="mName"></span>
+                <span className="mTag">{hashtag}</span>
+                <button className="mLikebtn">
+                  {heart ? (
+                    <ImHeart className="mLike" />
+                  ) : (
+                    <FiHeart className="mLike" />
+                  )}
+                </button>
+                <div className="mContent" id="mPos"></div>
+                <br />
+                <FourStar />
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="element">
+                <div className="sTitle">시설 여부</div>
+                <div className="eName">
+                  화장실
+                  <br />
+                  주차공간
+                  <br />
+                  음수대
+                  <br />
+                  먹거리시설
+                  <br />
+                  물, 음료 파는 곳
+                </div>
+
+                <div>
+                  <div className="eResult">
+                    <span className="eT">O</span> (<span>{toiletO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{parkingO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{drinkO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{eatO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{storeO}</span>)
+                  </div>
+                  <div className="eResult">
+                    <span className="eF">X</span> (<span>{toiletX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{parkingX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{drinkX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{eatX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{storeX}</span>)
+                  </div>
+                </div>
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="review">
+                <span className="sTitle">후기</span>
+                <button onClick={clickReview} className="cReview">
+                  후기작성
+                </button>
+                {review.map((reviews) => (
+                  <ReviewItem
+                    mntName={pos}
+                    id={reviews._id}
+                    writer={reviews.writer}
+                    name={reviews.name}
+                    level={reviews.level}
+                    date={reviews.updatedAt.slice(0, 10)}
+                    visit={reviews.visited}
+                    comment={reviews.comment}
+                    rating={reviews.rating}
+                    see={reviews.see}
+                  />
+                ))}
+              </div>
+            </MenuInfo>
+          </Menu>
+        </MapPage>
+        <Footer />
+      </div>
+    );
+  } else if (rating === 5) {
+    return (
+      <div>
+        <Header />
+        <MapPage id="mapPage">
+          <Map id="map" />
+          <MapInput>
+            <Search className="search">
+              <form onSubmit={onSubmit}>
+                <Input
+                  type="text"
+                  id="keyword"
+                  placeholder="장소명을 검색하세요."
+                  autoComplete="off"
+                  value={pos}
+                  onChange={onChange}
+                />
+
+                <Button type="submit">
+                  <MdSearch />
+                </Button>
+              </form>
+            </Search>
+            <ul id="placesList"></ul>
+          </MapInput>
+
+          <Menu id="menu" see="hidden">
+            <MenuTop id="menuTop" url={mntImage}>
+              <SunInfo>
+                <WiDayCloudy className="weather" />
+                <span className="time">
+                  일출 | <span id="sunset"> 07:00 </span> | 일몰 |
+                  <span id="sunrise"> 19:00 </span>
+                </span>
+              </SunInfo>
+            </MenuTop>
+
+            <MenuInfo>
+              <div className="title">
+                <span className="mTitle" id="mName"></span>
+                <span className="mTag">{hashtag}</span>
+                <button className="mLikebtn">
+                  {heart ? (
+                    <ImHeart className="mLike" />
+                  ) : (
+                    <FiHeart className="mLike" />
+                  )}
+                </button>
+                <div className="mContent" id="mPos"></div>
+                <br />
+                <FiveStar />
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="element">
+                <div className="sTitle">시설 여부</div>
+                <div className="eName">
+                  화장실
+                  <br />
+                  주차공간
+                  <br />
+                  음수대
+                  <br />
+                  먹거리시설
+                  <br />
+                  물, 음료 파는 곳
+                </div>
+
+                <div>
+                  <div className="eResult">
+                    <span className="eT">O</span> (<span>{toiletO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{parkingO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{drinkO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{eatO}</span>)
+                    <br />
+                    <span className="eT">O</span> (<span>{storeO}</span>)
+                  </div>
+                  <div className="eResult">
+                    <span className="eF">X</span> (<span>{toiletX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{parkingX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{drinkX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{eatX}</span>)
+                    <br />
+                    <span className="eF">X</span> (<span>{storeX}</span>)
+                  </div>
+                </div>
+              </div>
+              <div className="line-out">
+                <div className="line" />
+              </div>
+              <div className="review">
+                <span className="sTitle">후기</span>
+                <button onClick={clickReview} className="cReview">
+                  후기작성
+                </button>
+                {review.map((reviews) => (
+                  <ReviewItem
+                    mntName={pos}
+                    id={reviews._id}
+                    writer={reviews.writer}
+                    name={reviews.name}
+                    level={reviews.level}
+                    date={reviews.updatedAt.slice(0, 10)}
+                    visit={reviews.visited}
+                    comment={reviews.comment}
+                    rating={reviews.rating}
+                    see={reviews.see}
+                  />
+                ))}
+              </div>
+            </MenuInfo>
+          </Menu>
+        </MapPage>
+        <Footer />
+      </div>
+    );
+  }
 };
 
 export default MapSearch;

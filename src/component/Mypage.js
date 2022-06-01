@@ -223,9 +223,7 @@ function Mypage(props) {
       setLevelUrl('https://cdn-icons-png.flaticon.com/512/7226/7226210.png');
     } else if (level >= 6 && level <= 8) {
       setUserLevel('등시생');
-      setLevelUrl(
-        'https://cdn-icons.flaticon.com/png/512/2632/premium/2632844.png?token=exp=1653755646~hmac=77328d2dfdf657a09220a7b01afa2b00'
-      );
+      setLevelUrl('https://cdn-icons-png.flaticon.com/512/73/73197.png');
     } else if (level >= 9 && level <= 10) {
       setUserLevel('잘탄닭');
       setLevelUrl('https://cdn-icons-png.flaticon.com/512/7309/7309075.png');
@@ -256,7 +254,7 @@ function Mypage(props) {
     })
       .then((res) => res.json())
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         setUserName(res.user.name);
         setNumReview(res.user.review);
         setLevelName(res.user.level);
@@ -304,7 +302,13 @@ function Mypage(props) {
           var bottomDiv = document.createElement('div');
           bottomDiv.style.cssText =
             'width: 250px; line-height: 26px; font: normal normal 600 16px Segoe UI';
-          bottomDiv.innerHTML = res.mountains[i].hashtags;
+
+          const hashtag =
+            res.mountains[i].hashtags[0] +
+            res.mountains[i].hashtags[1] +
+            res.mountains[i].hashtags[2];
+          // bottomDiv.innerHTML = res.mountains[i].hashtags;
+          bottomDiv.innerHTML = hashtag;
           content.appendChild(bottomDiv);
           let customOverlay = new kakao.maps.CustomOverlay({
             position: latlng,
