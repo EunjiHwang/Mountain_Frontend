@@ -73,6 +73,7 @@ const Menu = styled.div`
   width: 400px;
   background: #ffffff;
   height: 95%;
+  top: -6px;
   left: 10%;
   border: 5px solid #afafaf;
   z-index: 1;
