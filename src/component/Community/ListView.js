@@ -64,7 +64,7 @@ function ListView(props) {
   }, [currentpage, indexOfFirstPost, indexOfLastPost, items, postPerPage]);
 
   const handleClick = () => {
-    if (!isLogin) {
+    if (localStorage.getItem('isLogin') === 'false') {
       alert('로그인을 해주세요.');
       return;
     } else {
@@ -103,7 +103,9 @@ function ListView(props) {
     navigate('/community/detail/' + id, { state: { id } });
   };
 
+  const month = items.createdAt;
 
+  console.log(month);
   return (
     <>
       <div>

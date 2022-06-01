@@ -1,7 +1,6 @@
 /*global kakao */
 import Header from './Header';
 import Footer from './Footer';
-import MountainInfo from './MountainInfo';
 import { Link } from 'react-router-dom';
 import Mnt from './assets/mypage_mnt.png';
 import styled from 'styled-components';
@@ -11,7 +10,7 @@ import { GoComment } from 'react-icons/go'; // 내가 작성한 후기
 import { MdSpeakerNotes } from 'react-icons/md'; // 내가 작성한 댓글
 import { MdChevronRight } from 'react-icons/md';
 import React, { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const AllPage = styled.div`
   width: 100vw;
@@ -200,12 +199,9 @@ function Mypage(props) {
   const [numReview, setNumReview] = useState(0);
   const [userLevel, setUserLevel] = useState('');
   const [levelUrl, setLevelUrl] = useState('');
-  const [mnt, setMnt] = useState([]);
-  const [mntName, setMntName] = useState('');
   const [len, setLen] = useState(0);
   const navigate = useNavigate();
-  const [Overlay, setOverlay] = useState(false);
-  const [load, setLoad] = useState(false);
+
   const onClickReview = () => {
     navigate('/myreview');
   };
@@ -227,9 +223,7 @@ function Mypage(props) {
       setLevelUrl('https://cdn-icons-png.flaticon.com/512/7226/7226210.png');
     } else if (level >= 6 && level <= 8) {
       setUserLevel('등시생');
-      setLevelUrl(
-        'https://cdn-icons.flaticon.com/png/512/2632/premium/2632844.png?token=exp=1653755646~hmac=77328d2dfdf657a09220a7b01afa2b00'
-      );
+      setLevelUrl('https://cdn-icons-png.flaticon.com/512/73/73197.png');
     } else if (level >= 9 && level <= 10) {
       setUserLevel('잘탄닭');
       setLevelUrl('https://cdn-icons-png.flaticon.com/512/7309/7309075.png');
@@ -243,7 +237,7 @@ function Mypage(props) {
     var map = new kakao.maps.Map(document.getElementById('map'), {
       // 지도를 표시할 div
       center: new kakao.maps.LatLng(36.2683, 127.6358), // 지도의 중심좌표
-      level: 14, // 지도의 확대 레벨
+      level: 13, // 지도의 확대 레벨
     });
     // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
     var zoomControl = new kakao.maps.ZoomControl();
@@ -255,8 +249,6 @@ function Mypage(props) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        // _id: '6291a392541bb349d6b75a53',
-        // _id: '627b8dccbb97cafec9e32628',
         _id: localStorage.getItem('userId'),
       }),
     })
@@ -272,6 +264,7 @@ function Mypage(props) {
           'https://cdn-icons-png.flaticon.com/512/2107/2107845.png';
         // 마커 이미지의 이미지 크기 입니다
         var imageSize = new kakao.maps.Size(30, 30);
+
         for (var i = 0; i < res.mountains.length; i++) {
           // console.log('good');
           const name = res.mountains[i].name;
@@ -293,38 +286,36 @@ function Mypage(props) {
             'width: 250px; height: 200px; background: white; border-radius: 10px;';
           content.onclick = function () {
             navigate('/map', { state: name });
-            console.log('click');
+            // customOverlay.setMap(null);
+            // console.log('click');
           };
           var topDiv = document.createElement('div');
           topDiv.style.cssText =
             'width: 250px; height: 30px; border-radius: 10px 10px 0 0; background: #afafaf; text-align: center; color: white; font-size: 20px; line-height: 28px; font: normal normal 600 19px Segoe UI';
           topDiv.innerHTML = res.mountains[i].name;
-          var topBtn = document.createElement('button');
-          topBtn.onClick = function () {
-            customOverlay.setMap(null);
-            console.log('클릭');
-          };
-          topBtn.innerHTML = 'X';
-          // topBtn.onClick = closeOverlay();
-          topBtn.style.cssText =
-            'float: right; background: none; border: none; fone-size: 10px;';
-          topDiv.appendChild(topBtn);
           content.appendChild(topDiv);
           var img = document.createElement('img');
           img.style.cssText = 'width: 100%; height: 135px;';
           img.src = res.mountains[i].image;
+          // console.log(res.mountains[i].image);
           content.appendChild(img);
           var bottomDiv = document.createElement('div');
           bottomDiv.style.cssText =
-            'line-height: 26px; font: normal normal 600 18px Segoe UI';
-          bottomDiv.innerHTML = res.mountains[i].hashtags;
+            'width: 250px; line-height: 26px; font: normal normal 600 16px Segoe UI';
+
+          const hashtag =
+            res.mountains[i].hashtags[0] +
+            res.mountains[i].hashtags[1] +
+            res.mountains[i].hashtags[2];
+          // bottomDiv.innerHTML = res.mountains[i].hashtags;
+          bottomDiv.innerHTML = hashtag;
           content.appendChild(bottomDiv);
           let customOverlay = new kakao.maps.CustomOverlay({
             position: latlng,
             content: content,
           });
           kakao.maps.event.addListener(marker, 'click', function () {
-            customOverlay.setMap(map);
+            return customOverlay.setMap(map);
           });
         }
       });

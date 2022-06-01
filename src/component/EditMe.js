@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Input from './memberStyled/Input';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 
@@ -167,9 +167,7 @@ function EditMe() {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        // _id: '627b8dccbb97cafec9e32628',
         _id: localStorage.getItem('userId'),
-        // _id: '6291a392541bb349d6b75a53',
         name: Nickname,
         email: Email,
         password: CheckPassword,
