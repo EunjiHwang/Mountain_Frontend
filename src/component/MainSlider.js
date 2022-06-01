@@ -5,17 +5,19 @@ import { forwardRef } from 'react';
 import Slide from './Slide';
 import useScroll from '../hooks/useScroll';
 
-import img1 from './assets/1.jpg';
-import img2 from './assets/1.jpg';
-import img3 from './assets/1.jpg';
+import mountain1 from './assets/mountain1.jpg';
+import mountain2 from './assets/mountain2.jpg';
+import mountain3 from './assets/mountain3.jpg';
+import rightArrow from './assets/right-arrow.png';
+import leftArrow from './assets/left-arrow.png';
+import { useNavigate } from 'react-router-dom';
 
 
-const Container = styled.div`
+const Background = styled.div`
   width: 1000px;
   height: 550px;
   border: 0;
   background-color: rgba(255, 255, 255, 0.7);
-  /* opacity: 0.7; */
   border-radius: 20px;
   display: flex;
   margin: auto;
@@ -25,12 +27,11 @@ const Container = styled.div`
 
 const Image = styled.div`
   width: 430px;
+  margin: auto;
   height: 350px;
+  overflow: hidden; // 선을 넘어간 이미지들은 숨겨줍니다.
   border-radius: 10px;
   margin: 100px 0 0 20px;
-  display: flex;
-  justify-content: center;
-  overflow: hidden; // 선을 넘어간 이미지들은 숨겨줍니다.
 `;
 
 const SliderContainer = styled.div`
@@ -58,7 +59,7 @@ const MountainName = styled.span`
 const HashTag = styled.div`
   font-size: 13px;
   font-weight: 600;
-  color: black;
+  color: #0404B4;
   margin-top: 15px;
 `;
 
@@ -66,6 +67,9 @@ const TotalStar = styled.span`
   width: 50px;
   height: 50px;
   margin-left: 40px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #DF7401;
 `;
 
 const ReviewContainer = styled.div`
@@ -101,21 +105,63 @@ const UnderBar = styled.div`
   margin: 5px 5px;
 `;
 
-const PrevBtn = styled.button`
-  width: 50px;
-  height: 50px;
+const PrevBtn = styled.img`
+  all: unset;
+  width: 40px;
+  height: 40px;
   background: transparent;
+  opacity: 0.7;
   border: 0px;
   margin: 240px 0 0 20px;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s ease-in-out;
+    color: #fff;
+  }
 `;
 
-const NextBtn = styled.button`
-  width: 50px;
-  height: 50px;
+const NextBtn = styled.img`
+  all: unset;
+  width: 40px;
+  height: 40px;
   background: transparent;
+  opacity: 0.7;
   border: 0px;
   margin: 240px 0 0 20px;
+  cursor: pointer;
+  &:hover {
+    transition: all 0.3s ease-in-out;
+    color: #fff;
+  }
 `; 
+
+const ReviewItem = styled.div`
+  width: 320px;
+  height: 60px;
+  margin-left: 10px;
+  padding: 5px;
+`;
+
+const UserName = styled.span`
+  font-size: 13px;
+  font-weight: 600;
+`;
+
+const Rate = styled.span`
+  font-size: 12px;
+  font-weight: 600;
+  margin: 0 20px;
+`;
+
+const Date = styled.span`
+  font-size: 12px;
+  margin: 0 20px;
+`;
+
+const ReviewContext = styled.div`
+  font-size: 13px;
+  margin-top: 7px;
+`;
 
 const TOTAL_SLIDES = 2; 
 
@@ -125,10 +171,15 @@ const MainSlider = forwardRef((props, ref) => {
     { id: 1, animation: useScroll('up', 2, 0) },
   ];
 
-
+  const navigate = useNavigate();
+  
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRef = useRef(null);
 
+  // 더 알아보기 버튼 onClick
+  const onClickMore = () => {
+    navigate('/map');
+  };
 
   // 슬라이드 이동하는 버튼 이벤트 함수 onClick={NextSlide/PrevSlide}
   // Next 버튼 클릭 시
@@ -157,31 +208,50 @@ const MainSlider = forwardRef((props, ref) => {
   }, [currentSlide]);
 
   return (
-    <div ref={ref} id='slide'>
-      <Container {...AnimationArray[0].animation}>
-        <PrevBtn onClick={PrevSlide}>이전</PrevBtn>
-        <Image>
-          <SliderContainer ref={slideRef}>
-            <Slide img={img1} />
-            <Slide img={img2} />
-            <Slide img={img3} />
-          </SliderContainer>
-        </Image>
-        <ContentContainer>
-          <TitleContainer>
-            <MountainName>산이름</MountainName>
-            <TotalStar>별점 자리</TotalStar>
-            <HashTag>#해시태그</HashTag>
-          </TitleContainer>
-          <ReviewContainer>
-            <ReviewTitle>Review</ReviewTitle>
-            <MoreBtn>더 알아보기 &gt;</MoreBtn>
-            <UnderBar />
-          </ReviewContainer>
-        </ContentContainer>
-        <NextBtn onClick={NextSlide}>다음</NextBtn>
-      </Container>
-    </div>
+    <Background {...AnimationArray[0].animation}>
+      <PrevBtn src={leftArrow} onClick={PrevSlide} />
+      <Image>
+        <SliderContainer ref={slideRef}>
+          <Slide img={mountain1} />
+          <Slide img={mountain2} />
+          <Slide img={mountain3} />
+        </SliderContainer>
+      </Image>
+      <ContentContainer>
+        <TitleContainer>
+          <MountainName>도봉산</MountainName>
+          <TotalStar>3.0/5.0</TotalStar>
+          <HashTag>#서울 #먹거리</HashTag>
+        </TitleContainer>
+        <ReviewContainer>
+          <ReviewTitle>Review</ReviewTitle>
+          <MoreBtn onClick={onClickMore}>더 알아보기 &gt;</MoreBtn>
+          <UnderBar />
+          <ReviewItem>
+            <UserName>캡스톤</UserName>
+            <Rate>4.0/5.0</Rate>
+            <Date>2022-06-01</Date>
+            <ReviewContext>가까운 곳에 산이~~ 언제나 갈 수 있는 거리에 산이 있어서 너무 좋아요</ReviewContext>
+          </ReviewItem>
+          <UnderBar />
+          <ReviewItem>
+            <UserName>김다은</UserName>
+            <Rate>4.0/5.0</Rate>
+            <Date>2022-05-31</Date>
+            <ReviewContext>심할 때 다녀오기 좋은 산 같아요~</ReviewContext>
+          </ReviewItem>
+          <UnderBar />
+          <ReviewItem>
+            <UserName>테스트계정</UserName>
+            <Rate>3.0/5.0</Rate>
+            <Date>2022-05-30</Date>
+            <ReviewContext>저랑 도봉산 등산가실 분~~!</ReviewContext>
+          </ReviewItem>
+          <UnderBar />
+        </ReviewContainer>
+      </ContentContainer>
+      <NextBtn src={rightArrow} onClick={NextSlide} />
+    </Background>
   );
 });
 
